@@ -1,18 +1,23 @@
-import { FC, useState } from "react";
-import styled from "styled-components";
+import { FC, useState } from 'react';
+import styled from 'styled-components';
 
 const App: FC = () => {
-  console.log("App");
+  const [name, setState] = useState<string>('');
   const [count, setCount] = useState<number>(0);
 
-  const handleInc = () => setCount(count + 1);
+  const handleClick = () => {
+    setCount(count + 1);
+  };
 
   return (
     <Wrapper>
-      <h2>Just a counter app nothing</h2>
-      <h1>{count}</h1>
+      <h2 className='asa'>Hey What&apos;s up</h2>
 
-      <button onClick={handleInc}>Inc</button>
+      <p>{name}</p>
+      <h3>{count}</h3>
+      <button type='button' onClick={handleClick}>
+        a
+      </button>
     </Wrapper>
   );
 };
