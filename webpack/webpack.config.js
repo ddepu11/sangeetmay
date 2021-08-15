@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -42,6 +43,7 @@ module.exports = {
       template: path.resolve(__dirname, "../src/index.html"),
     }),
     new MiniCssExtractPlugin(),
+    new ReactRefreshWebpackPlugin(),
   ],
 
   devtool: "cheap-source-map",
