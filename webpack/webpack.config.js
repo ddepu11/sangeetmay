@@ -23,7 +23,18 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
     ],
+  },
+
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
   },
 
   plugins: [
