@@ -2,11 +2,12 @@ import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 const App: FC = () => {
-  const [name, setState] = useState<string>('');
-  const [count, setCount] = useState<number>(0);
+  const [name, setName] = useState<string>('');
+  const [count, setCount] = useState<number>(1);
 
   const handleClick = () => {
     setCount(count + 1);
+    setName(`Mohan ${count}`);
   };
 
   return (
