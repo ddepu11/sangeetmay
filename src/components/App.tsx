@@ -1,38 +1,38 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const App: FC = () => {
-  const [name, setName] = useState<string>('');
-  const [count, setCount] = useState<number>(1);
+  const clientID: string | undefined = process.env.REACT_APP_CLIENT_ID;
 
-  const handleClick = () => {
-    setCount(count + 1);
-    setName(`Mohan ${count}`);
-  };
+  const url = `https://accounts.spotify.com/authorize`;
 
   return (
     <Wrapper>
-      <h2 className='asa'>Hey What&apos;s up</h2>
+      <h2 className='asa'>Just a simple App! {clientID}</h2>
 
-      <p>{name}</p>
-      <h3>{count}</h3>
-      <button type='button' onClick={handleClick}>
-        a
-      </button>
+      <Button
+        type='button'
+        buttonStyle={{
+          fontSize: '2em',
+          padding: '10px 20px',
+          bgColor: '#e610dbe0',
+          pt: '50px',
+          mt: '100px',
+        }}
+      >
+        <a
+          href={`${url}?client_id=${clientID}&response_type=code&redirect_uri=http://localhost:3000/&scope=user-read-private,user-read-recently-played,user-top-read,playlist-modify-private,user-follow-modify,user-read-currently-playing,user-follow-read,user-library-modify,playlist-read-private,user-read-email,user-library-read&show_dialog=true`}
+        >
+          Sign Up
+        </a>
+      </Button>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.main`
   padding: 10px 20px;
-
-  button {
-    margin-top: 20px;
-    font-size: 1.5em;
-    padding: 10px 20px;
-    color: white;
-    background: #333;
-  }
 `;
 
 export default App;
