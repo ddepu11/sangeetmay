@@ -11,16 +11,24 @@ interface IButtonStyle {
   bgColor?: string;
   margin?: string;
   fontSize?: string;
+  hoverTransform?: string;
+  transition?: string;
 }
 
 interface Props {
   type: 'button' | 'submit' | 'reset';
   children: string | number | JSX.Element;
   buttonStyle?: IButtonStyle;
+  handleClick?: () => void;
 }
 
-const Button: FC<Props> = ({ type, children, buttonStyle }): JSX.Element => (
-  <Wrapper type={type} {...buttonStyle}>
+const Button: FC<Props> = ({
+  type,
+  children,
+  buttonStyle,
+  handleClick,
+}): JSX.Element => (
+  <Wrapper type={type} {...buttonStyle} onClick={handleClick}>
     {children}
   </Wrapper>
 );
@@ -37,6 +45,11 @@ const Wrapper = styled.button<IButtonStyle>`
   font-size: ${({ fontSize }) => fontSize};
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ color }) => color};
+  transition: ${({ transition }) => transition};
+
+  :hover {
+    transform: ${({ hoverTransform }) => hoverTransform};
+  }
 `;
 
 export default Button;
