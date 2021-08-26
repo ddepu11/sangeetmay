@@ -32,8 +32,9 @@ body {
   background: linear-gradient(to right, #000000, #434343);
   color: white;
 }
-.container {
-  max-width: 1200px;
+
+.w-960 {
+  max-width: 960px;
   margin: 0 auto;
 }
 
