@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
@@ -76,6 +77,23 @@ const SignIn: FC = (): JSX.Element => {
         >
           SignIn
         </Button>
+
+        <Link to='/sign-up' className='sign_up_link'>
+          <Button
+            type='button'
+            buttonStyle={{
+              padding: '8px 20px',
+              fontSize: '1.1em',
+              hoverTransform: 'translateY(-3px)',
+              transition: 'transform 0.4s ease',
+              width: '100%',
+              bgColor: 'var(--tertiary-color)',
+              color: 'var(--light-color)',
+            }}
+          >
+            Dont have have an account? Sign Up Now
+          </Button>
+        </Link>
       </form>
     </Wrapper>
   );
@@ -99,6 +117,10 @@ const Wrapper = styled.main`
 
   form {
     width: 40%;
+  }
+
+  .sign_up_link {
+    margin-top: 40px;
   }
 `;
 

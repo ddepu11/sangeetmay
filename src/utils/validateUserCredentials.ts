@@ -22,7 +22,7 @@ const validateUserCredentials = (
 
   let errorFlag = false;
 
-  // Passowrod validatipon address validation
+  // Passowrod validation
 
   if (password.length < 6) {
     setValidationMessage(
@@ -33,6 +33,8 @@ const validateUserCredentials = (
     );
     errorFlag = true;
   }
+
+  // **************** Password Validation ends  **********************
 
   // Email address validation
   const validateEmail = () => {

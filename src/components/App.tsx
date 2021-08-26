@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import SignIn from '../screens/SignIn/SignIn';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import SignUp from '../screens/SignUp';
+import SignUp from '../screens/SignUp/SignUp';
 import Home from '../screens/Home';
 
 const App: FC = (): JSX.Element => {

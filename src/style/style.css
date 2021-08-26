@@ -77,3 +77,15 @@ button:focus,
 input:focus {
   outline: 0;
 }
+
+.message.error {
+  color: var(--danger-color);
+}
+.message.success {
+  color: var(--success-color);
+}
+
+.must {
+  color: red;
+  font-size: 1.25em;
+}

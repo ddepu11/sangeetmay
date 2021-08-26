@@ -65,7 +65,8 @@
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": ["off"],
     "import/no-dynamic-require": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "jsx-a11y/no-onchange": "off"
   },
 
   "settings": {

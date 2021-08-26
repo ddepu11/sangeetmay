@@ -15,7 +15,7 @@ const SignInLogic = () => {
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    validateUserCredentials(
+    const error = validateUserCredentials(
       credentials,
       {
         emailValidationMessageTag,
@@ -24,7 +24,9 @@ const SignInLogic = () => {
       setTimeOutId
     );
 
-    // setCredentials({ email: '', password: '' });
+    if (!error) {
+      setCredentials({ email: '', password: '' });
+    }
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {

@@ -17,7 +17,7 @@ interface Props {
   inputValue?: string;
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputId: string;
-  placeholder: string;
+  placeholder?: string;
   refObj: MutableRefObject<HTMLParagraphElement | null>;
   type: string;
   name: string;
@@ -66,11 +66,6 @@ const Wrapper = styled.div<IFormControlStyle>`
   .fc_top {
     padding: 8px 0;
 
-    .must {
-      color: red;
-      font-size: 1.25em;
-    }
-
     label {
       font-size: ${({ labelFs }) => labelFs};
       color: #dfc6c6;
@@ -91,13 +86,6 @@ const Wrapper = styled.div<IFormControlStyle>`
   .message {
     font-size: ${({ messageFs }) => messageFs};
     letter-spacing: 1px;
-  }
-
-  .message.error {
-    color: var(--danger-color);
-  }
-  .message.success {
-    color: var(--success-color);
   }
 
   @media screen and (max-width: 555px) {
