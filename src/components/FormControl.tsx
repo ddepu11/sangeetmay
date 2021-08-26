@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MutableRefObject } from 'react';
 import styled from 'styled-components';
 
 interface IFormControlStyle {
@@ -18,7 +18,7 @@ interface Props {
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputId: string;
   placeholder: string;
-  refObj?: string;
+  refObj: MutableRefObject<HTMLParagraphElement | null>;
   type: string;
   name: string;
   label: string;
@@ -90,13 +90,14 @@ const Wrapper = styled.div<IFormControlStyle>`
 
   .message {
     font-size: ${({ messageFs }) => messageFs};
+    letter-spacing: 1px;
   }
 
   .message.error {
-    color: red;
+    color: var(--danger-color);
   }
   .message.success {
-    color: green;
+    color: var(--success-color);
   }
 
   @media screen and (max-width: 555px) {

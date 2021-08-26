@@ -9,6 +9,8 @@ const SignIn: FC = (): JSX.Element => {
     handleSignIn,
     handleInput,
     credentials: { email, password },
+    emailValidationMessageTag,
+    passwordValidationMessageTag,
   } = SignInLogic();
 
   return (
@@ -20,12 +22,13 @@ const SignIn: FC = (): JSX.Element => {
 
         <FormControl
           inputId='email'
-          type='email'
+          type='text'
           label='Email'
           name='email'
           inputValue={email}
           placeholder='Enter your email'
           handleInput={handleInput}
+          refObj={emailValidationMessageTag}
           formControlStyle={{
             inputColor: 'var(--secondary-color)',
             fcMargin: '30px 0 0',
@@ -46,6 +49,7 @@ const SignIn: FC = (): JSX.Element => {
           inputValue={password}
           placeholder='Enter your password'
           handleInput={handleInput}
+          refObj={passwordValidationMessageTag}
           formControlStyle={{
             fcMargin: '40px 0 0',
             fcWidth: '100%',
@@ -66,7 +70,7 @@ const SignIn: FC = (): JSX.Element => {
             transition: 'transform 0.4s ease',
             mt: '40px',
             width: '100%',
-            bgColor: 'var(--little-dark-color)',
+            bgColor: 'var(--secondary-color)',
             color: 'var(--light-color)',
           }}
         >
