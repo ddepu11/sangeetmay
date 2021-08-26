@@ -19,6 +19,7 @@ const App: FC = (): JSX.Element => {
               <Route path='/sign-in' exact>
                 <SignIn />
               </Route>
+
               <Route path='/sign-up'>
                 <SignUp />
               </Route>
