@@ -13,6 +13,8 @@ interface IButtonStyle {
   fontSize?: string;
   hoverTransform?: string;
   transition?: string;
+  width?: string;
+  hoverBorder?: string;
 }
 
 interface Props {
@@ -47,8 +49,11 @@ const Wrapper = styled.button<IButtonStyle>`
   color: ${({ color }) => color};
   transition: ${({ transition }) => transition};
 
+  width: ${({ width }) => width};
+
   :hover {
     transform: ${({ hoverTransform }) => hoverTransform};
+    border: ${({ hoverBorder }) => hoverBorder};
   }
 `;
 

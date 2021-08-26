@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
 
+:root {
+  --primary-color: #39a6a3;
+  --secondary-color: #231e23;
+  --tertiary-color: #464f41;
+  --dark-color: #000;
+  --light-color: #ffffff;
+  --little-light-color: #b9b9b9;
+  --little-dark-color: #333;
+  --medium-dark-color: #1f1e1e;
+  --danger-color: #e41717;
+  --success-color: #0bbb0b;
+}
+
 /*Utility class*/
 .flex {
   display: flex;

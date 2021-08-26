@@ -10,11 +10,12 @@ interface IFormControlStyle {
   fcPadding?: string;
   fcMargin?: string;
   fcWidth?: string;
+  inputColor?: string;
 }
 
 interface Props {
   inputValue?: string;
-  handleInput?: () => void;
+  handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputId: string;
   placeholder: string;
   refObj?: string;
@@ -77,9 +78,8 @@ const Wrapper = styled.div<IFormControlStyle>`
   }
 
   input {
-    background: #e9ebeb;
+    color: ${({ inputColor }) => inputColor};
     border-radius: 2px;
-    color: #5a5a5f;
     font-size: ${({ inputFs }) => inputFs};
     padding: ${({ inputPadding }) => inputPadding};
     width: ${({ inputW }) => inputW};
@@ -123,9 +123,9 @@ const Wrapper = styled.div<IFormControlStyle>`
     }
 
     input {
-      font-size: 1em !important;
+      font-size: 1em;
       padding: 5px 5px;
-      width: 100% !important;
+      width: 100%;
     }
   }
 `;
