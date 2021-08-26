@@ -1,14 +1,31 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { useAppSelector } from '../redux/hooks';
-import Login from '../screens/Login';
+import SignIn from '../screens/SignIn';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import SignUp from '../screens/SignUp';
 
 const App: FC = (): JSX.Element => {
   const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
 
   return (
     <Wrapper className='flex'>
-      {hasUserLoggedIn ? <h1>User has logged in!</h1> : <Login />}
+      <Router>
+        <Switch>
+          {hasUserLoggedIn ? (
+            <h1>User has logged in!</h1>
+          ) : (
+            <>
+              <Route path='/sign-in' exact>
+                <SignIn />
+              </Route>
+              <Route path='/sign-up'>
+                <SignUp />
+              </Route>
+            </>
+          )}
+        </Switch>
+      </Router>
     </Wrapper>
   );
 };
