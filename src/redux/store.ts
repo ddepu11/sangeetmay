@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../features/user';
+import notoficationReducer from '../features/notification';
 
 const store = configureStore({
-  reducer: { user: userReducer },
+  reducer: { user: userReducer, notification: notoficationReducer },
 });
 
 export default store;

@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { auth } from '../../../config/firebase';
+import { sendNotification } from '../../../features/notification';
+import { useAppDispatch } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
@@ -50,7 +53,9 @@ const SignUpLogic = () => {
     validationMessageTags.confirmPasswordValidationMessageTag,
   ]);
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement>): void => {
+  const dispatch = useAppDispatch();
+
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const error = validateUserCredentials(
@@ -61,16 +66,35 @@ const SignUpLogic = () => {
     );
 
     if (!error) {
-      setCredentials({
-        firstName: '',
-        lastName: '',
-        email: '',
-        age: 0,
-        password: '',
-        confirmPassword: '',
-        gender: '',
-        country: '',
-      });
+      try {
+        const userCred = await auth.createUserWithEmailAndPassword(
+          credentials.email.trim(),
+          credentials.password.trim()
+        );
+
+        console.log(userCred.user);
+
+        dispatch(
+          sendNotification({
+            message: 'Successfully signed in!',
+            success: true,
+          })
+        );
+      } catch (err) {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        console.log(err);
+      }
+
+      // setCredentials({
+      //   firstName: '',
+      //   lastName: '',
+      //   email: '',
+      //   age: 0,
+      //   password: '',
+      //   confirmPassword: '',
+      //   gender: '',
+      //   country: '',
+      // });
     }
   };
 

@@ -1,16 +1,6 @@
 import { MutableRefObject } from 'react';
+import { ICredentials } from '../interfaces';
 import setValidationMessage from './setValidationMessage';
-
-interface ICredentials {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  age?: number;
-  gender?: string;
-  country?: string;
-  password: string;
-  confirmPassword?: string;
-}
 
 export interface IValidationMessageTags {
   firstNameValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
