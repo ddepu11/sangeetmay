@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { clearNotification } from '../features/notification';
+import Loading from './Loading';
 
 const App: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,12 @@ const App: FC = (): JSX.Element => {
   const { message, success, error } = useAppSelector(
     (state) => state.notification.value
   );
+
+  const { userLoading } = useAppSelector((state) => state.user.value);
+
+  if (userLoading) {
+    return <Loading />;
+  }
 
   return (
     <Wrapper>

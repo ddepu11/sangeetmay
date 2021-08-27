@@ -4,19 +4,15 @@ interface IInitialState {
   value: {
     hasUserLoggedIn: boolean;
     role: null | string;
-    name: string;
-    age: number;
-    email: string;
+    userLoading: boolean;
   };
 }
 
 const initialState: IInitialState = {
   value: {
     hasUserLoggedIn: false,
+    userLoading: false,
     role: null,
-    name: '',
-    age: 0,
-    email: '',
   },
 };
 
@@ -25,16 +21,21 @@ export const userSclice = createSlice({
   initialState,
 
   reducers: {
-    login: (state: IInitialState, action) => {
-      state.value = { ...state.value, ...action.payload };
+    signUpBegin: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: true };
     },
 
-    logOut: (state: IInitialState, action) => {
-      state.value = { ...state.value, ...action.payload };
+    customSignUpSuccess: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
+    },
+
+    signUpError: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
     },
   },
 });
 
-export const { login, logOut } = userSclice.actions;
+export const { signUpBegin, customSignUpSuccess, signUpError } =
+  userSclice.actions;
 
 export default userSclice.reducer;

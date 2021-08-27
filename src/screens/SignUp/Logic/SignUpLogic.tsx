@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { auth } from '../../../config/firebase';
+import { useHistory } from 'react-router-dom';
+import { auth, firestore } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
+import {
+  customSignUpSuccess,
+  signUpBegin,
+  signUpError,
+} from '../../../features/user';
 import { useAppDispatch } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
@@ -54,8 +60,45 @@ const SignUpLogic = () => {
   ]);
 
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const customSignUp = async () => {
+    dispatch(signUpBegin());
+
+    try {
+      const userCred = await auth.createUserWithEmailAndPassword(
+        credentials.email.trim(),
+        credentials.password.trim()
+      );
+
+      if (userCred) {
+        await firestore.collection('users').doc().set({
+          firstName: credentials.firstName,
+          lastName: credentials.lastName,
+          email: credentials.email,
+          age: credentials.age,
+          country: credentials.country,
+          gender: credentials.gender,
+        });
+
+        dispatch(
+          sendNotification({
+            message: 'Successfully signed up!',
+            success: true,
+          })
+        );
+
+        history.push('/sign-in');
+
+        dispatch(customSignUpSuccess());
+      }
+    } catch (err) {
+      dispatch(sendNotification({ message: err.message, error: true }));
+      dispatch(signUpError());
+    }
+  };
+
+  const handleSignUp = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     const error = validateUserCredentials(
@@ -66,25 +109,7 @@ const SignUpLogic = () => {
     );
 
     if (!error) {
-      try {
-        const userCred = await auth.createUserWithEmailAndPassword(
-          credentials.email.trim(),
-          credentials.password.trim()
-        );
-
-        console.log(userCred.user);
-
-        dispatch(
-          sendNotification({
-            message: 'Successfully signed in!',
-            success: true,
-          })
-        );
-      } catch (err) {
-        dispatch(sendNotification({ message: err.message, error: true }));
-        console.log(err);
-      }
-
+      customSignUp();
       // setCredentials({
       //   firstName: '',
       //   lastName: '',
