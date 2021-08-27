@@ -21,7 +21,8 @@ const SignInLogic = () => {
         emailValidationMessageTag,
         passwordValidationMessageTag,
       },
-      setTimeOutId
+      setTimeOutId,
+      'SIGN_IN'
     );
 
     if (!error) {

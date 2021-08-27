@@ -8,15 +8,8 @@ const SignUp = () => {
   const {
     handleSignUp,
     handleInput,
-    firstNameValidationMessageTag,
-    lastNameValidationMessageTag,
-    emailValidationMessageTag,
-    ageValidationMessageTag,
-    genderValidationMessageTag,
-    countryValidationMessageTag,
-    passwordValidationMessageTag,
-    confirmPasswordValidationMessageTag,
     credentials,
+    validationMessageTags: vmt,
     handleCountry,
   } = SignUpLogic();
 
@@ -38,7 +31,7 @@ const SignUp = () => {
             inputValue={credentials.firstName}
             placeholder='Enter your first name'
             handleInput={handleInput}
-            refObj={firstNameValidationMessageTag}
+            refObj={vmt.firstNameValidationMessageTag}
             formControlStyle={{
               inputColor: 'var(--secondary-color)',
               fcWidth: '45%',
@@ -58,7 +51,7 @@ const SignUp = () => {
             placeholder='Enter your last name'
             inputValue={credentials.lastName}
             handleInput={handleInput}
-            refObj={lastNameValidationMessageTag}
+            refObj={vmt.lastNameValidationMessageTag}
             formControlStyle={{
               fcWidth: '45%',
               labelFs: '1.4em',
@@ -81,7 +74,7 @@ const SignUp = () => {
             inputValue={credentials.email}
             placeholder='Enter your email'
             handleInput={handleInput}
-            refObj={emailValidationMessageTag}
+            refObj={vmt.emailValidationMessageTag}
             formControlStyle={{
               inputColor: 'var(--secondary-color)',
               fcWidth: '45%',
@@ -100,7 +93,7 @@ const SignUp = () => {
             name='age'
             inputValue={String(credentials.age)}
             handleInput={handleInput}
-            refObj={ageValidationMessageTag}
+            refObj={vmt.ageValidationMessageTag}
             formControlStyle={{
               fcWidth: '45%',
               labelFs: '1.4em',
@@ -145,7 +138,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            <p ref={genderValidationMessageTag} className='message' />
+            <p ref={vmt.genderValidationMessageTag} className='message' />
           </div>
 
           {/* Country */}
@@ -421,7 +414,7 @@ const SignUp = () => {
               <option value='Zimbabwe'>Zimbabwe</option>
             </select>
 
-            <p ref={countryValidationMessageTag} className='message' />
+            <p ref={vmt.countryValidationMessageTag} className='message' />
           </div>
         </div>
 
@@ -435,7 +428,7 @@ const SignUp = () => {
             inputValue={credentials.password}
             placeholder='Enter your password'
             handleInput={handleInput}
-            refObj={passwordValidationMessageTag}
+            refObj={vmt.passwordValidationMessageTag}
             formControlStyle={{
               inputColor: 'var(--secondary-color)',
               fcWidth: '45%',
@@ -455,7 +448,7 @@ const SignUp = () => {
             placeholder='Confirm your password'
             inputValue={credentials.confirmPassword}
             handleInput={handleInput}
-            refObj={confirmPasswordValidationMessageTag}
+            refObj={vmt.confirmPasswordValidationMessageTag}
             formControlStyle={{
               fcWidth: '45%',
               labelFs: '1.4em',
@@ -525,7 +518,6 @@ const Wrapper = styled.main`
 
     .row {
       justify-content: space-between;
-      /* border: 1px solid red; */
       padding: 10px 0 25px;
     }
 

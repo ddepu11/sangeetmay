@@ -1,12 +1,13 @@
 import { MutableRefObject } from 'react';
 
 const setValidationMessage = (
-  ref: MutableRefObject<HTMLParagraphElement | null>,
+  ref: MutableRefObject<HTMLParagraphElement | null> | undefined,
   message: string,
   className: string,
-  setTimeOutId: MutableRefObject<NodeJS.Timeout | undefined>
+  setTimeOutId: MutableRefObject<NodeJS.Timeout | undefined>,
+  clearMessageAfterThisMiliSeconds = 3500
 ): void => {
-  if (ref.current !== null) {
+  if (ref !== null && ref?.current !== null && ref !== undefined) {
     ref.current.innerText = message;
     ref.current.classList.add(className);
 
@@ -15,7 +16,7 @@ const setValidationMessage = (
         ref.current.innerText = '';
         ref.current.classList.remove(className);
       }
-    }, 3000);
+    }, clearMessageAfterThisMiliSeconds);
   }
 };
 

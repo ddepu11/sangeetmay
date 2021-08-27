@@ -78,6 +78,11 @@ input:focus {
   outline: 0;
 }
 
+.message {
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+
 .message.error {
   color: var(--danger-color);
 }
@@ -86,6 +91,6 @@ input:focus {
 }
 
 .must {
-  color: red;
+  color: var(--danger-color);
   font-size: 1.25em;
 }
