@@ -21,6 +21,7 @@ export const userSclice = createSlice({
   initialState,
 
   reducers: {
+    // Sign Up
     signUpBegin: (state: IInitialState) => {
       state.value = { ...state.value, userLoading: true };
     },
@@ -32,10 +33,30 @@ export const userSclice = createSlice({
     signUpError: (state: IInitialState) => {
       state.value = { ...state.value, userLoading: false };
     },
+    //################# Sign Up Ends ####################
+
+    // Sign In
+    signInBegin: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: true };
+    },
+
+    customSignInSuccess: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
+    },
+
+    signInError: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
+    },
   },
 });
 
-export const { signUpBegin, customSignUpSuccess, signUpError } =
-  userSclice.actions;
+export const {
+  signUpBegin,
+  customSignUpSuccess,
+  signUpError,
+  signInBegin,
+  customSignInSuccess,
+  signInError,
+} = userSclice.actions;
 
 export default userSclice.reducer;

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
 import SignUpLogic from './Logic/SignUpLogic';
+import dummyDP from '../../images/dummy_user.svg';
 
 const SignUp = () => {
   const {
@@ -11,14 +13,42 @@ const SignUp = () => {
     credentials,
     validationMessageTags: vmt,
     handleCountry,
+    displayPic,
+    handleDisplayPic,
   } = SignUpLogic();
 
   return (
     <Wrapper className='w-960 flex'>
-      <form onSubmit={handleSignUp}>
+      <form>
         <h1 className='heading'>
           Sign Up to sangeetMay to listen your fav songs
         </h1>
+
+        {/* DP */}
+        <div className='row display_pic_row flex'>
+          <label htmlFor='dp'>
+            <img
+              src={displayPic.preview ? displayPic.preview : dummyDP}
+              alt='DP'
+              onLoad={() =>
+                displayPic.preview && URL.revokeObjectURL(displayPic.preview)
+              }
+            />
+          </label>
+
+          <div className='upload_img_text flex'>
+            <FaArrowAltCircleLeft />
+            <span>Upload Display Pic</span>
+          </div>
+
+          <input
+            type='file'
+            id='dp'
+            name='displayPic'
+            accept='.png, .jpg, .jpeg'
+            onChange={handleDisplayPic}
+          />
+        </div>
 
         {/* names  Row */}
 
@@ -461,7 +491,8 @@ const SignUp = () => {
         </div>
 
         <Button
-          type='submit'
+          type='button'
+          handleClick={handleSignUp}
           buttonStyle={{
             padding: '8px 20px',
             fontSize: '1.4em',
@@ -498,19 +529,18 @@ const SignUp = () => {
 };
 
 const Wrapper = styled.main`
-  padding: 20px 5px 50px;
+  padding: 5px 5px 50px;
   flex-direction: column;
   border: 1px dashed #8888;
-  margin-top: 25px;
 
   .heading {
-    font-size: 1.5em;
+    font-size: 1.3em;
     text-transform: capitalize;
-    letter-spacing: 3px;
-    padding: 10px 0 10px;
+    letter-spacing: 2px;
+    padding: 8px 0 8px;
     font-weight: 300;
     text-align: center;
-    line-height: 1.6;
+    line-height: 1.4;
   }
 
   form {
@@ -518,7 +548,39 @@ const Wrapper = styled.main`
 
     .row {
       justify-content: space-between;
-      padding: 10px 0 25px;
+      padding: 10px 0 22px;
+    }
+
+    .display_pic_row {
+      justify-content: center;
+      padding: 0px 0 0px;
+      /* flex-direction: column; */
+
+      label {
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .upload_img_text {
+        font-size: 1.2em;
+        padding: 0 20px;
+
+        span {
+          margin-left: 10px;
+        }
+      }
+
+      input {
+        display: none;
+      }
     }
 
     .gender_country_row {

@@ -1,4 +1,12 @@
 import { useRef, useState } from 'react';
+import { auth, firestore } from '../../../config/firebase';
+import { sendNotification } from '../../../features/notification';
+import {
+  customSignInSuccess,
+  signInBegin,
+  signInError,
+} from '../../../features/user';
+import { useAppDispatch } from '../../../redux/hooks';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
 const SignInLogic = () => {
@@ -11,6 +19,39 @@ const SignInLogic = () => {
   const passwordValidationMessageTag = useRef<HTMLParagraphElement | null>(
     null
   );
+
+  const dispatch = useAppDispatch();
+
+  const signInWithEmailPassword = async () => {
+    dispatch(signInBegin());
+
+    try {
+      const userCredentiasl = await auth.signInWithEmailAndPassword(
+        credentials.email.trim(),
+        credentials.password.trim()
+      );
+
+      const email = userCredentiasl.user?.email;
+
+      const users = await firestore.collection('users').get();
+
+      const user = users.docs.filter((user) => user.data().email === email);
+
+      dispatch(
+        sendNotification({
+          message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
+            'lastName'
+          )}`,
+          success: true,
+        })
+      );
+
+      dispatch(customSignInSuccess());
+    } catch (err) {
+      dispatch(sendNotification({ message: err.message, error: true }));
+      dispatch(signInError());
+    }
+  };
 
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -26,6 +67,7 @@ const SignInLogic = () => {
     );
 
     if (!error) {
+      signInWithEmailPassword();
       setCredentials({ email: '', password: '' });
     }
   };

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, firestore } from '../../../config/firebase';
+import { auth, firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
   customSignUpSuccess,
@@ -10,6 +10,15 @@ import {
 import { useAppDispatch } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
+
+interface IFile {
+  lastModified?: number;
+  lastModifiedDate?: Date;
+  name?: string;
+  size?: number;
+  type?: string;
+  webkitRelativePath?: string;
+}
 
 const SignUpLogic = () => {
   const [credentials, setCredentials] = useState({
@@ -72,25 +81,47 @@ const SignUpLogic = () => {
       );
 
       if (userCred) {
-        await firestore.collection('users').doc().set({
-          firstName: credentials.firstName,
-          lastName: credentials.lastName,
-          email: credentials.email,
-          age: credentials.age,
-          country: credentials.country,
-          gender: credentials.gender,
-        });
+        if (displayPic.file !== null) {
+          const storageRef = storage.ref(
+            `display_pictures/${displayPic.file?.name}`
+          );
 
-        dispatch(
-          sendNotification({
-            message: 'Successfully signed up!',
-            success: true,
-          })
-        );
+          storageRef.put(displayPic.file as Blob).on(
+            'state_changed',
+            (snapshot) => {
+              console.log(snapshot);
+            },
+
+            (error) => {
+              console.log(error);
+            },
+
+            async () => {
+              const displayPicUrl = await storageRef.getDownloadURL();
+
+              await firestore.collection('users').doc().set({
+                firstName: credentials.firstName,
+                lastName: credentials.lastName,
+                email: credentials.email,
+                age: credentials.age,
+                country: credentials.country,
+                gender: credentials.gender,
+                displayPicUrl,
+              });
+            }
+          );
+        }
 
         history.push('/sign-in');
 
         dispatch(customSignUpSuccess());
+
+        dispatch(
+          sendNotification({
+            message: 'Successfully Registered to SangeetMay!',
+            success: true,
+          })
+        );
       }
     } catch (err) {
       dispatch(sendNotification({ message: err.message, error: true }));
@@ -98,9 +129,15 @@ const SignUpLogic = () => {
     }
   };
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const [displayPic, setDisplayPic] = useState<{
+    file: IFile | null;
+    preview: string;
+  }>({
+    file: null,
+    preview: '',
+  });
 
+  const handleSignUp = (): void => {
     const error = validateUserCredentials(
       credentials,
       validationMessageTags,
@@ -133,12 +170,29 @@ const SignUpLogic = () => {
     setCredentials({ ...credentials, country: e.target.value.trim() });
   };
 
+  const handleDisplayPic = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let file: IFile | Blob;
+    let preview: string;
+
+    if (e.target.files !== null) {
+      file = e.target.files[0];
+      preview = URL.createObjectURL(file);
+    }
+
+    setDisplayPic((prevState) => {
+      return { ...prevState, file, preview };
+    });
+  };
+
   return {
     handleSignUp,
     handleInput,
     validationMessageTags,
     credentials,
     handleCountry,
+    displayPic,
+    setDisplayPic,
+    handleDisplayPic,
   };
 };
 
