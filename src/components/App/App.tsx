@@ -12,12 +12,7 @@ import Loading from '../Loading';
 import AppLogic from './Logic/AppLogic';
 
 const App: FC = (): JSX.Element => {
-  const {
-    notificationState: { message, error, success },
-    errorNotification,
-    successNotification,
-    userLoading,
-  } = AppLogic();
+  const { userLoading, notify, message } = AppLogic();
 
   if (userLoading) {
     return <Loading />;
@@ -26,8 +21,7 @@ const App: FC = (): JSX.Element => {
   return (
     <Wrapper>
       <Router>
-        {message !== '' && error && errorNotification(message)}
-        {message !== '' && success && successNotification(message)}
+        {message !== '' && notify()}
 
         <ToastContainer />
 

@@ -31,11 +31,13 @@ export const userSclice = createSlice({
 
     // Sign Up
     customSignUpSuccess: (state: IInitialState) => {
-      state.value = { ...state.value, userLoading: false };
+      state.value = {
+        ...state.value,
+        userLoading: false,
+      };
     },
 
     // Sign In
-
     customSignInSuccess: (state: IInitialState) => {
       state.value = {
         ...state.value,
@@ -47,7 +49,6 @@ export const userSclice = createSlice({
     signOut: (state: IInitialState) => {
       state.value = {
         ...state.value,
-        userLoading: false,
         hasUserLoggedIn: false,
       };
     },
@@ -60,6 +61,7 @@ export const {
   signOut,
   userError,
   userLoadingBegin,
+  clearCustomSignUpSuccess,
 } = userSclice.actions;
 
 export default userSclice.reducer;

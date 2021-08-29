@@ -2,12 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { auth, firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
-import {
-  customSignUpSuccess,
-  userLoadingBegin,
-  userError,
-} from '../../../features/user';
-import { useAppDispatch } from '../../../redux/hooks';
+import { userLoadingBegin, userError } from '../../../features/user';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
@@ -47,8 +43,14 @@ const SignUpLogic = () => {
     ),
     displayPicValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
   };
+  const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
+
+  const dispatch = useAppDispatch();
+  const history = useHistory();
 
   useEffect(() => {
+    hasUserLoggedIn && history.push('/');
+
     if (
       credentials.confirmPassword === credentials.password &&
       credentials.confirmPassword !== '' &&
@@ -67,69 +69,9 @@ const SignUpLogic = () => {
     credentials.password,
     credentials.confirmPassword,
     validationMessageTags.confirmPasswordValidationMessageTag,
+    hasUserLoggedIn,
+    history,
   ]);
-
-  const dispatch = useAppDispatch();
-  const history = useHistory();
-
-  const customSignUp = async (): Promise<void> => {
-    dispatch(userLoadingBegin());
-
-    try {
-      const userCred = await auth.createUserWithEmailAndPassword(
-        credentials.email.trim(),
-        credentials.password.trim()
-      );
-
-      if (userCred) {
-        if (displayPic.file !== null) {
-          const storageRef = storage.ref(
-            `display_pictures/${displayPic.file?.name}`
-          );
-
-          storageRef.put(displayPic.file as Blob).on(
-            'state_changed',
-            (snapshot) => {
-              console.log(snapshot);
-            },
-
-            (error) => {
-              console.log(error);
-            },
-
-            async () => {
-              const displayPicUrl = await storageRef.getDownloadURL();
-
-              await firestore.collection('users').doc().set({
-                firstName: credentials.firstName,
-                lastName: credentials.lastName,
-                email: credentials.email,
-                age: credentials.age,
-                country: credentials.country,
-                gender: credentials.gender,
-                displayPicUrl,
-              });
-            }
-          );
-        }
-
-        history.push('/sign-in');
-
-        dispatch(customSignUpSuccess());
-
-        dispatch(
-          sendNotification({
-            message: 'Successfully Registered to SangeetMay!',
-            success: true,
-          })
-        );
-      }
-    } catch (err) {
-      dispatch(sendNotification({ message: err.message, error: true }));
-
-      dispatch(userError());
-    }
-  };
 
   const [displayPic, setDisplayPic] = useState<{
     file: IFile | null;
@@ -139,13 +81,115 @@ const SignUpLogic = () => {
     preview: '',
   });
 
+  const saveUserDataTofirestore = (displayPicUrl: string): void => {
+    firestore
+      .collection('users')
+      .doc()
+      .set({
+        firstName: credentials.firstName,
+        lastName: credentials.lastName,
+        email: credentials.email,
+        age: credentials.age,
+        country: credentials.country,
+        gender: credentials.gender,
+        displayPicUrl,
+      })
+      .then(async () => {
+        console.log('Document Saved!!!!');
+
+        // 4. ---->
+        await auth.createUserWithEmailAndPassword(
+          credentials.email.trim(),
+          credentials.password.trim()
+        );
+
+        dispatch(
+          sendNotification({
+            message: 'Successfully Registered to SangeetMay!',
+            success: true,
+          })
+        );
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(userError());
+      });
+  };
+
+  const uploadDisplayPicture = async (): Promise<void> => {
+    try {
+      if (displayPic.file !== null) {
+        const storageRef = storage.ref(
+          `display_pictures/${displayPic.file?.name}`
+        );
+
+        storageRef.put(displayPic.file as Blob).on(
+          'state_changed',
+          (snapshot) => {
+            console.log(snapshot.state);
+          },
+
+          (error) => {
+            console.log(error);
+          },
+
+          async () => {
+            await storageRef.getDownloadURL().then((displayPicUrl) => {
+              // 3. Image Uploaded then save user data to firestore
+              saveUserDataTofirestore(displayPicUrl);
+            });
+          }
+        );
+      }
+    } catch (err) {
+      dispatch(sendNotification({ message: err.message, error: true }));
+
+      dispatch(userError());
+    }
+  };
+
+  const customSignUp = async (): Promise<void> => {
+    try {
+      //1.  Chech is email already registered --->
+      const isEmailRegistered = await auth.fetchSignInMethodsForEmail(
+        credentials.email.trim()
+      );
+
+      console.log(isEmailRegistered.length);
+
+      if (isEmailRegistered.length > 0) {
+        throw new Error(
+          'This email address is already being used by someone else!'
+        );
+      }
+
+      // 2. Upload a display image
+      uploadDisplayPicture();
+    } catch (err) {
+      dispatch(sendNotification({ message: err.message, error: true }));
+      dispatch(userError());
+    }
+  };
+
   const handleSignUp = (): void => {
-    const error = validateUserCredentials(
+    dispatch(userLoadingBegin());
+
+    let error = validateUserCredentials(
       credentials,
       validationMessageTags,
       setTimeOutId,
       'SIGN_UP'
     );
+
+    if (displayPic.file === null) {
+      setValidationMessage(
+        validationMessageTags.displayPicValidationMessageTag,
+        'Please select your display picture',
+        'error',
+        setTimeOutId
+      );
+      error = true;
+    }
 
     if (!error) {
       customSignUp();
@@ -162,9 +206,12 @@ const SignUpLogic = () => {
       });
 
       setDisplayPic({ file: null, preview: '' });
+    } else {
+      dispatch(userError());
     }
   };
 
+  // Handling diff Inputs
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
 
@@ -181,6 +228,14 @@ const SignUpLogic = () => {
 
     if (e.target.files !== null) {
       if (e.target.files[0].size > 8388608) {
+        setValidationMessage(
+          validationMessageTags.displayPicValidationMessageTag,
+          'Image size is too big should be less then 8 mb',
+          'error',
+          setTimeOutId,
+          5000
+        );
+
         setDisplayPic({ file: null, preview: '' });
       } else {
         file = e.target.files[0];

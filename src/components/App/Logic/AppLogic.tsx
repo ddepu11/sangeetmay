@@ -14,6 +14,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 const AppLogic = () => {
+  const { userLoading, hasUserLoggedIn } = useAppSelector(
+    (state) => state.user.value
+  );
+
   const dispatch = useAppDispatch();
 
   const errorNotification = (message: string) => {
@@ -32,30 +36,35 @@ const AppLogic = () => {
     });
   };
 
-  const notificationState = useAppSelector((state) => state.notification.value);
-
-  const { userLoading } = useAppSelector((state) => state.user.value);
+  const { message, success } = useAppSelector(
+    (state) => state.notification.value
+  );
 
   useEffect(() => {
-    dispatch(userLoadingBegin());
-
     const fetchUserData = async (email: string | null) => {
+      dispatch(userLoadingBegin());
+
       try {
         const users = await firestore.collection('users').get();
 
-        console.log(users);
+        // console.log(users);
+
         const user = users.docs.filter((user) => user.data().email === email);
 
-        console.log(user[0].data());
+        if (user.length !== 0) {
+          console.log(user[0].data());
 
-        dispatch(
-          sendNotification({
-            message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
-              'lastName'
-            )}`,
-            success: true,
-          })
-        );
+          dispatch(
+            sendNotification({
+              message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
+                'lastName'
+              )}`,
+              success: true,
+            })
+          );
+        }
+
+        dispatch(customSignInSuccess());
       } catch (err) {
         dispatch(sendNotification({ message: err.message, error: true }));
         dispatch(userError());
@@ -65,20 +74,25 @@ const AppLogic = () => {
     // Waiting for user to log in
     auth.onAuthStateChanged((user) => {
       if (user) {
-        fetchUserData(user.email);
-
-        dispatch(customSignInSuccess());
+        !hasUserLoggedIn && fetchUserData(user.email);
       } else {
         dispatch(signOut());
       }
     });
-  }, [dispatch]);
+  }, [dispatch, hasUserLoggedIn]);
+
+  const notify = () => {
+    success ? successNotification(message) : errorNotification(message);
+
+    dispatch(clearNotification());
+  };
 
   return {
     userLoading,
     successNotification,
     errorNotification,
-    notificationState,
+    notify,
+    message,
   };
 };
 

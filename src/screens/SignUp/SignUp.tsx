@@ -36,7 +36,7 @@ const SignUp = () => {
             />
           </label>
 
-          <div className='right'>
+          <div className='right flex'>
             <div className='upload_img_text flex'>
               <FaArrowAltCircleLeft />
               <span>Upload Display Pic</span>
@@ -574,9 +574,12 @@ const Wrapper = styled.main`
       }
 
       .right {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 20px;
+
         .upload_img_text {
           font-size: 1.2em;
-          padding: 0 20px;
 
           span {
             margin-left: 10px;
