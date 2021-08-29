@@ -36,9 +36,13 @@ const SignUp = () => {
             />
           </label>
 
-          <div className='upload_img_text flex'>
-            <FaArrowAltCircleLeft />
-            <span>Upload Display Pic</span>
+          <div className='right'>
+            <div className='upload_img_text flex'>
+              <FaArrowAltCircleLeft />
+              <span>Upload Display Pic</span>
+            </div>
+
+            <p ref={vmt.displayPicValidationMessageTag} className='message' />
           </div>
 
           <input
@@ -569,12 +573,14 @@ const Wrapper = styled.main`
         }
       }
 
-      .upload_img_text {
-        font-size: 1.2em;
-        padding: 0 20px;
+      .right {
+        .upload_img_text {
+          font-size: 1.2em;
+          padding: 0 20px;
 
-        span {
-          margin-left: 10px;
+          span {
+            margin-left: 10px;
+          }
         }
       }
 

@@ -4,8 +4,8 @@ import { auth, firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
   customSignUpSuccess,
-  signUpBegin,
-  signUpError,
+  userLoadingBegin,
+  userError,
 } from '../../../features/user';
 import { useAppDispatch } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
@@ -45,6 +45,7 @@ const SignUpLogic = () => {
     confirmPasswordValidationMessageTag: useRef<HTMLParagraphElement | null>(
       null
     ),
+    displayPicValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
   };
 
   useEffect(() => {
@@ -71,8 +72,8 @@ const SignUpLogic = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const customSignUp = async () => {
-    dispatch(signUpBegin());
+  const customSignUp = async (): Promise<void> => {
+    dispatch(userLoadingBegin());
 
     try {
       const userCred = await auth.createUserWithEmailAndPassword(
@@ -125,7 +126,8 @@ const SignUpLogic = () => {
       }
     } catch (err) {
       dispatch(sendNotification({ message: err.message, error: true }));
-      dispatch(signUpError());
+
+      dispatch(userError());
     }
   };
 
@@ -147,16 +149,19 @@ const SignUpLogic = () => {
 
     if (!error) {
       customSignUp();
-      // setCredentials({
-      //   firstName: '',
-      //   lastName: '',
-      //   email: '',
-      //   age: 0,
-      //   password: '',
-      //   confirmPassword: '',
-      //   gender: '',
-      //   country: '',
-      // });
+
+      setCredentials({
+        firstName: '',
+        lastName: '',
+        email: '',
+        age: 0,
+        password: '',
+        confirmPassword: '',
+        gender: '',
+        country: '',
+      });
+
+      setDisplayPic({ file: null, preview: '' });
     }
   };
 
@@ -166,22 +171,27 @@ const SignUpLogic = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCountry = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setCredentials({ ...credentials, country: e.target.value.trim() });
   };
 
-  const handleDisplayPic = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDisplayPic = (e: React.ChangeEvent<HTMLInputElement>): void => {
     let file: IFile | Blob;
     let preview: string;
 
     if (e.target.files !== null) {
-      file = e.target.files[0];
-      preview = URL.createObjectURL(file);
-    }
+      if (e.target.files[0].size > 8388608) {
+        setDisplayPic({ file: null, preview: '' });
+      } else {
+        file = e.target.files[0];
 
-    setDisplayPic((prevState) => {
-      return { ...prevState, file, preview };
-    });
+        preview = URL.createObjectURL(file);
+
+        setDisplayPic((prevState) => {
+          return { ...prevState, file, preview };
+        });
+      }
+    }
   };
 
   return {

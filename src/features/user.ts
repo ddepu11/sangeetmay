@@ -21,42 +21,45 @@ export const userSclice = createSlice({
   initialState,
 
   reducers: {
-    // Sign Up
-    signUpBegin: (state: IInitialState) => {
+    userLoadingBegin: (state: IInitialState) => {
       state.value = { ...state.value, userLoading: true };
     },
 
+    userError: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
+    },
+
+    // Sign Up
     customSignUpSuccess: (state: IInitialState) => {
       state.value = { ...state.value, userLoading: false };
     },
 
-    signUpError: (state: IInitialState) => {
-      state.value = { ...state.value, userLoading: false };
-    },
-    //################# Sign Up Ends ####################
-
     // Sign In
-    signInBegin: (state: IInitialState) => {
-      state.value = { ...state.value, userLoading: true };
-    },
 
     customSignInSuccess: (state: IInitialState) => {
-      state.value = { ...state.value, userLoading: false };
+      state.value = {
+        ...state.value,
+        userLoading: false,
+        hasUserLoggedIn: true,
+      };
     },
 
-    signInError: (state: IInitialState) => {
-      state.value = { ...state.value, userLoading: false };
+    signOut: (state: IInitialState) => {
+      state.value = {
+        ...state.value,
+        userLoading: false,
+        hasUserLoggedIn: false,
+      };
     },
   },
 });
 
 export const {
-  signUpBegin,
   customSignUpSuccess,
-  signUpError,
-  signInBegin,
   customSignInSuccess,
-  signInError,
+  signOut,
+  userError,
+  userLoadingBegin,
 } = userSclice.actions;
 
 export default userSclice.reducer;

@@ -19,4 +19,6 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const storage = firebase.storage();
 
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 export { auth, firestore, storage };

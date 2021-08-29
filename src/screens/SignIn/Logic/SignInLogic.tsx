@@ -1,12 +1,9 @@
-import { useRef, useState } from 'react';
-import { auth, firestore } from '../../../config/firebase';
+import { useRef, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { auth } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
-import {
-  customSignInSuccess,
-  signInBegin,
-  signInError,
-} from '../../../features/user';
-import { useAppDispatch } from '../../../redux/hooks';
+import { userError, userLoadingBegin } from '../../../features/user';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
 const SignInLogic = () => {
@@ -22,34 +19,25 @@ const SignInLogic = () => {
 
   const dispatch = useAppDispatch();
 
+  const history = useHistory();
+
+  const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
+
+  useEffect(() => {
+    hasUserLoggedIn && history.push('/');
+  }, [history, hasUserLoggedIn]);
+
   const signInWithEmailPassword = async () => {
-    dispatch(signInBegin());
+    dispatch(userLoadingBegin());
 
     try {
-      const userCredentiasl = await auth.signInWithEmailAndPassword(
+      await auth.signInWithEmailAndPassword(
         credentials.email.trim(),
         credentials.password.trim()
       );
-
-      const email = userCredentiasl.user?.email;
-
-      const users = await firestore.collection('users').get();
-
-      const user = users.docs.filter((user) => user.data().email === email);
-
-      dispatch(
-        sendNotification({
-          message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
-            'lastName'
-          )}`,
-          success: true,
-        })
-      );
-
-      dispatch(customSignInSuccess());
     } catch (err) {
       dispatch(sendNotification({ message: err.message, error: true }));
-      dispatch(signInError());
+      dispatch(userError());
     }
   };
 
