@@ -14,6 +14,7 @@ import Navbar from '../../screens/Navbar/Navbar';
 import Footer from '../../screens/Footer/Footer';
 import Aside from '../../screens/Aside/Aside';
 import Account from '../../screens/Account/Account';
+import Search from '../../screens/Search/Search';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
@@ -40,6 +41,10 @@ const App: FC = (): JSX.Element => {
 
           <Route path='/account' exact>
             <Account />
+          </Route>
+
+          <Route path='/search' exact>
+            <Search />
           </Route>
 
           <Route path='/sign-in' exact>
