@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface IButtonStyle {
@@ -11,15 +11,21 @@ interface IButtonStyle {
   bgColor?: string;
   margin?: string;
   fontSize?: string;
+  fontWeight?: string;
+  letterSpacing?: string;
+  textTransform?: string;
   hoverTransform?: string;
   transition?: string;
   width?: string;
   hoverBorder?: string;
+  border?: string;
+  borderRadius?: string;
+  hoverCursor?: string;
 }
 
 interface Props {
   type: 'button' | 'submit' | 'reset';
-  children: string | number | JSX.Element;
+  children: ReactNode;
   buttonStyle?: IButtonStyle;
   handleClick?: () => void;
 }
@@ -30,12 +36,12 @@ const Button: FC<Props> = ({
   buttonStyle,
   handleClick,
 }): JSX.Element => (
-  <Wrapper type={type} {...buttonStyle} onClick={handleClick}>
+  <ButtonWrapper type={type} {...buttonStyle} onClick={handleClick}>
     {children}
-  </Wrapper>
+  </ButtonWrapper>
 );
 
-const Wrapper = styled.button<IButtonStyle>`
+const ButtonWrapper = styled.button<IButtonStyle>`
   padding: ${({ padding }) => padding};
   padding-top: ${({ pt }) => pt};
   padding-bottom: ${({ pb }) => pb};
@@ -45,15 +51,23 @@ const Wrapper = styled.button<IButtonStyle>`
   margin-bottom: ${({ mb }) => mb};
 
   font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  letter-spacing: ${({ letterSpacing }) => letterSpacing};
+  text-transform: ${({ textTransform }) => textTransform};
+
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ color }) => color};
   transition: ${({ transition }) => transition};
 
   width: ${({ width }) => width};
 
+  border: ${({ border }) => border};
+  border-radius: ${({ borderRadius }) => borderRadius};
+
   :hover {
     transform: ${({ hoverTransform }) => hoverTransform};
     border: ${({ hoverBorder }) => hoverBorder};
+    cursor: ${({ hoverCursor = 'pointer' }) => hoverCursor};
   }
 `;
 

@@ -61,7 +61,6 @@ export const {
   signOut,
   userError,
   userLoadingBegin,
-  clearCustomSignUpSuccess,
 } = userSclice.actions;
 
 export default userSclice.reducer;

@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/hooks';
 
-const Home = () => {
+const Home: FC = (): JSX.Element => {
   const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
 
   const history = useHistory();
@@ -14,28 +14,16 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <h2>Home</h2>
-      <nav>
-        <h1>Navigation</h1>
-      </nav>
-
-      <aside>
-        <h1>Aside</h1>
-      </aside>
-
       <main>
         <h1>Main</h1>
       </main>
-
-      <footer>
-        <h1>Footer</h1>
-      </footer>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.main`
-  padding: 5px 5px;
+  grid-area: main;
+  border: 1px solid #ffffffdd;
 `;
 
 export default Home;

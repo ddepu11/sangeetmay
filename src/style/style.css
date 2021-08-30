@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
 :root {
-  --primary-color: #39a6a3;
-  --secondary-color: #231e23;
-  --tertiary-color: #464f41;
+  --primary-color: #fff;
+  --secondary-color: #7fc8a9;
+  --tertiary-color: #28df99;
   --dark-color: #000;
   --light-color: #ffffff;
   --little-light-color: #b9b9b9;
   --little-dark-color: #333;
   --medium-dark-color: #1f1e1e;
-  --danger-color: #e41717;
+  --danger-color: #ff4848;
   --success-color: #0bbb0b;
 }
 
@@ -38,7 +38,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 body {
   min-height: 100vh;

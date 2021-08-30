@@ -18,7 +18,7 @@ const SignUp = () => {
   } = SignUpLogic();
 
   return (
-    <Wrapper className='w-960 flex'>
+    <Wrapper className='flex'>
       <form>
         <h1 className='heading'>
           Sign Up to sangeetMay to listen your fav songs
@@ -40,6 +40,7 @@ const SignUp = () => {
             <div className='upload_img_text flex'>
               <FaArrowAltCircleLeft />
               <span>Upload Display Pic</span>
+              <span className='must'> *</span>
             </div>
 
             <p ref={vmt.displayPicValidationMessageTag} className='message' />
@@ -505,7 +506,7 @@ const SignUp = () => {
             mt: '40px',
             width: '100%',
             bgColor: 'var(--secondary-color)',
-            color: 'var(--light-color)',
+            color: 'var(--dark-color)',
           }}
         >
           Sign up
@@ -521,7 +522,7 @@ const SignUp = () => {
               transition: 'transform 0.4s ease',
               width: '100%',
               bgColor: 'var(--tertiary-color)',
-              color: 'var(--light-color)',
+              color: 'var(--dark-color)',
             }}
           >
             Already have an account? Sign In Now

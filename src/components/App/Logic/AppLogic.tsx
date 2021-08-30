@@ -67,6 +67,7 @@ const AppLogic = () => {
         dispatch(customSignInSuccess());
       } catch (err) {
         dispatch(sendNotification({ message: err.message, error: true }));
+
         dispatch(userError());
       }
     };
@@ -83,7 +84,6 @@ const AppLogic = () => {
 
   const notify = () => {
     success ? successNotification(message) : errorNotification(message);
-
     dispatch(clearNotification());
   };
 
@@ -93,6 +93,7 @@ const AppLogic = () => {
     errorNotification,
     notify,
     message,
+    hasUserLoggedIn,
   };
 };
 

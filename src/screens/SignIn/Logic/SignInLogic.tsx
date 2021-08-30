@@ -56,7 +56,6 @@ const SignInLogic = () => {
 
     if (!error) {
       signInWithEmailPassword();
-      setCredentials({ email: '', password: '' });
     }
   };
 

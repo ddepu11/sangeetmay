@@ -15,7 +15,7 @@ const SignIn: FC = (): JSX.Element => {
   } = SignInLogic();
 
   return (
-    <Wrapper className='w-960 flex'>
+    <Wrapper className='flex'>
       <form onSubmit={handleSignIn}>
         <h1 className='heading'>
           Sign In to sangeetMay to listen your fav songs
@@ -72,7 +72,7 @@ const SignIn: FC = (): JSX.Element => {
             mt: '40px',
             width: '100%',
             bgColor: 'var(--secondary-color)',
-            color: 'var(--light-color)',
+            color: 'var(--dark-color)',
           }}
         >
           SignIn
@@ -88,7 +88,7 @@ const SignIn: FC = (): JSX.Element => {
               transition: 'transform 0.4s ease',
               width: '100%',
               bgColor: 'var(--tertiary-color)',
-              color: 'var(--light-color)',
+              color: 'var(--dark-color)',
             }}
           >
             Dont have have an account? Sign Up Now
