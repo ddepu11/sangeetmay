@@ -1,17 +1,23 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { AiOutlineHome, AiOutlineSearch } from 'react-icons/ai';
+import {
+  AiOutlineHome,
+  AiOutlineSearch,
+  AiFillPlusSquare,
+} from 'react-icons/ai';
+
 import { VscLibrary } from 'react-icons/vsc';
+import { FcLike } from 'react-icons/fc';
 
 const Aside: FC = (): JSX.Element => {
   return (
     <Wrapper>
-      <ul>
+      <ul className='top_ul'>
         <li>
           <Link to='/'>
             <div className='link flex'>
-              <AiOutlineHome fontSize='1.8em' />
+              <AiOutlineHome fontSize='1.7em' />
               <span className='link_text'>Home</span>
             </div>
           </Link>
@@ -20,7 +26,7 @@ const Aside: FC = (): JSX.Element => {
         <li>
           <Link to='/search'>
             <div className='link flex'>
-              <AiOutlineSearch fontSize='1.8em' />
+              <AiOutlineSearch fontSize='1.7em' />
               <span className='link_text'>Search</span>
             </div>
           </Link>
@@ -29,22 +35,45 @@ const Aside: FC = (): JSX.Element => {
         <li>
           <Link to='/library'>
             <div className='link flex'>
-              <VscLibrary fontSize='1.8em' />
+              <VscLibrary fontSize='1.7em' />
               <span className='link_text'>Library</span>
             </div>
           </Link>
         </li>
       </ul>
+
+      <ul className='bottom_ul'>
+        <li>
+          <Link to='/create-playlist'>
+            <div className='link flex'>
+              <AiFillPlusSquare fontSize='1.7em' />
+              <span className='link_text'>Create Playlist</span>
+            </div>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/liked-songs'>
+            <div className='link flex'>
+              <FcLike fontSize='1.7em' />
+              <span className='link_text'>Liked Songs</span>
+            </div>
+          </Link>
+        </li>
+      </ul>
+
+      {/* #################### BETWEEN ################ */}
+      <div className='seperateing_line' />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.aside`
-  padding: 5px 5px;
   grid-area: aside;
+  /* border: 1px solid red; */
 
   ul li {
-    padding: 13px 0;
+    padding: 8px 0;
   }
 
   ul li a {
@@ -57,7 +86,7 @@ const Wrapper = styled.aside`
 
     .link_text {
       margin-left: 15px;
-      font-size: 1.5em;
+      font-size: 1.1em;
       color: var(--little-light-color);
       transition: all 0.5s ease;
     }
@@ -65,6 +94,18 @@ const Wrapper = styled.aside`
 
   .link:hover .link_text {
     color: var(--light-color);
+  }
+
+  .bottom_ul {
+    /* border: 1px solid red; */
+    margin-top: 18px;
+  }
+
+  .seperateing_line {
+    margin: 10px 0;
+    width: 100%;
+    background-color: var(--little-dark-color);
+    height: 0.5px;
   }
 `;
 
