@@ -42,7 +42,7 @@ const Aside: FC = (): JSX.Element => {
         </li>
       </ul>
 
-      <ul className='bottom_ul'>
+      <ul className='middle_ul'>
         <li>
           <Link to='/create-playlist'>
             <div className='link flex'>
@@ -64,13 +64,50 @@ const Aside: FC = (): JSX.Element => {
 
       {/* #################### BETWEEN ################ */}
       <div className='seperateing_line' />
+
+      <ul className='bottom_ul'>
+        <li>
+          <Link to='/' className='playlist'>
+            <span>Mega hit mix</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/' className='playlist'>
+            <span>90 Romance Rewind</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/' className='playlist'>
+            <span>Old hindi classics</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/' className='playlist'>
+            <span>Old hindi classics</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/' className='playlist'>
+            <span>Old hindi classics</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link to='/' className='playlist'>
+            <span>Old hindi classics</span>
+          </Link>
+        </li>
+      </ul>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.aside`
   grid-area: aside;
-  /* border: 1px solid red; */
 
   ul li {
     padding: 8px 0;
@@ -96,16 +133,34 @@ const Wrapper = styled.aside`
     color: var(--light-color);
   }
 
-  .bottom_ul {
+  .middle_ul {
     /* border: 1px solid red; */
     margin-top: 18px;
   }
 
   .seperateing_line {
     margin: 10px 0;
-    width: 100%;
+    width: 85%;
     background-color: var(--little-dark-color);
     height: 0.5px;
+  }
+
+  .bottom_ul {
+    padding: 10px 0 0;
+
+    li {
+      padding: 0px 0px 7px 0px;
+    }
+  }
+
+  .playlist {
+    padding: 0 0 8px;
+    color: var(--little-light-color);
+    transition: all 0.5s ease-out;
+  }
+
+  .playlist:hover {
+    color: var(--light-color);
   }
 `;
 
