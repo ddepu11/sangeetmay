@@ -14,16 +14,24 @@ const Home: FC = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <main>
-        <h1>Main</h1>
-      </main>
+      <h1 className='greet'>Good Morning</h1>
+      <section className='all_playlist'>
+        <div className='playlist'>
+          <div className='banner'>
+            <img src="" alt="" />
+          </div>
+        </div>
+      </section>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.main`
   grid-area: main;
-  border: 1px solid #ffffffdd;
+  /* border: 1px solid #ffffffdd; */
+
+  .greet {
+  }
 `;
 
 export default Home;

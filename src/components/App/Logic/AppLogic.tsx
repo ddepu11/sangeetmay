@@ -52,8 +52,6 @@ const AppLogic = () => {
         const user = users.docs.filter((user) => user.data().email === email);
 
         if (user.length !== 0) {
-          console.log(user[0].data());
-
           dispatch(
             sendNotification({
               message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
@@ -64,7 +62,7 @@ const AppLogic = () => {
           );
         }
 
-        dispatch(customSignInSuccess());
+        dispatch(customSignInSuccess(user[0].data()));
       } catch (err) {
         dispatch(sendNotification({ message: err.message, error: true }));
 

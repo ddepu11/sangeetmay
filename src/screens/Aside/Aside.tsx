@@ -108,6 +108,8 @@ const Aside: FC = (): JSX.Element => {
 
 const Wrapper = styled.aside`
   grid-area: aside;
+  /* border: 1px solid red; */
+  padding: 0 15px;
 
   ul li {
     padding: 8px 0;
@@ -119,17 +121,16 @@ const Wrapper = styled.aside`
 
   .link {
     justify-content: flex-start;
-    color: var(--light-color);
+    color: var(--little-light-color);
 
     .link_text {
       margin-left: 15px;
       font-size: 1.1em;
-      color: var(--little-light-color);
       transition: all 0.5s ease;
     }
   }
 
-  .link:hover .link_text {
+  .link:hover {
     color: var(--light-color);
   }
 

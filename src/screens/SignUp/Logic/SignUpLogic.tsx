@@ -93,9 +93,10 @@ const SignUpLogic = () => {
         country: credentials.country,
         gender: credentials.gender,
         displayPicUrl,
+        role: 'USER',
       })
       .then(async () => {
-        console.log('Document Saved!!!!');
+        console.log('Final Step: Document Saved!');
 
         // 4. ---->
         await auth.createUserWithEmailAndPassword(
@@ -126,7 +127,7 @@ const SignUpLogic = () => {
         storageRef.put(displayPic.file as Blob).on(
           'state_changed',
           (snapshot) => {
-            console.log(snapshot.state);
+            console.log(`dp upload status: ${snapshot.state}`);
           },
 
           (error) => {
@@ -154,8 +155,6 @@ const SignUpLogic = () => {
       const isEmailRegistered = await auth.fetchSignInMethodsForEmail(
         credentials.email.trim()
       );
-
-      console.log(isEmailRegistered.length);
 
       if (isEmailRegistered.length > 0) {
         throw new Error(

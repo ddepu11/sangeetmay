@@ -15,6 +15,7 @@ import Footer from '../../screens/Footer/Footer';
 import Aside from '../../screens/Aside/Aside';
 import Account from '../../screens/Account/Account';
 import Search from '../../screens/Search/Search';
+import Library from '../../screens/Library/Library';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
@@ -47,6 +48,10 @@ const App: FC = (): JSX.Element => {
             <Search />
           </Route>
 
+          <Route path='/library' exact>
+            <Library />
+          </Route>
+
           <Route path='/sign-in' exact>
             <SignIn />
           </Route>
@@ -69,11 +74,14 @@ interface IWrapper {
 const styleForLoggedInPeople = {
   display: 'grid',
   height: '100vh',
+
   'grid-template-columns': 'repeat(4,minmax(200px,auto))',
   'grid-template-rows': '0.25fr 1fr 1fr 0.3fr',
+
   'grid-template-areas':
     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' 'footer footer footer footer'",
-  gap: '1em',
+
+  gap: '8px 20px',
 };
 
 const Wrapper = styled.main<IWrapper>`

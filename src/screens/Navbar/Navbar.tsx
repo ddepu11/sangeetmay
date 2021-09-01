@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import { auth } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
+import { useAppSelector } from '../../redux/hooks';
+import { HiBadgeCheck } from 'react-icons/hi';
 
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -18,9 +20,9 @@ const Navbar: FC = (): JSX.Element => {
         })
       );
     });
-
-    console.log('Log Out');
   };
+
+  const { userInfo, role } = useAppSelector((state) => state.user.value);
 
   return (
     <Wrapper className='flex'>
@@ -47,9 +49,37 @@ const Navbar: FC = (): JSX.Element => {
                 hoverCursor: 'auto',
               }}
             >
-              <span style={{ zIndex: 0 }}>Deepanshu Tiwari</span>
+              <span>
+                {userInfo.firstName} {userInfo.lastName}
+              </span>
             </Button>
           </li>
+
+          {role === 'ADMIN' && (
+            <li>
+              <Button
+                type='button'
+                buttonStyle={{
+                  padding: '8px 15px',
+                  fontSize: '0.95em',
+                  bgColor: 'var(--success-color)',
+                  color: 'var(--light-color)',
+                  fontWeight: '400',
+                  textTransform: 'capitalize',
+                  letterSpacing: '1px',
+                  borderRadius: '5px',
+                  hoverCursor: 'auto',
+                  transition: 'transform 0.5s ease-out',
+                  hoverTransform: 'scale(1.1) translateY(-5px)',
+                }}
+              >
+                <div className='center flex'>
+                  <HiBadgeCheck />
+                  <span>Admin</span>
+                </div>
+              </Button>
+            </li>
+          )}
 
           <li>
             <Link to='/account'>
@@ -117,6 +147,12 @@ const Wrapper = styled.nav`
   .inner_link {
     li {
       margin-left: 20px;
+    }
+  }
+
+  .center {
+    span {
+      margin-left: 5px;
     }
   }
 `;
