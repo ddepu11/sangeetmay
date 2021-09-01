@@ -80,7 +80,7 @@ export const userSclice = createSlice({
 
     // Dp Change Success
 
-    changeDisplayPicSuccess: (state: IInitialState, action) => {
+    userInfoUpdateSuccess: (state: IInitialState, action) => {
       state.value = {
         ...state.value,
         userLoading: false,
@@ -112,7 +112,7 @@ export const userSclice = createSlice({
 export const {
   customSignUpSuccess,
   customSignInSuccess,
-  changeDisplayPicSuccess,
+  userInfoUpdateSuccess,
   signOut,
   userError,
   userLoadingBegin,

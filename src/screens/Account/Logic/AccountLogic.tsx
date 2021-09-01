@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
-  changeDisplayPicSuccess,
   userError,
+  userInfoUpdateSuccess,
   userLoadingBegin,
 } from '../../../features/user';
 import { IFile } from '../../../interfaces';
@@ -13,18 +13,19 @@ import validateUserCredentials from '../../../utils/validateUserCredentials';
 
 interface ICredentials {
   age: number | undefined;
-  email: string | undefined;
   firstName: string | undefined;
   lastName: string | undefined;
+  country: string | undefined;
 }
 
 const AccountLogic = () => {
   const dispatch = useDispatch();
+
   const [credentials, setCredentials] = useState<ICredentials>({
     firstName: '',
     lastName: '',
-    email: '',
     age: 0,
+    country: '',
   });
 
   const [displayPic, setDisplayPic] = useState<{
@@ -42,34 +43,70 @@ const AccountLogic = () => {
     id,
   } = useAppSelector((state) => state.user.value);
 
+  const [wannaEdit, setWannaEdit] = useState<boolean>(false);
+
   useEffect(() => {
-    setCredentials({ firstName, lastName, email, age });
-  }, [firstName, lastName, email, age]);
+    setCredentials({ firstName, lastName, age, country });
+  }, [firstName, lastName, email, age, country, wannaEdit]);
 
   const validationMessageTags = {
     firstNameValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
     lastNameValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
-    emailValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
     ageValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
-    passwordValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
-    confirmPasswordValidationMessageTag: useRef<HTMLParagraphElement | null>(
-      null
-    ),
+    countryValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
     displayPicValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const [wannaEdit, setWannaEdit] = useState(false);
+  const handleCountry = (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ): void => {
+    setCredentials({ ...credentials, country: e.target.value.trim() });
+  };
+
+  //################## Update User Info --->Starts ##################
 
   const handleWannaEdit = (): void => {
     setWannaEdit(true);
   };
 
-  const handleUpdate = (): void => {
+  const cancelUpdate = (): void => {
+    setWannaEdit(false);
+    setCredentials({ firstName, lastName, age, country });
+  };
+
+  const updateUserInfo = (): void => {
+    setWannaEdit(false);
+
+    firestore
+      .collection('users')
+      .doc(id)
+      .update({ ...credentials })
+      .then(() => {
+        firestore
+          .collection('users')
+          .doc(id)
+          .get()
+          .then((doc) => {
+            dispatch(userInfoUpdateSuccess(doc.data()));
+
+            dispatch(
+              sendNotification({
+                message: 'Successfully updated user information!',
+                success: true,
+              })
+            );
+          });
+      });
+  };
+
+  const handleUserInfoUpdate = (): void => {
     const error = validateUserCredentials(
       credentials,
       validationMessageTags,
@@ -78,18 +115,33 @@ const AccountLogic = () => {
     );
 
     if (error) {
-      console.log(error);
+      console.log('there is an error');
+    } else {
+      if (
+        firstName === credentials.firstName &&
+        lastName === credentials.lastName &&
+        age === credentials.age &&
+        country === credentials.country
+      ) {
+        setWannaEdit(false);
+        dispatch(
+          sendNotification({
+            message: 'There is nothing to chnage!',
+            error: true,
+          })
+        );
+      } else {
+        dispatch(userLoadingBegin());
+        updateUserInfo();
+      }
     }
 
     setWannaEdit(true);
   };
 
-  const cancelUpdate = (): void => {
-    setWannaEdit(false);
-    setCredentials({ firstName, lastName, email, age });
-  };
+  //################### Update User Info Ends ##################
 
-  // Change Display Picture --->Starts
+  // ################### Change Display Picture --->Starts ##################
   const handleDisplayPic = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
 
@@ -116,7 +168,13 @@ const AccountLogic = () => {
           .doc(id)
           .get()
           .then((doc) => {
-            dispatch(changeDisplayPicSuccess(doc.data()));
+            dispatch(userInfoUpdateSuccess(doc.data()));
+            dispatch(
+              sendNotification({
+                message: 'Successfully changed the display picture!',
+                success: true,
+              })
+            );
           });
       })
       .catch((err) => {
@@ -179,10 +237,11 @@ const AccountLogic = () => {
   return {
     credentials,
     cancelUpdate,
-    handleUpdate,
+    handleUserInfoUpdate,
     handleWannaEdit,
     handleDisplayPic,
     cancelDpChange,
+    handleCountry,
     changeDP,
     wannaEdit,
     handleInput,

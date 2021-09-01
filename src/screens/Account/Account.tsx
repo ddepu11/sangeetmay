@@ -9,9 +9,10 @@ const Account = () => {
     cancelUpdate,
     handleInput,
     handleWannaEdit,
-    handleUpdate,
+    handleUserInfoUpdate,
     handleDisplayPic,
     cancelDpChange,
+    handleCountry,
     changeDP,
     displayPic,
     dp,
@@ -23,6 +24,7 @@ const Account = () => {
     gender,
     credentials,
     wannaEdit,
+
     validationMessageTags: vmt,
   } = AccountLogic();
 
@@ -49,11 +51,12 @@ const Account = () => {
                   buttonStyle={{
                     padding: '8px 12px',
                     margin: '0 0 0 10px',
-                    bgColor: 'var(--danger-color)',
+                    bgColor: 'var(--success-color)',
+                    color: 'var(--light-color)',
                   }}
-                  handleClick={cancelDpChange}
+                  handleClick={changeDP}
                 >
-                  Dont Want To Change DP
+                  Change DP
                 </Button>
 
                 <Button
@@ -61,11 +64,12 @@ const Account = () => {
                   buttonStyle={{
                     padding: '8px 12px',
                     margin: '0 0 0 10px',
-                    bgColor: 'var(--success-color)',
+                    bgColor: 'var(--danger-color)',
+                    color: 'var(--light-color)',
                   }}
-                  handleClick={changeDP}
+                  handleClick={cancelDpChange}
                 >
-                  Change DP
+                  Cancel
                 </Button>
               </>
             ) : (
@@ -115,10 +119,8 @@ const Account = () => {
           htmlFor='email'
           inputName='email'
           type='text'
-          inputValue={credentials.email}
           spanInnerText={email}
-          wannaEdit={wannaEdit}
-          refObj={vmt.emailValidationMessageTag}
+          wannaEdit={false}
           handleInput={handleInput}
         />
 
@@ -147,9 +149,13 @@ const Account = () => {
         <UpdateFormField
           heading='Country:'
           htmlFor='country'
-          type='text'
+          type='select'
+          handleInput={handleCountry}
+          inputValue={credentials.country}
           spanInnerText={country}
-          wannaEdit={false}
+          wannaEdit={wannaEdit}
+          areYouUsingItToSelectCountry={true}
+          refObj={vmt.countryValidationMessageTag}
         />
 
         <div className='update_buttons flex'>
@@ -173,7 +179,7 @@ const Account = () => {
                   fontSize: '1.2em',
                   margin: '0 30px 0px',
                 }}
-                handleClick={handleUpdate}
+                handleClick={handleUserInfoUpdate}
               >
                 Update
               </Button>
@@ -219,6 +225,25 @@ const Wrapper = styled.main`
 
     .update_buttons {
       padding: 10px 0;
+    }
+
+    .country_row {
+      justify-content: space-between;
+      padding: 0px 0 30px;
+
+      h4 {
+        font-size: 1.2em;
+        color: var(--little-light-color);
+        letter-spacing: 2px;
+      }
+
+      span {
+        font-size: 1em;
+        color: var(--light-color);
+        letter-spacing: 1px;
+        display: block;
+        width: 50%;
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 export interface ICredentials {
   firstName?: string | undefined;
   lastName?: string | undefined;
-  email: string | undefined;
+  email?: string | undefined;
   age?: number | undefined;
   gender?: string | undefined;
   country?: string | undefined;
