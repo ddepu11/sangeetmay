@@ -117,34 +117,37 @@ const SignUpLogic = () => {
   };
 
   const uploadDisplayPicture = async (): Promise<void> => {
-    try {
-      if (displayPic.file !== null) {
-        const storageRef = storage.ref(
-          `display_pictures/${displayPic.file?.name}`
-        );
+    if (displayPic.file !== null) {
+      const storageRef = storage.ref(
+        `display_pictures/${displayPic.file?.name}`
+      );
 
-        storageRef.put(displayPic.file as Blob).on(
-          'state_changed',
-          (snapshot) => {
-            console.log(`dp upload status: ${snapshot.state}`);
-          },
+      storageRef.put(displayPic.file as Blob).on(
+        'state_changed',
+        (snap) => {
+          console.log(
+            `dp upload status: ${
+              (snap.bytesTransferred / snap.totalBytes) * 100
+            }%`
+          );
+        },
 
-          (error) => {
-            console.log(error);
-          },
+        (error) => {
+          console.log(error);
+        },
 
-          async () => {
+        async () => {
+          try {
             await storageRef.getDownloadURL().then((displayPicUrl) => {
               // 3. Image Uploaded then save user data to firestore
               saveUserDataTofirestore(displayPicUrl);
             });
+          } catch (err) {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(userError());
           }
-        );
-      }
-    } catch (err) {
-      dispatch(sendNotification({ message: err.message, error: true }));
-
-      dispatch(userError());
+        }
+      );
     }
   };
 

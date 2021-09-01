@@ -9,6 +9,7 @@ import {
 } from '../../../features/user';
 import { IFile } from '../../../interfaces';
 import { useAppSelector } from '../../../redux/hooks';
+import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
 interface ICredentials {
@@ -41,6 +42,7 @@ const AccountLogic = () => {
   const {
     userInfo: { dp, firstName, lastName, email, age, gender, country },
     id,
+    role,
   } = useAppSelector((state) => state.user.value);
 
   const [wannaEdit, setWannaEdit] = useState<boolean>(false);
@@ -143,10 +145,29 @@ const AccountLogic = () => {
 
   // ################### Change Display Picture --->Starts ##################
   const handleDisplayPic = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const files = e.target.files;
+    let file: IFile | Blob;
+    let preview: string;
 
-    if (files) {
-      setDisplayPic({ file: files[0], preview: URL.createObjectURL(files[0]) });
+    if (e.target.files !== null) {
+      if (e.target.files[0].size > 8388608) {
+        setValidationMessage(
+          validationMessageTags.displayPicValidationMessageTag,
+          'Image size is too big should be less then 8 mb',
+          'error',
+          setTimeOutId,
+          5000
+        );
+
+        setDisplayPic({ file: null, preview: '' });
+      } else {
+        file = e.target.files[0];
+
+        preview = URL.createObjectURL(file);
+
+        setDisplayPic((prevState) => {
+          return { ...prevState, file, preview };
+        });
+      }
     }
   };
 
@@ -190,7 +211,7 @@ const AccountLogic = () => {
       'state_changed',
       (snap) => {
         console.log(
-          `dp upload status:${(snap.bytesTransferred / snap.totalBytes) * 100}`
+          `dp upload status:${(snap.bytesTransferred / snap.totalBytes) * 100}%`
         );
       },
 
@@ -254,6 +275,7 @@ const AccountLogic = () => {
     age,
     country,
     gender,
+    role,
     setDisplayPic,
   };
 };

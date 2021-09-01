@@ -3,6 +3,14 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import UpdateFormField from '../../components/UpdateFormField';
 import AccountLogic from './Logic/AccountLogic';
+import { css } from '@emotion/react';
+import BeatLoader from 'react-spinners/BeatLoader';
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: #ffffff;
+`;
 
 const Account = () => {
   const {
@@ -22,6 +30,7 @@ const Account = () => {
     age,
     country,
     gender,
+    role,
     credentials,
     wannaEdit,
 
@@ -32,13 +41,19 @@ const Account = () => {
     <Wrapper className='flex'>
       <div className='display_pic_row flex'>
         <label htmlFor='dp'>
-          <img
-            src={displayPic.preview ? displayPic.preview : dp?.url}
-            alt='DP'
-            onLoad={() =>
-              displayPic.preview && URL.revokeObjectURL(displayPic.preview)
-            }
-          />
+          {displayPic.preview || dp?.url ? (
+            <img
+              src={displayPic.preview ? displayPic.preview : dp?.url}
+              alt='DP'
+              onLoad={() =>
+                displayPic.preview && URL.revokeObjectURL(displayPic.preview)
+              }
+            />
+          ) : (
+            <div className='loader flex'>
+              <BeatLoader css={override} color='var(--light-color)' />
+            </div>
+          )}
         </label>
 
         <div className='right flex'>
@@ -56,7 +71,7 @@ const Account = () => {
                   }}
                   handleClick={changeDP}
                 >
-                  Change DP
+                  Upload
                 </Button>
 
                 <Button
@@ -158,6 +173,16 @@ const Account = () => {
           refObj={vmt.countryValidationMessageTag}
         />
 
+        <UpdateFormField
+          heading='Role:'
+          htmlFor='role'
+          type='text'
+          spanInnerText={role as string}
+          wannaEdit={false}
+          areYouUsingItToSelectCountry={true}
+          refObj={vmt.countryValidationMessageTag}
+        />
+
         <div className='update_buttons flex'>
           {!wannaEdit ? (
             <Button
@@ -165,6 +190,8 @@ const Account = () => {
               buttonStyle={{
                 padding: '8px 16px',
                 fontSize: '1.2em',
+                bgColor: 'var(--tertiary-color)',
+                color: 'var(--dark-color)',
               }}
               handleClick={handleWannaEdit}
             >
@@ -178,6 +205,8 @@ const Account = () => {
                   padding: '8px 16px',
                   fontSize: '1.2em',
                   margin: '0 30px 0px',
+                  bgColor: 'var(--success-color)',
+                  color: 'var(--light-color)',
                 }}
                 handleClick={handleUserInfoUpdate}
               >
@@ -186,7 +215,12 @@ const Account = () => {
 
               <Button
                 type='button'
-                buttonStyle={{ padding: '8px 16px', fontSize: '1.2em' }}
+                buttonStyle={{
+                  padding: '8px 16px',
+                  fontSize: '1.2em',
+                  bgColor: 'var(--danger-color)',
+                  color: 'var(--light-color)',
+                }}
                 handleClick={cancelUpdate}
               >
                 Cancel
@@ -262,6 +296,12 @@ const Wrapper = styled.main`
         height: 100%;
         object-fit: cover;
         border-radius: 50%;
+      }
+
+      .loader {
+        width: 100%;
+        height: 100%;
+        border: 1px dashed var(--little-dark-color);
       }
     }
 

@@ -78,9 +78,8 @@ interface IWrapper {
 
 const styleForLoggedInPeople = {
   display: 'grid',
-  height: '100vh',
-
   'grid-template-columns': 'repeat(4,minmax(200px,auto))',
+  'grid-auto-rows': 'minmax(100px,auto)',
 
   'grid-template-areas':
     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' 'footer footer footer footer'",

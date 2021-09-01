@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import { auth } from '../../config/firebase';
@@ -10,6 +10,7 @@ import { HiBadgeCheck } from 'react-icons/hi';
 
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleLogOut = async (): Promise<void> => {
     auth.signOut().then(() => {
@@ -19,6 +20,8 @@ const Navbar: FC = (): JSX.Element => {
           success: true,
         })
       );
+
+      history.push('/sign-in');
     });
   };
 
@@ -153,7 +156,7 @@ const Navbar: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.nav`
-  padding: 5px 10px;
+  padding: 10px 10px;
   grid-area: navbar;
   justify-content: space-between;
 

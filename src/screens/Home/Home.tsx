@@ -28,7 +28,7 @@ const Home: FC = (): JSX.Element => {
 
 const Wrapper = styled.main`
   grid-area: main;
-  /* border: 1px solid #ffffffdd; */
+  border: 1px solid #ffffffdd;
 
   .greet {
   }

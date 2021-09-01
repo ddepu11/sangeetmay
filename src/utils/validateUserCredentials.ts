@@ -45,7 +45,7 @@ const validateUserCredentials = (
 
   if (validationFor === 'SIGN_UP' || validationFor === 'UPDATE') {
     // First name validation
-    if (firstName) {
+    if (firstName !== undefined) {
       if (firstName.length > 20) {
         setValidationMessage(
           firstNameValidationMessageTag,
@@ -81,7 +81,7 @@ const validateUserCredentials = (
 
     // lastName validation
 
-    if (lastName) {
+    if (lastName !== undefined) {
       if (lastName.length > 20) {
         setValidationMessage(
           lastNameValidationMessageTag,
@@ -116,7 +116,7 @@ const validateUserCredentials = (
     // **************** LN Validation ends  **********************
 
     // Gender validation
-    if (gender && gender === '') {
+    if (gender !== undefined && gender === '') {
       setValidationMessage(
         genderValidationMessageTag,
         'Please select your gender!!!',
@@ -129,7 +129,7 @@ const validateUserCredentials = (
     // **************** Gender Validation ends  **********************
 
     // Password Validation
-    if (password) {
+    if (password !== undefined) {
       if (password && password.length < 6) {
         setValidationMessage(
           passwordValidationMessageTag,
@@ -152,7 +152,7 @@ const validateUserCredentials = (
     }
 
     // Confirm Password  validation Starts
-    if (confirmPassword) {
+    if (confirmPassword !== undefined) {
       if (
         confirmPassword === password &&
         confirmPassword !== '' &&
@@ -210,7 +210,7 @@ const validateUserCredentials = (
     }
 
     // Age Validation
-    if (age) {
+    if (age !== undefined) {
       if (age === 0) {
         setValidationMessage(
           ageValidationMessageTag,
@@ -233,7 +233,7 @@ const validateUserCredentials = (
     }
 
     // Country Validation
-    if (country) {
+    if (country !== undefined) {
       if (country === '') {
         setValidationMessage(
           countryValidationMessageTag,
@@ -247,7 +247,7 @@ const validateUserCredentials = (
   }
 
   // Email address validation
-  if (email) {
+  if (email !== undefined) {
     const validateEmail = () => {
       const re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -277,7 +277,7 @@ const validateUserCredentials = (
 
   // **************** Email Validation ends  **********************
 
-  if (password) {
+  if (password !== undefined) {
     if (password === '') {
       setValidationMessage(
         passwordValidationMessageTag,

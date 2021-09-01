@@ -29,7 +29,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   value: {
     hasUserLoggedIn: false,
-    userLoading: false,
+    userLoading: true,
     role: null,
     id: undefined,
     userInfo: {
@@ -104,6 +104,7 @@ export const userSclice = createSlice({
           lastName: undefined,
           role: undefined,
         },
+        userLoading: false,
       };
     },
   },
