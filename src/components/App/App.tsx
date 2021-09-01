@@ -16,6 +16,7 @@ import Aside from '../../screens/Aside/Aside';
 import Account from '../../screens/Account/Account';
 import Search from '../../screens/Search/Search';
 import Library from '../../screens/Library/Library';
+import Dashboard from '../../screens/Dashboard/Dashboard';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
@@ -50,6 +51,10 @@ const App: FC = (): JSX.Element => {
 
           <Route path='/library' exact>
             <Library />
+          </Route>
+
+          <Route path='/dashboard' exact>
+            <Dashboard />
           </Route>
 
           <Route path='/sign-in' exact>

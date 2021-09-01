@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const Search = () => {
+const Dashboard = () => {
   return (
     <Wrapper>
-      <h2>Search</h2>
+      <h2>Dashboard</h2>
     </Wrapper>
   );
 };
@@ -14,4 +14,4 @@ const Wrapper = styled.main`
   border: 1px dashed #555;
 `;
 
-export default Search;
+export default Dashboard;

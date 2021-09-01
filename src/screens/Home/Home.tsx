@@ -18,7 +18,7 @@ const Home: FC = (): JSX.Element => {
       <section className='all_playlist'>
         <div className='playlist'>
           <div className='banner'>
-            <img src="" alt="" />
+            <img src='' alt='' />
           </div>
         </div>
       </section>

@@ -55,31 +55,56 @@ const Navbar: FC = (): JSX.Element => {
             </Button>
           </li>
 
+          {/* ############## Start #################*/}
           {role === 'ADMIN' && (
-            <li>
-              <Button
-                type='button'
-                buttonStyle={{
-                  padding: '8px 15px',
-                  fontSize: '0.95em',
-                  bgColor: 'var(--success-color)',
-                  color: 'var(--light-color)',
-                  fontWeight: '400',
-                  textTransform: 'capitalize',
-                  letterSpacing: '1px',
-                  borderRadius: '5px',
-                  hoverCursor: 'auto',
-                  transition: 'transform 0.5s ease-out',
-                  hoverTransform: 'scale(1.1) translateY(-5px)',
-                }}
-              >
-                <div className='center flex'>
-                  <HiBadgeCheck />
-                  <span>Admin</span>
-                </div>
-              </Button>
-            </li>
+            <>
+              <li>
+                <Button
+                  type='button'
+                  buttonStyle={{
+                    padding: '8px 15px',
+                    fontSize: '0.95em',
+                    bgColor: 'var(--success-color)',
+                    color: 'var(--light-color)',
+                    fontWeight: '400',
+                    textTransform: 'capitalize',
+                    letterSpacing: '1px',
+                    borderRadius: '5px',
+                    hoverCursor: 'auto',
+                    transition: 'transform 0.5s ease-out',
+                    hoverTransform: 'scale(1.1) translateY(-5px)',
+                  }}
+                >
+                  <div className='center flex'>
+                    <HiBadgeCheck />
+                    <span>Admin</span>
+                  </div>
+                </Button>
+              </li>
+
+              <li>
+                <Link to='/dashboard'>
+                  <Button
+                    type='button'
+                    buttonStyle={{
+                      padding: '8px 15px',
+                      fontSize: '0.8em',
+                      bgColor: 'var(--primary-color)',
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px',
+                      borderRadius: '5px',
+                      hoverTransform: 'scale(1.1)',
+                      transition: 'transform 0.4s ease',
+                    }}
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+              </li>
+            </>
           )}
+          {/* ############### End ################# */}
 
           <li>
             <Link to='/account'>
