@@ -126,9 +126,11 @@ const SignUp = () => {
             type='number'
             label='Age'
             name='age'
-            inputValue={String(credentials.age)}
+            inputValue={credentials.age}
             handleInput={handleInput}
             refObj={vmt.ageValidationMessageTag}
+            numberInputMax={100}
+            numberInputMin={12}
             formControlStyle={{
               fcWidth: '45%',
               labelFs: '1.4em',

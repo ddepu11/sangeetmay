@@ -14,7 +14,7 @@ interface IFormControlStyle {
 }
 
 interface Props {
-  inputValue?: string;
+  inputValue?: string | number;
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputId: string;
   placeholder?: string;
@@ -23,6 +23,8 @@ interface Props {
   name: string;
   label: string;
   formControlStyle?: IFormControlStyle;
+  numberInputMax?: number;
+  numberInputMin?: number;
 }
 
 const FormControl: FC<Props> = ({
@@ -35,6 +37,8 @@ const FormControl: FC<Props> = ({
   name,
   label,
   formControlStyle,
+  numberInputMin,
+  numberInputMax,
 }): JSX.Element => (
   <Wrapper className='form-control' {...formControlStyle}>
     <div className='fc_top'>
@@ -49,6 +53,8 @@ const FormControl: FC<Props> = ({
       id={inputId}
       name={name}
       placeholder={placeholder}
+      max={numberInputMax}
+      min={numberInputMin}
     />
 
     <p ref={refObj} className='message' />

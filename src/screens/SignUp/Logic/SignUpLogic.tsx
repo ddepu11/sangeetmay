@@ -3,25 +3,17 @@ import { useHistory } from 'react-router-dom';
 import { auth, firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import { userLoadingBegin, userError } from '../../../features/user';
+import { ICredentials, IFile } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
-interface IFile {
-  lastModified?: number;
-  lastModifiedDate?: Date;
-  name?: string;
-  size?: number;
-  type?: string;
-  webkitRelativePath?: string;
-}
-
 const SignUpLogic = () => {
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<ICredentials>({
     firstName: '',
     lastName: '',
     email: '',
-    age: 0,
+    age: 12,
     password: '',
     confirmPassword: '',
     gender: '',
@@ -43,28 +35,30 @@ const SignUpLogic = () => {
     ),
     displayPicValidationMessageTag: useRef<HTMLParagraphElement | null>(null),
   };
+
   const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
 
   const dispatch = useAppDispatch();
+
   const history = useHistory();
 
   useEffect(() => {
     hasUserLoggedIn && history.push('/');
-
-    if (
-      credentials.confirmPassword === credentials.password &&
-      credentials.confirmPassword !== '' &&
-      credentials.confirmPassword.length <= 20 &&
-      credentials.confirmPassword.length >= 6
-    ) {
-      setValidationMessage(
-        validationMessageTags.confirmPasswordValidationMessageTag,
-        'Password match successfully',
-        'success',
-        setTimeOutId,
-        5000
-      );
-    }
+    if (credentials.confirmPassword !== undefined)
+      if (
+        credentials.confirmPassword === credentials.password &&
+        credentials.confirmPassword !== '' &&
+        credentials.confirmPassword.length <= 20 &&
+        credentials.confirmPassword.length >= 6
+      ) {
+        setValidationMessage(
+          validationMessageTags.confirmPasswordValidationMessageTag,
+          'Password match successfully',
+          'success',
+          setTimeOutId,
+          5000
+        );
+      }
   }, [
     credentials.password,
     credentials.confirmPassword,
@@ -92,17 +86,22 @@ const SignUpLogic = () => {
         age: credentials.age,
         country: credentials.country,
         gender: credentials.gender,
-        displayPicUrl,
+        dp: {
+          url: displayPicUrl,
+          picNameInStorage: displayPic.file?.name,
+        },
         role: 'USER',
       })
       .then(async () => {
         console.log('Final Step: Document Saved!');
 
         // 4. ---->
-        await auth.createUserWithEmailAndPassword(
-          credentials.email.trim(),
-          credentials.password.trim()
-        );
+        if (credentials.email && credentials.password) {
+          await auth.createUserWithEmailAndPassword(
+            credentials.email.trim(),
+            credentials.password.trim()
+          );
+        }
 
         dispatch(
           sendNotification({
@@ -152,14 +151,16 @@ const SignUpLogic = () => {
   const customSignUp = async (): Promise<void> => {
     try {
       //1.  Chech is email already registered --->
-      const isEmailRegistered = await auth.fetchSignInMethodsForEmail(
-        credentials.email.trim()
-      );
-
-      if (isEmailRegistered.length > 0) {
-        throw new Error(
-          'This email address is already being used by someone else!'
+      if (credentials.email) {
+        const isEmailRegistered = await auth.fetchSignInMethodsForEmail(
+          credentials.email.trim()
         );
+
+        if (isEmailRegistered.length > 0) {
+          throw new Error(
+            'This email address is already being used by someone else!'
+          );
+        }
       }
 
       // 2. Upload a display image

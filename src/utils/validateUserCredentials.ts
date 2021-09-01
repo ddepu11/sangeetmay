@@ -9,7 +9,7 @@ export interface IValidationMessageTags {
   ageValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
   genderValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
   countryValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
-  passwordValidationMessageTag: React.MutableRefObject<HTMLParagraphElement | null>;
+  passwordValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
   confirmPasswordValidationMessageTag?: React.MutableRefObject<HTMLParagraphElement | null>;
 }
 
@@ -43,14 +43,9 @@ const validateUserCredentials = (
 
   let errorFlag = false;
 
-  if (
-    validationFor === 'SIGN_UP' &&
-    firstName !== undefined &&
-    lastName !== undefined &&
-    confirmPassword !== undefined
-  ) {
+  if (validationFor === 'SIGN_UP' || validationFor === 'UPDATE') {
     // First name validation
-    if (firstName.length > 20) {
+    if (firstName && firstName.length > 20) {
       setValidationMessage(
         firstNameValidationMessageTag,
         'first name is too lengthy',
@@ -60,7 +55,7 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
-    if (firstName.length < 2) {
+    if (firstName && firstName.length < 2) {
       setValidationMessage(
         firstNameValidationMessageTag,
         'first name is too short',
@@ -82,7 +77,7 @@ const validateUserCredentials = (
     // ########## FN Validation ends #############
 
     // lastName validation
-    if (lastName.length > 20) {
+    if (lastName && lastName.length > 20) {
       setValidationMessage(
         lastNameValidationMessageTag,
         'last name is too lengthy',
@@ -92,7 +87,7 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
-    if (lastName.length < 2) {
+    if (lastName && lastName.length < 2) {
       setValidationMessage(
         lastNameValidationMessageTag,
         'last name is too short',
@@ -128,7 +123,7 @@ const validateUserCredentials = (
     // **************** Gender Validation ends  **********************
 
     // Password Validation
-    if (password.length < 6) {
+    if (password && password.length < 6) {
       setValidationMessage(
         passwordValidationMessageTag,
         "password's length cant be less then 6 ",
@@ -138,7 +133,7 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
-    if (password.length > 20) {
+    if (password && password.length > 20) {
       setValidationMessage(
         passwordValidationMessageTag,
         "password's length cant be greater then 20 ",
@@ -150,6 +145,7 @@ const validateUserCredentials = (
 
     // Confirm Password  validation Starts
     if (
+      confirmPassword &&
       confirmPassword === password &&
       confirmPassword !== '' &&
       confirmPassword.length <= 20 &&
@@ -174,7 +170,7 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
-    if (confirmPassword.length < 6) {
+    if (confirmPassword && confirmPassword.length < 6) {
       setValidationMessage(
         confirmPasswordValidationMessageTag,
         "password's length cant be less then 6 ",
@@ -184,6 +180,15 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
+    if (confirmPassword && confirmPassword.length > 20) {
+      setValidationMessage(
+        confirmPasswordValidationMessageTag,
+        "password's length cant be greater then 20 ",
+        'error',
+        setTimeOutId
+      );
+      errorFlag = true;
+    }
     if (confirmPassword === '') {
       setValidationMessage(
         confirmPasswordValidationMessageTag,
@@ -194,22 +199,12 @@ const validateUserCredentials = (
       errorFlag = true;
     }
 
-    // Gender validation
-    if (gender) {
-      // Why we are checking gender here?
-
-      // Coz while updating info we dont want to validate condition written below so only validate below condition while signing up.
-      // gender will we passed to this func only when you are signing up
-      if (confirmPassword.length > 20) {
-        setValidationMessage(
-          confirmPasswordValidationMessageTag,
-          "password's length cant be greater then 20 ",
-          'error',
-          setTimeOutId
-        );
-        errorFlag = true;
-      }
-    }
+    // // Gender validation
+    // if (gender) {
+    //   // Why we are checking gender here?
+    //   // Coz while updating info we dont want to validate condition written below so only validate below condition while signing up.
+    //   // gender will we passed to this func only when you are signing up
+    // }
 
     // Age Validation
     if (age === 0) {

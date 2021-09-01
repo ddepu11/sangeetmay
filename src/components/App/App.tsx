@@ -81,7 +81,6 @@ const styleForLoggedInPeople = {
   height: '100vh',
 
   'grid-template-columns': 'repeat(4,minmax(200px,auto))',
-  'grid-template-rows': '0.25fr 1fr 1fr 0.3fr',
 
   'grid-template-areas':
     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' 'footer footer footer footer'",

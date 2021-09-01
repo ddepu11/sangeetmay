@@ -60,9 +60,11 @@ const AppLogic = () => {
               success: true,
             })
           );
-        }
 
-        dispatch(customSignInSuccess(user[0].data()));
+          dispatch(
+            customSignInSuccess({ ...user[0].data(), id: user[0].id.trim() })
+          );
+        }
       } catch (err) {
         dispatch(sendNotification({ message: err.message, error: true }));
 
