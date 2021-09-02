@@ -234,57 +234,16 @@ const Account = () => {
 };
 
 const Wrapper = styled.main`
-  padding: 15px 0;
+  padding: 15px 0 0px;
   grid-area: main;
-  border: 1px dashed #555;
+  border: 1px dashed var(--little-dark-color);
   justify-content: flex-start;
   flex-direction: column;
 
-  .display_pic {
-    width: 170px;
-    height: 170px;
-    /* border: 1px dashed #4b4949; */
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  }
-
-  .detalis {
-    width: 80%;
-    padding: 20px 0;
-
-    .update_buttons {
-      padding: 10px 0;
-    }
-
-    .country_row {
-      justify-content: space-between;
-      padding: 0px 0 30px;
-
-      h4 {
-        font-size: 1.2em;
-        color: var(--little-light-color);
-        letter-spacing: 2px;
-      }
-
-      span {
-        font-size: 1em;
-        color: var(--light-color);
-        letter-spacing: 1px;
-        display: block;
-        width: 50%;
-      }
-    }
-  }
-
   .display_pic_row {
     justify-content: center;
-    padding: 0px 0 0px;
-    /* flex-direction: column; */
+    padding: 10px 10px;
+    /* border: 1px solid red; */
 
     label {
       width: 200px;
@@ -321,6 +280,34 @@ const Wrapper = styled.main`
 
     input {
       display: none;
+    }
+  }
+
+  .detalis {
+    width: 80%;
+    padding: 20px 0 0;
+
+    .update_buttons {
+      padding: 20px 0;
+    }
+
+    .country_row {
+      justify-content: space-between;
+      padding: 0px 0 30px;
+
+      h4 {
+        font-size: 1.2em;
+        color: var(--little-light-color);
+        letter-spacing: 2px;
+      }
+
+      span {
+        font-size: 1em;
+        color: var(--light-color);
+        letter-spacing: 1px;
+        display: block;
+        width: 50%;
+      }
     }
   }
 `;

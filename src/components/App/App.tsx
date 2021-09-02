@@ -17,6 +17,7 @@ import Account from '../../screens/Account/Account';
 import Search from '../../screens/Search/Search';
 import Library from '../../screens/Library/Library';
 import Dashboard from '../../screens/Dashboard/Dashboard';
+import AddSongs from '../../screens/AddSongs/AddSongs';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
@@ -57,6 +58,10 @@ const App: FC = (): JSX.Element => {
             <Dashboard />
           </Route>
 
+          <Route path='/add-songs'>
+            <AddSongs />
+          </Route>
+
           <Route path='/sign-in' exact>
             <SignIn />
           </Route>
@@ -78,8 +83,10 @@ interface IWrapper {
 
 const styleForLoggedInPeople = {
   display: 'grid',
-  'grid-template-columns': 'repeat(4,minmax(200px,auto))',
-  'grid-auto-rows': 'minmax(100px,auto)',
+  height: 'auto',
+  'grid-template-columns': 'repeat(4,minmax(200px,auto));',
+
+  'grid-auto-rows': ' minmax(30px, auto);',
 
   'grid-template-areas':
     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' 'footer footer footer footer'",
@@ -88,8 +95,8 @@ const styleForLoggedInPeople = {
 };
 
 const Wrapper = styled.main<IWrapper>`
-  padding: 5px;
   ${({ hasUserLoggedIn }) => hasUserLoggedIn && styleForLoggedInPeople}
+  position: relative;
 `;
 
 export default App;

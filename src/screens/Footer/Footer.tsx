@@ -10,9 +10,12 @@ const Footer: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.footer`
-  padding: 5px 5px;
+  margin-top: 10px;
+  padding: 10px 5px;
   border: 1px solid #0e8f20;
   grid-area: footer;
+  /* bottom: 5px; */
+  /* position: sticky; */
 `;
 
 export default Footer;
