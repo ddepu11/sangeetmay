@@ -58,6 +58,10 @@ export const userSclice = createSlice({
       state.value = { ...state.value, userLoading: false };
     },
 
+    userSuccess: (state: IInitialState) => {
+      state.value = { ...state.value, userLoading: false };
+    },
+
     // Sign Up
     customSignUpSuccess: (state: IInitialState) => {
       state.value = {
@@ -116,6 +120,7 @@ export const {
   userInfoUpdateSuccess,
   signOut,
   userError,
+  userSuccess,
   userLoadingBegin,
 } = userSclice.actions;
 
