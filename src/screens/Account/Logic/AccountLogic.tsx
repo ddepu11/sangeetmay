@@ -220,17 +220,19 @@ const AccountLogic = () => {
         dispatch(userError());
       },
 
-      async () => {
-        try {
-          // 2. Get new DP URL and then save it to doc
-          await storageRef.getDownloadURL().then((displayPicUrl) => {
+      () => {
+        // 2. Get new DP URL and then save it to doc
+
+        storageRef
+          .getDownloadURL()
+          .then((displayPicUrl) => {
             // 3. Image Uploaded then save displayPicUrl to firestore
             updateDpFieldOnDoc(displayPicUrl);
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(userError());
           });
-        } catch (err) {
-          dispatch(sendNotification({ message: err.message, error: true }));
-          dispatch(userError());
-        }
       }
     );
   };
@@ -253,6 +255,7 @@ const AccountLogic = () => {
         });
     }
   };
+
   // ############## Change Display Picture --->Ends #################
 
   return {

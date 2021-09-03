@@ -21,4 +21,4 @@ const storage = firebase.storage();
 
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-export { auth, firestore, storage };
+export { auth, firestore, storage, firebase };

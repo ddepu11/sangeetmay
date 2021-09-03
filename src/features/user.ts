@@ -45,7 +45,7 @@ const initialState: IInitialState = {
   },
 };
 
-export const userSclice = createSlice({
+const userSclice = createSlice({
   name: 'user',
   initialState,
 
