@@ -10,6 +10,7 @@ import {
 import { IFile } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
+import { v4 as uuidv4 } from 'uuid';
 
 const useAdminCreatePlaylist = () => {
   const history = useHistory();
@@ -63,6 +64,7 @@ const useAdminCreatePlaylist = () => {
       .collection('playlists')
       .doc()
       .set({
+        id: uuidv4(),
         name: playlistName,
         playlistPic: { url: playlistPicUrl, picName: playlistPic.file?.name },
       })

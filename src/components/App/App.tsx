@@ -18,6 +18,7 @@ import Search from '../../screens/Search/Search';
 import Library from '../../screens/Library/Library';
 import Dashboard from '../../screens/Dashboard/Dashboard';
 import AdminCreatePlaylist from '../../screens/AdminCreatePlaylist/AdminCreatePlaylist';
+import AddSongsToPlaylists from '../../screens/AddSongsToPlaylist/AddSongsToPlaylist';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
@@ -58,8 +59,12 @@ const App: FC = (): JSX.Element => {
             <Dashboard />
           </Route>
 
-          <Route path='/admin-create-playlist'>
+          <Route path='/admin-create-playlist' exact>
             <AdminCreatePlaylist />
+          </Route>
+
+          <Route path='/add-songs-to-playlist/:id' exact>
+            <AddSongsToPlaylists />
           </Route>
 
           <Route path='/sign-in' exact>

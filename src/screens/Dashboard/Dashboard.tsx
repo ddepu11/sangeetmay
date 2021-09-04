@@ -1,28 +1,16 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../../components/Button';
 import Loading from '../../components/Loading';
-import useFetchDocs from '../../Hooks/useFetchDocs';
 import { ImBin } from 'react-icons/im';
-
-interface IPlaylist {
-  name?: string | undefined;
-
-  playlistPic?: {
-    picName: string | undefined;
-    url: string | undefined;
-  };
-}
+import useDashboardLogic from './Logic/useDashboardLogic';
+import { IPlaylist } from '../../interfaces';
+import Button from '../../components/Button';
 
 const Dashboard: FC = (): JSX.Element => {
-  const { docs, loading } = useFetchDocs<IPlaylist>('playlists');
+  const { handleDelete, playlistLoading, playlists } = useDashboardLogic();
 
-  const handleDelete = () => {
-    console.log('delete');
-  };
-
-  if (loading) {
+  if (playlistLoading) {
     return <Loading />;
   }
 
@@ -48,10 +36,32 @@ const Dashboard: FC = (): JSX.Element => {
       </nav>
 
       <div className='playlists'>
-        {docs &&
-          docs.map((item) => {
+        {playlists &&
+          playlists.map((item: IPlaylist) => {
             return (
               <div className='playlist flex' key={item.name}>
+                <div className='add_songs_div'>
+                  <Button
+                    type='button'
+                    buttonStyle={{
+                      bgColor: 'var(--secondary-color)',
+                      padding: '4px 8px',
+                      borderRadius: '10px',
+                      hoverCursor: 'pointer',
+                      fontSize: '0.8em',
+                    }}
+                  >
+                    <Link
+                      style={{
+                        color: 'var(--dark-color)',
+                      }}
+                      to={`/add-songs-to-playlist/${item.id}`}
+                    >
+                      Add Songs
+                    </Link>
+                  </Button>
+                </div>
+
                 <div className='playlist_pic'>
                   <img src={item.playlistPic?.url} alt={item.name} />
                 </div>
@@ -63,7 +73,7 @@ const Dashboard: FC = (): JSX.Element => {
                 {/* sjhj */}
 
                 <div className='delete_icon_div'>
-                  <ImBin />
+                  <ImBin onClick={handleDelete} data-id={item.id} />
                 </div>
               </div>
             );
@@ -104,6 +114,17 @@ const Wrapper = styled.main`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
       rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
       rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+    .add_songs_div {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      transition: transform 0.5s ease;
+
+      :hover {
+        transform: scale(1.1);
+      }
+    }
 
     .playlist_pic {
       width: 130px;

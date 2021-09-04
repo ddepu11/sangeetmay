@@ -27,7 +27,7 @@ interface Props {
   type: 'button' | 'submit' | 'reset';
   children: ReactNode;
   buttonStyle?: IButtonStyle;
-  handleClick?: () => void;
+  handleClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const Button: FC<Props> = ({

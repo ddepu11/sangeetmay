@@ -17,3 +17,14 @@ export interface IFile {
   type?: string;
   webkitRelativePath?: string;
 }
+
+export interface IPlaylist {
+  id?: string | undefined;
+
+  name?: string | undefined;
+
+  playlistPic?: {
+    picName: string | undefined;
+    url: string | undefined;
+  };
+}
