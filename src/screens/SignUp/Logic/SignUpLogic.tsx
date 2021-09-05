@@ -153,25 +153,24 @@ const SignUpLogic = () => {
   };
 
   const customSignUp = async (): Promise<void> => {
-    try {
-      //1.  Chech is email already registered --->
-      if (credentials.email) {
-        const isEmailRegistered = await auth.fetchSignInMethodsForEmail(
-          credentials.email.trim()
-        );
-
-        if (isEmailRegistered.length > 0) {
-          throw new Error(
-            'This email address is already being used by someone else!'
-          );
-        }
-      }
-
-      // 2. Upload a display image
-      uploadDisplayPicture();
-    } catch (err: any) {
-      dispatch(sendNotification({ message: err.message, error: true }));
-      dispatch(userError());
+    //1.  Chech is email already registered --->
+    if (credentials.email) {
+      auth
+        .fetchSignInMethodsForEmail(credentials.email.trim())
+        .then((isEmailRegistered) => {
+          if (isEmailRegistered.length > 0) {
+            throw new Error(
+              'This email address is already being used by someone else!'
+            );
+          } else {
+            // 2. Upload a display image
+            uploadDisplayPicture();
+          }
+        })
+        .catch((err) => {
+          dispatch(sendNotification({ message: err.message, error: true }));
+          dispatch(userError());
+        });
     }
   };
 

@@ -34,7 +34,6 @@ const Dashboard: FC = (): JSX.Element => {
           </Button>
         </Link>
       </nav>
-
       <div className='playlists'>
         {playlists &&
           playlists.map((item: IPlaylist) => {

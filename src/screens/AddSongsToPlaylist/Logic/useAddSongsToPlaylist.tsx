@@ -95,7 +95,7 @@ const useAddSongsToPlaylist = () => {
 
   const songValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
 
-  //################ Upload song and its pic statrs ##########################
+  //################ Upload song and its pic starts ##########################
   const addSongIdToPlaylistSongsArray = (songId: string) => {
     firestore
       .collection('playlists')
@@ -212,8 +212,7 @@ const useAddSongsToPlaylist = () => {
       uploadSongPic();
     }
   };
-
-  //################ Upload song and its pic ends ##########################
+  //################ Upload song and its pic Ends ##########################
 
   return {
     playlistLoading,
