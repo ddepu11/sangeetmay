@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firestore } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
@@ -9,6 +9,7 @@ import {
 } from '../../../features/playlist';
 import { IFile, IPlaylist } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import setValidationMessage from '../../../utils/setValidationMessage';
 
 const useAddSongsToPlaylist = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -25,6 +26,8 @@ const useAddSongsToPlaylist = () => {
   const { playlistLoading } = useAppSelector((state) => state.playlist.value);
 
   const dispatch = useAppDispatch();
+
+  const setTimeOutId = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     const fetchPlaylistData = () => {
@@ -57,7 +60,12 @@ const useAddSongsToPlaylist = () => {
 
     if (files !== null) {
       if (files[0].size > 8388608) {
-        console.log('Bigger');
+        setValidationMessage(
+          songPicValidationMessageTag,
+          'pic size should be less then 8 mb',
+          'error',
+          setTimeOutId
+        );
       } else {
         setSongPicture({
           file: files[0],
@@ -75,13 +83,36 @@ const useAddSongsToPlaylist = () => {
     }
   };
 
+  const handleCancel = (): void => {
+    setSong(undefined);
+    setSongPicture({ file: undefined, preview: undefined });
+  };
+
+  const songPicValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
+  const songValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
+
+  const handleUploadSongAndImage = () => {
+    if (songPicture?.file === undefined) {
+      setValidationMessage(
+        songPicValidationMessageTag,
+        'please select pic!',
+        'error',
+        setTimeOutId
+      );
+    }
+  };
+
   return {
     playlistLoading,
     playlist,
     songPicture,
     handleSongPicture,
     handleSong,
+    handleCancel,
+    handleUploadSongAndImage,
     song,
+    songPicValidationMessageTag,
+    songValidationMessageTag,
   };
 };
 

@@ -136,16 +136,17 @@ const SignUpLogic = () => {
           console.log(error);
         },
 
-        async () => {
-          try {
-            await storageRef.getDownloadURL().then((displayPicUrl) => {
+        () => {
+          storageRef
+            .getDownloadURL()
+            .then((displayPicUrl) => {
               // 3. Image Uploaded then save user data to firestore
               saveUserDataTofirestore(displayPicUrl);
+            })
+            .catch((err) => {
+              dispatch(sendNotification({ message: err.message, error: true }));
+              dispatch(userError());
             });
-          } catch (err) {
-            dispatch(sendNotification({ message: err.message, error: true }));
-            dispatch(userError());
-          }
         }
       );
     }
@@ -168,7 +169,7 @@ const SignUpLogic = () => {
 
       // 2. Upload a display image
       uploadDisplayPicture();
-    } catch (err) {
+    } catch (err: any) {
       dispatch(sendNotification({ message: err.message, error: true }));
       dispatch(userError());
     }

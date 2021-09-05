@@ -13,6 +13,10 @@ const AddSongsToPlaylists = () => {
     handleSongPicture,
     song,
     handleSong,
+    handleCancel,
+    handleUploadSongAndImage,
+    songPicValidationMessageTag,
+    songValidationMessageTag,
   } = useAddSongsToPlaylist();
 
   if (playlistLoading) {
@@ -69,8 +73,11 @@ const AddSongsToPlaylists = () => {
               </div>
 
               <div className='choose_text flex'>
-                <FiArrowLeftCircle fontSize='1.3em' />
-                <h3>Choose song image</h3>
+                <div className='top flex'>
+                  <FiArrowLeftCircle fontSize='1.3em' />
+                  <h3>Choose song image</h3>
+                </div>
+                <p className='must' ref={songPicValidationMessageTag} />
               </div>
 
               {/*    */}
@@ -81,6 +88,8 @@ const AddSongsToPlaylists = () => {
                     <span>Browse</span>
                   </div>
                 </label>
+
+                <p className='must' ref={songValidationMessageTag} />
 
                 <input
                   type='file'
@@ -124,6 +133,7 @@ const AddSongsToPlaylists = () => {
                       hoverTransform: 'scale(1.1)',
                       transition: 'transform 0.5s ease',
                     }}
+                    handleClick={handleCancel}
                   >
                     Cancel
                   </Button>
@@ -138,6 +148,7 @@ const AddSongsToPlaylists = () => {
                       hoverTransform: 'scale(1.1)',
                       transition: 'transform 0.5s ease',
                     }}
+                    handleClick={handleUploadSongAndImage}
                   >
                     Upload
                   </Button>
@@ -218,7 +229,7 @@ const Wrapper = styled.main`
 
   .add_song {
     margin-top: 15px;
-    padding: 20px 15px 0;
+    padding: 20px 15px 15px;
     flex-direction: column;
 
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
@@ -253,11 +264,18 @@ const Wrapper = styled.main`
     }
 
     .choose_text {
+      flex-direction: column;
+      align-items: flex-start;
+
       h3 {
         font-size: 1em;
         letter-spacing: 2px;
         margin-left: 10px;
         font-weight: 400;
+      }
+
+      p {
+        padding: 5px 0 0;
       }
     }
 
