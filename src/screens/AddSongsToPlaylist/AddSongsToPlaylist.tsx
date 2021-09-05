@@ -4,6 +4,7 @@ import useAddSongsToPlaylist from './Logic/useAddSongsToPlaylist';
 import DummySongImage from '../../images/dummySongImage.jpg';
 import { FiArrowLeftCircle } from 'react-icons/fi';
 import Button from '../../components/Button';
+import Songs from '../Songs/Songs';
 
 const AddSongsToPlaylists = () => {
   const {
@@ -57,6 +58,10 @@ const AddSongsToPlaylists = () => {
                         ? songPicture?.preview
                         : DummySongImage
                     }
+                    onLoad={() => {
+                      songPicture?.preview &&
+                        URL.revokeObjectURL(songPicture?.preview);
+                    }}
                     alt='song-dummy'
                   />
                 </label>
@@ -156,8 +161,7 @@ const AddSongsToPlaylists = () => {
               </div>
             )}
           </div>
-
-          <main className='songs'></main>
+          {playlist.songs !== undefined && <Songs songsIds={playlist.songs} />}
         </>
       )}
     </Wrapper>

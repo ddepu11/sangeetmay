@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 const useAddSongsToPlaylist = () => {
   const { id } = useParams<{ id: string | undefined }>();
 
-  const [playlist, setPlaylist] = useState<IPlaylist>();
+  const [playlist, setPlaylist] = useState<IPlaylist | undefined>(undefined);
 
   const [playlistId, setPlaylistId] = useState<string>();
 
@@ -53,7 +53,7 @@ const useAddSongsToPlaylist = () => {
         });
     };
 
-    if (playlist?.id === undefined) {
+    if (playlist === undefined) {
       fetchPlaylistData();
     }
   }, [id, dispatch, playlist]);
@@ -92,15 +92,20 @@ const useAddSongsToPlaylist = () => {
   };
 
   const songPicValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
+
   const songValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
 
+  //################ Upload song and its pic statrs ##########################
   const addSongIdToPlaylistSongsArray = (songId: string) => {
     firestore
       .collection('playlists')
       .doc(playlistId)
       .update({ songs: firebase.firestore.FieldValue.arrayUnion(songId) })
       .then(() => {
+        handleCancel();
+
         console.log('4.Song id saved in Playlist');
+
         dispatch(playlistSuccess());
         dispatch(
           sendNotification({
@@ -108,8 +113,7 @@ const useAddSongsToPlaylist = () => {
             success: true,
           })
         );
-
-        handleCancel();
+        setPlaylist(undefined);
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
@@ -208,6 +212,8 @@ const useAddSongsToPlaylist = () => {
       uploadSongPic();
     }
   };
+
+  //################ Upload song and its pic ends ##########################
 
   return {
     playlistLoading,

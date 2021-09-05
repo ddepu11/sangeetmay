@@ -27,4 +27,21 @@ export interface IPlaylist {
     picName: string | undefined;
     url: string | undefined;
   };
+
+  songs?: string[];
+}
+
+export interface ISong {
+  id: string;
+  likes: number;
+
+  pic: {
+    name: string;
+    url: string;
+  };
+
+  song: {
+    name: string;
+    url: string;
+  };
 }
