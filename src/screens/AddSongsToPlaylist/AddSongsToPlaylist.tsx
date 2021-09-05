@@ -171,7 +171,7 @@ const AddSongsToPlaylists = () => {
 const Wrapper = styled.main`
   padding: 10px 10px;
   grid-area: main;
-  border: 1px dashed #555;
+  /* border: 1px dashed #555; */
   color: var(--little-light-color);
 
   header {
