@@ -14,7 +14,7 @@ const AddSongsToPlaylists = () => {
     song,
     handleSong,
     handleCancel,
-    handleUploadSongAndImage,
+    handleSongAndImageUpload,
     songPicValidationMessageTag,
     songValidationMessageTag,
   } = useAddSongsToPlaylist();
@@ -148,7 +148,7 @@ const AddSongsToPlaylists = () => {
                       hoverTransform: 'scale(1.1)',
                       transition: 'transform 0.5s ease',
                     }}
-                    handleClick={handleUploadSongAndImage}
+                    handleClick={handleSongAndImageUpload}
                   >
                     Upload
                   </Button>

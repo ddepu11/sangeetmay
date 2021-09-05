@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { firestore } from '../../../config/firebase';
+import { firestore, storage, firebase } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
   playlistError,
@@ -10,11 +10,14 @@ import {
 import { IFile, IPlaylist } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
+import { v4 as uuidv4 } from 'uuid';
 
 const useAddSongsToPlaylist = () => {
   const { id } = useParams<{ id: string | undefined }>();
 
   const [playlist, setPlaylist] = useState<IPlaylist>();
+
+  const [playlistId, setPlaylistId] = useState<string>();
 
   const [songPicture, setSongPicture] = useState<{
     file: IFile | undefined;
@@ -40,6 +43,8 @@ const useAddSongsToPlaylist = () => {
         .then((doc) => {
           dispatch(playlistSuccess());
 
+          setPlaylistId(doc.docs[0].id);
+
           setPlaylist(doc.docs[0].data());
         })
         .catch((err) => {
@@ -47,8 +52,6 @@ const useAddSongsToPlaylist = () => {
           dispatch(playlistError());
         });
     };
-
-    console.log(playlist?.id);
 
     if (playlist?.id === undefined) {
       fetchPlaylistData();
@@ -91,7 +94,109 @@ const useAddSongsToPlaylist = () => {
   const songPicValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
   const songValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
 
-  const handleUploadSongAndImage = () => {
+  const addSongIdToPlaylistSongsArray = (songId: string) => {
+    firestore
+      .collection('playlists')
+      .doc(playlistId)
+      .update({ songs: firebase.firestore.FieldValue.arrayUnion(songId) })
+      .then(() => {
+        console.log('4.Song id saved in Playlist');
+        dispatch(playlistSuccess());
+        dispatch(
+          sendNotification({
+            message: 'Successfully uploaded song and its image',
+            success: true,
+          })
+        );
+
+        handleCancel();
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(playlistError());
+      });
+  };
+
+  const createSongDocAndSaveSongPicUrl = (
+    songPicUrl: string,
+    songUrl: string
+  ): void => {
+    firestore
+      .collection('songs')
+      .add({
+        id: uuidv4(),
+        song: {
+          name: song?.name,
+          url: songUrl,
+        },
+        pic: {
+          name: songPicture?.file?.name,
+          url: songPicUrl,
+        },
+        likes: 0,
+      })
+      .then((doc) => {
+        console.log('3. Song Doc created');
+        addSongIdToPlaylistSongsArray(doc.id);
+        console.log(doc.id);
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(playlistError());
+      });
+  };
+
+  const uploadSong = (songPicUrl: string): void => {
+    const songPicRef = storage.ref(`songs/${song?.name}`);
+
+    songPicRef.put(song as Blob).then(
+      () => {
+        console.log('2. Song itself Uploaded');
+        songPicRef
+          .getDownloadURL()
+          .then((songUrl) => {
+            createSongDocAndSaveSongPicUrl(songPicUrl, songUrl);
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(playlistError());
+          });
+      },
+
+      (err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(playlistError());
+      }
+    );
+  };
+
+  const uploadSongPic = () => {
+    dispatch(playlistLoadingBegin());
+
+    const songPicRef = storage.ref(`song_pics/${songPicture?.file?.name}`);
+
+    songPicRef.put(songPicture?.file as Blob).then(
+      () => {
+        console.log('1.Song Pic Uploaded');
+        songPicRef
+          .getDownloadURL()
+          .then((url) => {
+            uploadSong(url);
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(playlistError());
+          });
+      },
+
+      (err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(playlistError());
+      }
+    );
+  };
+
+  const handleSongAndImageUpload = (): void => {
     if (songPicture?.file === undefined) {
       setValidationMessage(
         songPicValidationMessageTag,
@@ -99,6 +204,8 @@ const useAddSongsToPlaylist = () => {
         'error',
         setTimeOutId
       );
+    } else {
+      uploadSongPic();
     }
   };
 
@@ -109,7 +216,7 @@ const useAddSongsToPlaylist = () => {
     handleSongPicture,
     handleSong,
     handleCancel,
-    handleUploadSongAndImage,
+    handleSongAndImageUpload,
     song,
     songPicValidationMessageTag,
     songValidationMessageTag,
