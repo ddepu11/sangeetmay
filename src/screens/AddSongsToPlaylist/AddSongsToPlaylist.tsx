@@ -10,6 +10,7 @@ const AddSongsToPlaylists = () => {
   const {
     playlistLoading,
     playlist,
+    playlistId,
     songPicture,
     handleSongPicture,
     song,
@@ -161,7 +162,9 @@ const AddSongsToPlaylists = () => {
               </div>
             )}
           </div>
-          {playlist.songs !== undefined && <Songs songsIds={playlist.songs} />}
+          {playlist.songs !== undefined && (
+            <Songs songsIds={playlist.songs} playlistId={playlistId} />
+          )}
         </>
       )}
     </Wrapper>
