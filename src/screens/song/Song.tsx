@@ -29,7 +29,7 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
   };
 
   return (
-    <Wrapper className='song flex'>
+    <Wrapper className='flex'>
       <span className='index'>{index + 1}.</span>
       {/*  */}
 
@@ -42,6 +42,7 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
       <div className='song_img'>
         <img src={song.pic.url} alt={song.song.name} />
       </div>
+
       <p className='name'>{song.song.name}</p>
 
       <p className='likes'>Likes : {song.likes}</p>
@@ -57,6 +58,60 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
 
 const Wrapper = styled.main`
   padding: 5px 5px;
+
+  justify-content: space-between;
+  margin-bottom: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 12px 10px;
+
+  .index {
+    font-size: 1.2em;
+  }
+
+  .song_img {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+
+  .name {
+    font-size: 1.2em;
+    /* margin-left: 30px; */
+  }
+
+  .likes {
+    font-size: 1.2em;
+    /* margin-left: 20px; */
+  }
+
+  .delete_btn {
+    font-size: 1.3em;
+    transition: transform 0.5s ease;
+  }
+
+  .delete_btn:hover {
+    transform: scale(1.3);
+    cursor: pointer;
+  }
+
+  .pause,
+  .play {
+    font-size: 2.2em;
+    transition: all 0.5s ease;
+  }
+
+  .pause,
+  .play:hover {
+    transform: scale(1.2);
+    color: var(--dark-color);
+    cursor: pointer;
+  }
 `;
 
 export default Song;

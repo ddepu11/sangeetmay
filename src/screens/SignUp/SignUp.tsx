@@ -540,6 +540,7 @@ const Wrapper = styled.main`
   padding: 5px 5px 50px;
   flex-direction: column;
   border: 1px dashed #8888;
+  width: 100%;
 
   .heading {
     font-size: 1.3em;

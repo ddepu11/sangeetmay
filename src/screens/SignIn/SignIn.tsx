@@ -15,7 +15,7 @@ const SignIn: FC = (): JSX.Element => {
   } = SignInLogic();
 
   return (
-    <Wrapper className='flex'>
+    <Wrapper className='flex '>
       <form onSubmit={handleSignIn}>
         <h1 className='heading'>
           Sign In to sangeetMay to listen your fav songs
@@ -104,6 +104,7 @@ const Wrapper = styled.main`
   flex-direction: column;
   border: 1px dashed #8888;
   margin-top: 25px;
+  width: 100%;
 
   .heading {
     font-size: 1.5em;
