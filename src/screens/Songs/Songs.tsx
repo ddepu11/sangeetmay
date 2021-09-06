@@ -35,12 +35,16 @@ const Songs = ({
                 return [...prevState, doc.data() as ISong];
               });
             }
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(playlistError());
           });
       });
     };
 
     songs.length === 0 && fetchSongs();
-  }, [songsIds, songs]);
+  }, [songsIds, songs, dispatch]);
 
   const removeSongIdFromPlaylistSongsArray = (songId: string) => {
     firestore
@@ -53,7 +57,7 @@ const Songs = ({
         dispatch(playlistSuccess());
       })
       .catch((err) => {
-        dispatch(sendNotification({ message: err.message, success: true }));
+        dispatch(sendNotification({ message: err.message, error: true }));
         dispatch(playlistError());
       });
   };
@@ -65,8 +69,6 @@ const Songs = ({
       .get()
       .then((snap) => {
         snap.forEach((doc) => {
-          doc.data();
-
           doc.ref
             .delete()
             .then(() => {
@@ -75,15 +77,13 @@ const Songs = ({
               removeSongIdFromPlaylistSongsArray(doc.id);
             })
             .catch((err) => {
-              dispatch(
-                sendNotification({ message: err.message, success: true })
-              );
+              dispatch(sendNotification({ message: err.message, error: true }));
               dispatch(playlistError());
             });
         });
       })
       .catch((err) => {
-        dispatch(sendNotification({ message: err.message, success: true }));
+        dispatch(sendNotification({ message: err.message, error: true }));
         dispatch(playlistError());
       });
   };
@@ -118,12 +118,12 @@ const Songs = ({
             deleteSongDoc(songToDelete.id);
           })
           .catch((err) => {
-            dispatch(sendNotification({ message: err.message, success: true }));
+            dispatch(sendNotification({ message: err.message, error: true }));
             dispatch(playlistError());
           });
       })
       .catch((err) => {
-        dispatch(sendNotification({ message: err.message, success: true }));
+        dispatch(sendNotification({ message: err.message, error: true }));
         dispatch(playlistError());
       });
   };
@@ -132,13 +132,13 @@ const Songs = ({
     <Wrapper>
       {songs.length !== 0 ? (
         songs.map((item: ISong, index: number) => {
-          console.log(item, songs);
-
           if (item !== undefined) {
             return (
               <div key={item.id} className='song flex'>
                 <span className='index'>{index + 1}.</span>
-
+                <div className='song_img'>
+                  <img src={item.pic.url} alt={item.song.name} />
+                </div>
                 <p className='name'>{item.song.name}</p>
 
                 <p className='likes'>Likes : {item.likes}</p>
@@ -185,6 +185,18 @@ const Wrapper = styled.main`
 
     .index {
       font-size: 1.2em;
+    }
+
+    .song_img {
+      width: 50px;
+      height: 50px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
     }
 
     .name {

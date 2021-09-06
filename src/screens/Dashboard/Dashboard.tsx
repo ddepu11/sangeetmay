@@ -34,8 +34,9 @@ const Dashboard: FC = (): JSX.Element => {
           </Button>
         </Link>
       </nav>
+
       <div className='playlists'>
-        {playlists &&
+        {playlists.length !== 0 ? (
           playlists.map((item: IPlaylist) => {
             return (
               <div className='playlist flex' key={item.name}>
@@ -69,14 +70,15 @@ const Dashboard: FC = (): JSX.Element => {
                   <p>{item.name}</p>
                 </div>
 
-                {/* sjhj */}
-
                 <div className='delete_icon_div'>
                   <ImBin onClick={handleDelete} data-id={item.id} />
                 </div>
               </div>
             );
-          })}
+          })
+        ) : (
+          <h1 className='no_playlist_text'>Sorry there are no playlists!</h1>
+        )}
       </div>
     </Wrapper>
   );
@@ -103,6 +105,15 @@ const Wrapper = styled.main`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, auto));
     gap: 15px 12px;
+  }
+
+  .no_playlist_text {
+    padding: 50px 0;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 1.3em;
+    text-transform: lowercase;
+    font-weight: 400;
   }
 
   .playlist {
