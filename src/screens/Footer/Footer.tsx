@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
@@ -7,6 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { playerPauses, playerPlays } from '../../features/player';
 
 const Footer: FC = (): JSX.Element => {
+  const [songDetails, setSongDetails] = useState({
+    duration: 0,
+  });
+
   const { currentSong, play, pause } = useAppSelector(
     (state) => state.player.value
   );
@@ -16,9 +20,11 @@ const Footer: FC = (): JSX.Element => {
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    //These conditions are for play,pause songs from song screen
     if (play && !pause && audioPlayer.current !== null && currentSong) {
       audioPlayer.current?.play();
       console.log('Plays');
+      // audioPlayer.current.
     }
 
     if (!play && pause && audioPlayer.current !== null && currentSong) {
@@ -26,16 +32,31 @@ const Footer: FC = (): JSX.Element => {
       console.log('Pause');
     }
 
-    console.log({ play, pause });
-  }, [dispatch, play, currentSong, pause]);
+    // console.log({ play, pause });
+  }, [dispatch, play, currentSong, pause, songDetails]);
 
   const handlePlaySong = (): void => {
     dispatch(playerPlays());
   };
 
   const handlePauseSong = (): void => {
-    //
     dispatch(playerPauses());
+  };
+
+  const getherPlayedSongDetails = (
+    e: React.SyntheticEvent<HTMLAudioElement, Event>
+  ): void => {
+    if (e.currentTarget) {
+      const duration = e.currentTarget.duration / 60;
+
+      console.log(e.currentTarget.duration % 60);
+
+      setSongDetails((prevState) => {
+        return { ...prevState, duration: Number(duration.toFixed(2)) };
+      });
+
+      console.log(songDetails);
+    }
   };
 
   return (
@@ -51,7 +72,13 @@ const Footer: FC = (): JSX.Element => {
       <div className='player flex'>
         {/*  */}
 
-        {currentSong && <audio ref={audioPlayer} src={currentSong} />}
+        {currentSong && (
+          <audio
+            ref={audioPlayer}
+            src={currentSong}
+            onLoadedMetadata={getherPlayedSongDetails}
+          />
+        )}
 
         <div className='top flex'>
           <BiSkipPrevious className='previous' />

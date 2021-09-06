@@ -42,12 +42,17 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
   };
 
   useEffect(() => {
-    // Both conditions for sync global player play, pause buttons with this play,pause button
+    // Both conditions to sync global player play, pause buttons with this screen play,pause button
     if (play && !pause && currentSong === song.song.url) {
       setIsThisSongBeingplayed(true);
     }
 
     if (!play && pause && currentSong === song.song.url) {
+      setIsThisSongBeingplayed(false);
+    }
+
+    // THis is for when i play different play button should display instead of pause
+    if (currentSong !== song.song.url) {
       setIsThisSongBeingplayed(false);
     }
   }, [play, pause, currentSong]);
