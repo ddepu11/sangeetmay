@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 
-const Library = () => {
+const Library: FC = (): JSX.Element => {
   return (
     <Wrapper>
       <h2>Library</h2>

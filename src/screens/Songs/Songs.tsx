@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { firestore, storage, firebase } from '../../config/firebase';
 import { ISong } from '../../interfaces';
-import { FcDeleteRow } from 'react-icons/fc';
 import { sendNotification } from '../../features/notification';
 import {
   playlistError,
@@ -10,14 +9,14 @@ import {
   playlistSuccess,
 } from '../../features/playlist';
 import { useAppDispatch } from '../../redux/hooks';
+import Song from '../song/Song';
 
-const Songs = ({
-  songsIds,
-  playlistId,
-}: {
+type Props = {
   songsIds: string[];
   playlistId: string | undefined;
-}) => {
+};
+
+const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [songs, setSongs] = useState<ISong[]>([]);
@@ -46,6 +45,7 @@ const Songs = ({
     songs.length === 0 && fetchSongs();
   }, [songsIds, songs, dispatch]);
 
+  //############### Handle Deleting Song Starts #########################
   const removeSongIdFromPlaylistSongsArray = (songId: string) => {
     firestore
       .collection('playlists')
@@ -128,27 +128,20 @@ const Songs = ({
       });
   };
 
+  //############### Handle Deleting Song Ends #########################
+
   return (
     <Wrapper>
       {songs.length !== 0 ? (
         songs.map((item: ISong, index: number) => {
           if (item !== undefined) {
             return (
-              <div key={item.id} className='song flex'>
-                <span className='index'>{index + 1}.</span>
-                <div className='song_img'>
-                  <img src={item.pic.url} alt={item.song.name} />
-                </div>
-                <p className='name'>{item.song.name}</p>
-
-                <p className='likes'>Likes : {item.likes}</p>
-
-                <FcDeleteRow
-                  className='delete_btn'
-                  onClick={handleDeleteSong}
-                  data-id={item.id}
-                />
-              </div>
+              <Song
+                key={item.id}
+                song={item}
+                index={index}
+                handleDeleteSong={handleDeleteSong}
+              />
             );
           }
         })
@@ -218,6 +211,19 @@ const Wrapper = styled.main`
       transform: scale(1.3);
       cursor: pointer;
     }
+  }
+
+  .pause,
+  .play {
+    font-size: 2.2em;
+    transition: all 0.5s ease;
+  }
+
+  .pause,
+  .play:hover {
+    transform: scale(1.2);
+    color: var(--dark-color);
+    cursor: pointer;
   }
 `;
 

@@ -5,6 +5,7 @@ import UpdateFormField from '../../components/UpdateFormField';
 import AccountLogic from './Logic/AccountLogic';
 import { css } from '@emotion/react';
 import BeatLoader from 'react-spinners/BeatLoader';
+import { FC } from 'react';
 
 const override = css`
   display: block;
@@ -12,7 +13,7 @@ const override = css`
   border-color: #ffffff;
 `;
 
-const Account = () => {
+const Account: FC = (): JSX.Element => {
   const {
     cancelUpdate,
     handleInput,

@@ -5,8 +5,9 @@ import DummySongImage from '../../images/dummySongImage.jpg';
 import { FiArrowLeftCircle } from 'react-icons/fi';
 import Button from '../../components/Button';
 import Songs from '../Songs/Songs';
+import { FC } from 'react';
 
-const AddSongsToPlaylists = () => {
+const AddSongsToPlaylists: FC = (): JSX.Element => {
   const {
     playlistLoading,
     playlist,
@@ -173,9 +174,9 @@ const AddSongsToPlaylists = () => {
 
 const Wrapper = styled.main`
   padding: 10px 10px;
-  grid-area: main;
   /* border: 1px dashed #555; */
   color: var(--little-light-color);
+  width: 79%;
 
   header {
     justify-content: flex-start;

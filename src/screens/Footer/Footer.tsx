@@ -1,11 +1,20 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
+import { useAppSelector } from '../../redux/hooks';
 
 const Footer: FC = (): JSX.Element => {
-  const [isSongBeingPlayed, setIsSongBeingPlayed] = useState<boolean>(false);
+  const { isSongBeingPlayed } = useAppSelector((state) => state.player.value);
+
+  const handlePlaySong = (): void => {
+    //
+  };
+
+  const handlePauseSong = (): void => {
+    //
+  };
 
   return (
     <Wrapper className='flex'>
@@ -18,13 +27,15 @@ const Footer: FC = (): JSX.Element => {
       </div>
 
       <div className='player flex'>
+        {/* <audio src=''></audio> */}
+
         <div className='top flex'>
           <BiSkipPrevious className='previous' />
 
           {isSongBeingPlayed ? (
-            <AiOutlinePauseCircle className='pause' />
+            <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
           ) : (
-            <AiOutlinePlayCircle className='play' />
+            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
           )}
 
           <BiSkipNext className='next' />

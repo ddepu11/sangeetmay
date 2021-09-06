@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 
-const Search = () => {
+const Search: FC = (): JSX.Element => {
   return (
     <Wrapper>
       <h2>Search</h2>

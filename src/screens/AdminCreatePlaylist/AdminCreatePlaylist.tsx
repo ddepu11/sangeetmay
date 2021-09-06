@@ -6,8 +6,9 @@ import Button from '../../components/Button';
 
 import Loading from '../../components/Loading';
 import useAdminCreatePlaylist from './Logic/useAdminCreatePlaylist';
+import { FC } from 'react';
 
-const AdminCreatePlaylist = () => {
+const AdminCreatePlaylist: FC = (): JSX.Element => {
   const {
     playlistLoading,
     playlistPic,

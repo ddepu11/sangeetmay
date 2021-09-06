@@ -5,8 +5,9 @@ import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
 import SignUpLogic from './Logic/SignUpLogic';
 import dummyDP from '../../images/dummy_user.svg';
+import { FC } from 'react';
 
-const SignUp = () => {
+const SignUp: FC = (): JSX.Element => {
   const {
     handleSignUp,
     handleInput,
