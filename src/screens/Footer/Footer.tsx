@@ -1,19 +1,41 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { playerPauses, playerPlays } from '../../features/player';
 
 const Footer: FC = (): JSX.Element => {
-  const { isSongBeingPlayed } = useAppSelector((state) => state.player.value);
+  const { currentSong, play, pause } = useAppSelector(
+    (state) => state.player.value
+  );
+
+  const dispatch = useAppDispatch();
+
+  const audioPlayer = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (play && !pause && audioPlayer.current !== null && currentSong) {
+      audioPlayer.current?.play();
+      console.log('Plays');
+    }
+
+    if (!play && pause && audioPlayer.current !== null && currentSong) {
+      audioPlayer.current?.pause();
+      console.log('Pause');
+    }
+
+    console.log({ play, pause });
+  }, [dispatch, play, currentSong, pause]);
 
   const handlePlaySong = (): void => {
-    //
+    dispatch(playerPlays());
   };
 
   const handlePauseSong = (): void => {
     //
+    dispatch(playerPauses());
   };
 
   return (
@@ -27,14 +49,22 @@ const Footer: FC = (): JSX.Element => {
       </div>
 
       <div className='player flex'>
-        {/* <audio src=''></audio> */}
+        {/*  */}
+
+        {currentSong && <audio ref={audioPlayer} src={currentSong} />}
 
         <div className='top flex'>
           <BiSkipPrevious className='previous' />
 
-          {isSongBeingPlayed ? (
+          {!play && !pause && (
+            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
+          )}
+
+          {play && currentSong && (
             <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
-          ) : (
+          )}
+
+          {pause && currentSong && (
             <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
           )}
 

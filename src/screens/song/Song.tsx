@@ -1,10 +1,14 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { playerPauseSong, playerPlaySong } from '../../features/player';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { FcDeleteRow } from 'react-icons/fc';
 import { ISong } from '../../interfaces';
+import {
+  playerPauses,
+  playerPlays,
+  playerSetCurrentSong,
+} from '../../features/player';
 
 type Props = {
   song: ISong;
@@ -15,18 +19,38 @@ type Props = {
 const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
   const dispatch = useAppDispatch();
 
+  const { currentSong, play, pause } = useAppSelector(
+    (state) => state.player.value
+  );
+
   const [isThisSongBeingplayed, setIsThisSongBeingplayed] =
     useState<boolean>(false);
 
   const handlePauseSong = () => {
     setIsThisSongBeingplayed(false);
-    dispatch(playerPauseSong());
+    dispatch(playerPauses());
   };
 
   const handlePlaySong = () => {
     setIsThisSongBeingplayed(true);
-    dispatch(playerPlaySong());
+
+    if (currentSong !== song.song.url) {
+      dispatch(playerSetCurrentSong(song.song.url));
+    }
+
+    dispatch(playerPlays());
   };
+
+  useEffect(() => {
+    // Both conditions for sync global player play, pause buttons with this play,pause button
+    if (play && !pause && currentSong === song.song.url) {
+      setIsThisSongBeingplayed(true);
+    }
+
+    if (!play && pause && currentSong === song.song.url) {
+      setIsThisSongBeingplayed(false);
+    }
+  }, [play, pause, currentSong]);
 
   return (
     <Wrapper className='flex'>

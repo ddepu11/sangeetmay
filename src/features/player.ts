@@ -1,11 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ISong } from '../interfaces';
 
-const initialState = {
+type TInitialState = {
+  value: {
+    playerLoading: boolean;
+    playerSongs: ISong[] | null;
+    currentSong: string;
+    isSongBeingPlayed: boolean;
+    play: boolean;
+    pause: boolean;
+  };
+};
+
+const initialState: TInitialState = {
   value: {
     playerLoading: false,
-    playerSongs: [],
+    playerSongs: null,
     currentSong: '',
     isSongBeingPlayed: false,
+    play: false,
+    pause: false,
   },
 };
 
@@ -19,7 +33,7 @@ const playerSlice = createSlice({
       state.value = { ...state.value, playerLoading: true };
     },
 
-    playerSongsToPlayerSongs: (state, action) => {
+    playerSetSongs: (state, action) => {
       state.value = {
         ...state.value,
         playerSongs: action.payload,
@@ -35,19 +49,19 @@ const playerSlice = createSlice({
       };
     },
 
-    playerPlaySong: (state) => {
+    playerPlays: (state) => {
       state.value = {
         ...state.value,
-        isSongBeingPlayed: true,
-        playerLoading: false,
+        play: true,
+        pause: false,
       };
     },
 
-    playerPauseSong: (state) => {
+    playerPauses: (state) => {
       state.value = {
         ...state.value,
-        isSongBeingPlayed: false,
-        playerLoading: false,
+        play: false,
+        pause: true,
       };
     },
 
@@ -61,9 +75,9 @@ export const {
   playerError,
   playerLoadingBegins,
   playerSetCurrentSong,
-  playerSongsToPlayerSongs,
-  playerPlaySong,
-  playerPauseSong,
+  playerSetSongs,
+  playerPlays,
+  playerPauses,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;
