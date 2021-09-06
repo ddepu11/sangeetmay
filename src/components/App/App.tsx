@@ -28,7 +28,7 @@ const App: FC = (): JSX.Element => {
   }
 
   return (
-    <Wrapper hasUserLoggedIn={hasUserLoggedIn} className='w-960'>
+    <Wrapper className='w-960 flex'>
       <Router>
         {message !== '' && notify()}
 
@@ -36,44 +36,46 @@ const App: FC = (): JSX.Element => {
 
         {hasUserLoggedIn && <Navbar />}
 
-        {hasUserLoggedIn && <Aside />}
-
         <Switch>
-          <Route path='/' exact>
-            <Home />
-          </Route>
+          <div className='middle-section flex'>
+            {hasUserLoggedIn && <Aside />}
 
-          <Route path='/account' exact>
-            <Account />
-          </Route>
+            <Route path='/' exact>
+              <Home />
+            </Route>
 
-          <Route path='/search' exact>
-            <Search />
-          </Route>
+            <Route path='/account' exact>
+              <Account />
+            </Route>
 
-          <Route path='/library' exact>
-            <Library />
-          </Route>
+            <Route path='/search' exact>
+              <Search />
+            </Route>
 
-          <Route path='/dashboard' exact>
-            <Dashboard />
-          </Route>
+            <Route path='/library' exact>
+              <Library />
+            </Route>
 
-          <Route path='/admin-create-playlist' exact>
-            <AdminCreatePlaylist />
-          </Route>
+            <Route path='/dashboard' exact>
+              <Dashboard />
+            </Route>
 
-          <Route path='/add-songs-to-playlist/:id' exact>
-            <AddSongsToPlaylists />
-          </Route>
+            <Route path='/admin-create-playlist' exact>
+              <AdminCreatePlaylist />
+            </Route>
 
-          <Route path='/sign-in' exact>
-            <SignIn />
-          </Route>
+            <Route path='/add-songs-to-playlist/:id' exact>
+              <AddSongsToPlaylists />
+            </Route>
 
-          <Route path='/sign-up' exact>
-            <SignUp />
-          </Route>
+            <Route path='/sign-in' exact>
+              <SignIn />
+            </Route>
+
+            <Route path='/sign-up' exact>
+              <SignUp />
+            </Route>
+          </div>
         </Switch>
 
         {hasUserLoggedIn && <Footer />}
@@ -82,26 +84,37 @@ const App: FC = (): JSX.Element => {
   );
 };
 
-interface IWrapper {
-  hasUserLoggedIn?: boolean;
-}
+// interface IWrapper {
+//   hasUserLoggedIn?: boolean;
+// }
 
-const styleForLoggedInPeople = {
-  display: 'grid',
-  height: 'auto',
-  'grid-template-columns': 'repeat(4,minmax(200px,auto));',
+// const styleForLoggedInPeople = {
+//   display: 'grid',
+//   height: '100vh',
 
-  'grid-auto-rows': ' minmax(30px, auto);',
+//   'grid-template-columns': 'repeat(4,minmax(200px,auto));',
 
-  'grid-template-areas':
-    "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' 'footer footer footer footer'",
+//   // 'grid-auto-rows': 'minmax(0px, auto);',
 
-  gap: '8px 20px',
-};
+//   'grid-template-areas':
+//     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' ",
 
-const Wrapper = styled.main<IWrapper>`
-  ${({ hasUserLoggedIn }) => hasUserLoggedIn && styleForLoggedInPeople}
-  position: relative;
+//   // 'footer footer footer footer'
+
+//   gap: '20px 15px',
+// };
+/* ${({ hasUserLoggedIn }) => !hasUserLoggedIn && styleForLoggedInPeople} */
+//
+
+const Wrapper = styled.main`
+  flex-direction: column;
+
+  .middle-section {
+    width: 100%;
+    height: 100vh;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 `;
 
 export default App;

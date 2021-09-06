@@ -27,8 +27,8 @@ const Home: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.main`
-  grid-area: main;
   border: 1px solid #ffffffdd;
+  width: 80%;
 `;
 
 export default Home;

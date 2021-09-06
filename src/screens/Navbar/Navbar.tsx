@@ -157,8 +157,9 @@ const Navbar: FC = (): JSX.Element => {
 
 const Wrapper = styled.nav`
   padding: 10px 10px;
-  grid-area: navbar;
   justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 
   .logo {
     h1 {

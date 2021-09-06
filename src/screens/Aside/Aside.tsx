@@ -107,9 +107,9 @@ const Aside: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.aside`
-  grid-area: aside;
   /* border: 1px solid red; */
   padding: 0 15px;
+  width: 20%;
 
   ul li {
     padding: 8px 0;

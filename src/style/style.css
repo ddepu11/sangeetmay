@@ -44,6 +44,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(to right, #000000, #434343);
   color: white;
+  position: relative;
 }
 
 .w-960 {

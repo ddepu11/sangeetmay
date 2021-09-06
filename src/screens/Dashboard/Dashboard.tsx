@@ -86,8 +86,9 @@ const Dashboard: FC = (): JSX.Element => {
 
 const Wrapper = styled.main`
   padding: 20px 15px;
-  grid-area: main;
   border: 1px dashed #555;
+  width: 79%;
+  height: 100%;
 
   nav {
     justify-content: space-between;
