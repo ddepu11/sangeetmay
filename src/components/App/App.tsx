@@ -29,23 +29,18 @@ const App: FC = (): JSX.Element => {
 
   return (
     <Wrapper className='w-960 flex'>
+      {message !== '' && notify()}
+
+      <ToastContainer />
       <Router>
-        {message !== '' && notify()}
-
-        <ToastContainer />
-
         {hasUserLoggedIn && <Navbar />}
 
-        <Switch>
-          <div className='middle-section flex'>
-            {hasUserLoggedIn && <Aside />}
+        <div className='middle-section flex'>
+          {hasUserLoggedIn && <Aside />}
 
+          <Switch>
             <Route path='/' exact>
               <Home />
-            </Route>
-
-            <Route path='/account' exact>
-              <Account />
             </Route>
 
             <Route path='/search' exact>
@@ -54,6 +49,10 @@ const App: FC = (): JSX.Element => {
 
             <Route path='/library' exact>
               <Library />
+            </Route>
+
+            <Route path='/account' exact>
+              <Account />
             </Route>
 
             <Route path='/dashboard' exact>
@@ -75,36 +74,14 @@ const App: FC = (): JSX.Element => {
             <Route path='/sign-up' exact>
               <SignUp />
             </Route>
-          </div>
-        </Switch>
+          </Switch>
+        </div>
 
         {hasUserLoggedIn && <Footer />}
       </Router>
     </Wrapper>
   );
 };
-
-// interface IWrapper {
-//   hasUserLoggedIn?: boolean;
-// }
-
-// const styleForLoggedInPeople = {
-//   display: 'grid',
-//   height: '100vh',
-
-//   'grid-template-columns': 'repeat(4,minmax(200px,auto));',
-
-//   // 'grid-auto-rows': 'minmax(0px, auto);',
-
-//   'grid-template-areas':
-//     "'navbar navbar navbar navbar' 'aside main main main' 'aside main main main' ",
-
-//   // 'footer footer footer footer'
-
-//   gap: '20px 15px',
-// };
-/* ${({ hasUserLoggedIn }) => !hasUserLoggedIn && styleForLoggedInPeople} */
-//
 
 const Wrapper = styled.main`
   flex-direction: column;
