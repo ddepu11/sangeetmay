@@ -166,8 +166,14 @@ const useMusicPlayerLogic = () => {
     }
   };
 
-  const handleVolume = (): void => {
-    //
+  const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.currentTarget;
+    setVolume(value);
+    const player = audioPlayer.current;
+
+    if (player) {
+      player.volume = Number(value);
+    }
   };
 
   return {

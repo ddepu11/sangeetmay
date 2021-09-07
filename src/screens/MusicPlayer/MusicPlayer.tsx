@@ -88,11 +88,12 @@ const MusicPlayer: FC = (): JSX.Element => {
         </div>
 
         <input
-          className='volume_seek'
-          type='range'
-          max='1'
           value={volume}
           onChange={handleVolume}
+          className='volume_seek'
+          type='range'
+          max='1.0'
+          step='0.05'
         />
       </div>
     </Wrapper>
