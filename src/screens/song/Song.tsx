@@ -55,7 +55,7 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
     if (currentSong !== song.song.url) {
       setIsThisSongBeingplayed(false);
     }
-  }, [play, pause, currentSong]);
+  }, [play, pause, currentSong, song.song.url]);
 
   return (
     <Wrapper className='flex'>

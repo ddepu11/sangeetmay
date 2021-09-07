@@ -6,6 +6,8 @@ module.exports = {
 
   plugins: [new CleanWebpackPlugin()],
 
+  devtool: false,
+
   optimization: {
     minimizer: [new CssMinimizerPlugin()],
   },
