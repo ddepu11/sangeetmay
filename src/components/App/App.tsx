@@ -11,7 +11,7 @@ import Loading from '../Loading';
 
 import AppLogic from './Logic/AppLogic';
 import Navbar from '../../screens/Navbar/Navbar';
-import Footer from '../../screens/Footer/Footer';
+import MusicPlayer from '../../screens/MusicPlayer/MusicPlayer';
 import Aside from '../../screens/Aside/Aside';
 import Account from '../../screens/Account/Account';
 import Search from '../../screens/Search/Search';
@@ -77,7 +77,7 @@ const App: FC = (): JSX.Element => {
           </Switch>
         </div>
 
-        {hasUserLoggedIn && <Footer />}
+        {hasUserLoggedIn && <MusicPlayer />}
       </Router>
     </Wrapper>
   );

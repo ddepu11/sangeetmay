@@ -1,63 +1,25 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { playerPauses, playerPlays } from '../../features/player';
+import useMusicPlayerLogic from './Logic/useMusicPlayerLogic';
 
-const Footer: FC = (): JSX.Element => {
-  const [songDetails, setSongDetails] = useState({
-    duration: 0,
-  });
-
-  const { currentSong, play, pause } = useAppSelector(
-    (state) => state.player.value
-  );
-
-  const dispatch = useAppDispatch();
-
-  const audioPlayer = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    //These conditions are for play,pause songs from song screen
-    if (play && !pause && audioPlayer.current !== null && currentSong) {
-      audioPlayer.current?.play();
-      console.log('Plays');
-      // audioPlayer.current.
-    }
-
-    if (!play && pause && audioPlayer.current !== null && currentSong) {
-      audioPlayer.current?.pause();
-      console.log('Pause');
-    }
-
-    // console.log({ play, pause });
-  }, [dispatch, play, currentSong, pause, songDetails]);
-
-  const handlePlaySong = (): void => {
-    dispatch(playerPlays());
-  };
-
-  const handlePauseSong = (): void => {
-    dispatch(playerPauses());
-  };
-
-  const getherPlayedSongDetails = (
-    e: React.SyntheticEvent<HTMLAudioElement, Event>
-  ): void => {
-    if (e.currentTarget) {
-      const duration = e.currentTarget.duration / 60;
-
-      console.log(e.currentTarget.duration % 60);
-
-      setSongDetails((prevState) => {
-        return { ...prevState, duration: Number(duration.toFixed(2)) };
-      });
-
-      console.log(songDetails);
-    }
-  };
+const MusicPlayer: FC = (): JSX.Element => {
+  const {
+    handleSongEnded,
+    handlePlaying,
+    getherPlayedSongDetails,
+    handleSongProgressChange,
+    handlePauseSong,
+    handlePlaySong,
+    songProgress,
+    currentSong,
+    audioPlayer,
+    pause,
+    play,
+    songProgressBar,
+  } = useMusicPlayerLogic();
 
   return (
     <Wrapper className='flex'>
@@ -68,15 +30,15 @@ const Footer: FC = (): JSX.Element => {
 
         <div className='like'>like</div>
       </div>
-
       <div className='player flex'>
-        {/*  */}
-
         {currentSong && (
           <audio
+            onPlaying={handlePlaying}
+            preload='metadata'
             ref={audioPlayer}
             src={currentSong}
             onLoadedMetadata={getherPlayedSongDetails}
+            onEnded={handleSongEnded}
           />
         )}
 
@@ -100,25 +62,18 @@ const Footer: FC = (): JSX.Element => {
 
         <div className='bottom flex'>
           <input
-            className='song_seek'
-            id='seek'
-            min='0'
-            data-seek=''
+            ref={songProgressBar}
             type='range'
-            step='0.01'
+            onChange={handleSongProgressChange}
+            className='song_seek'
+            value={songProgress}
+            step={0.01}
           />
         </div>
       </div>
 
       <div className='volume'>
-        <input
-          className='seek'
-          id='seek'
-          min='0'
-          data-seek=''
-          type='range'
-          step='0.01'
-        />
+        <input className='seek' data-seek='' type='range' />
       </div>
     </Wrapper>
   );
@@ -175,7 +130,60 @@ const Wrapper = styled.footer`
       width: 100%;
 
       .song_seek {
+        --song-completed-width: 0%;
+        --how-much-buffered-width: 0%;
+      }
+
+      /* Container of slider and thumb */
+      input[type='range'] {
+        -webkit-appearance: none;
         width: 100%;
+        height: 19px;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        position: relative;
+      }
+
+      /* from left will grow buffer and the actual seek whole line*/
+      input[type='range']::-webkit-slider-runnable-track {
+        height: 3px;
+        cursor: pointer;
+        border-radius: 5px;
+        background: linear-gradient(
+          to right,
+          #3daee2 var(--how-much-buffered-width),
+          var(--little-light-color) var(--how-much-buffered-width)
+        );
+      }
+
+      /* How much song is completed */
+      input[type='range']::before {
+        position: absolute;
+        content: '';
+        top: 8px;
+        left: 0;
+        width: var(--song-completed-width);
+        height: 3px;
+        background-color: var(--little-dark-color);
+        cursor: pointer;
+      }
+
+      input[type='range']::-webkit-slider-thumb {
+        position: relative;
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        background-color: var(--tertiary-color);
+        border-radius: 50%;
+        border: 1px solid var(--tertiary-color);
+        cursor: pointer;
+        margin: -9px 0 0 0;
+      }
+
+      input[type='range']:active::-webkit-slider-thumb {
+        transform: scale(1.2);
+        background: #007db5;
       }
     }
   }
@@ -192,4 +200,4 @@ const Wrapper = styled.footer`
   }
 `;
 
-export default Footer;
+export default MusicPlayer;
