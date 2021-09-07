@@ -14,7 +14,7 @@ const useMusicPlayerLogic = () => {
   const dispatch = useAppDispatch();
 
   const [mute, setMute] = useState(false);
-  const [volume, setVolume] = useState('0.2');
+  const [volume, setVolume] = useState('0.4');
 
   const [songProgress, setSongProgress] = useState('0');
   const [songDetails, setSongDetails] = useState<TSongTetails>({
@@ -33,14 +33,21 @@ const useMusicPlayerLogic = () => {
   );
 
   useEffect(() => {
+    const player = audioPlayer.current;
+
     //These two conditions are for play,pause songs from song screen
-    if (play && !pause && audioPlayer.current !== null && currentSong) {
-      audioPlayer.current?.play();
+    if (play && !pause && player && currentSong) {
+      player?.play();
+      player.volume = 0.4;
+
+      setVolume('0.4');
+      setMute(false);
+
       // console.log('Plays');
     }
 
-    if (!play && pause && audioPlayer.current !== null && currentSong) {
-      audioPlayer.current?.pause();
+    if (!play && pause && player && currentSong) {
+      player?.pause();
       // console.log('Pause');
     }
 
@@ -148,28 +155,33 @@ const useMusicPlayerLogic = () => {
   // $##$##$#######$$$$$##### SEPERATION LINE $$$$$$####$$$$$#####$$$$####$$$$$###
 
   // @@@@@@@@@@@@@@@@@@   Handling Volume   @@@@@@@@@@@@@@@@@@@@@@@@
+
   const toggleMute = (): void => {
     const player = audioPlayer.current;
 
-    if (player) {
-      setMute((prevState) => {
-        if (prevState && player) {
-          player.volume = 1;
-        }
+    console.log('Toggle');
 
-        if (!prevState && player) {
-          player.volume = 0;
-        }
+    setMute((prevState) => {
+      if (prevState) {
+        if (player) player.volume = 0.3;
+        setVolume('0.4');
+      }
 
-        return !prevState;
-      });
-    }
+      if (!prevState) {
+        if (player) player.volume = 0;
+        setVolume('0');
+      }
+
+      return !prevState;
+    });
   };
 
+  //Volume inc/dec
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
 
     setVolume(value);
+
     const player = audioPlayer.current;
 
     if (player) player.volume = Number(value);

@@ -105,10 +105,17 @@ const Wrapper = styled.footer`
   padding: 0px 15px 10px;
   width: 100%;
   background-color: var(--primary-color);
+  box-shadow: rgba(10, 196, 66, 0.24) 0px 3px 8px;
 
   bottom: 10px;
   position: sticky;
   border-radius: 2px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  /* border-top-right-radius: -20px; */
+  /* border-bottom-left-radius: -20px; */
+
   justify-content: space-between;
   color: var(--little-dark-color);
 
