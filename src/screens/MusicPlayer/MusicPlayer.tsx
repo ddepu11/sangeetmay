@@ -21,6 +21,9 @@ const MusicPlayer: FC = (): JSX.Element => {
     play,
     songProgressBar,
     mute,
+    toggleMute,
+    volume,
+    handleVolume,
   } = useMusicPlayerLogic();
 
   return (
@@ -78,13 +81,19 @@ const MusicPlayer: FC = (): JSX.Element => {
       <div className='volume flex'>
         <div className='volume_mute_toggel_btns'>
           {mute ? (
-            <GiSpeakerOff className='speaker_off' />
+            <GiSpeakerOff className='speaker_off' onClick={toggleMute} />
           ) : (
-            <GiSpeaker className='speaker_on' />
+            <GiSpeaker className='speaker_on' onClick={toggleMute} />
           )}
         </div>
 
-        <input className='volume_seek' type='range' max='100' />
+        <input
+          className='volume_seek'
+          type='range'
+          max='1'
+          value={volume}
+          onChange={handleVolume}
+        />
       </div>
     </Wrapper>
   );

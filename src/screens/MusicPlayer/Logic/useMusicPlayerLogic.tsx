@@ -14,6 +14,8 @@ const useMusicPlayerLogic = () => {
   const dispatch = useAppDispatch();
 
   const [mute, setMute] = useState(false);
+  const [volume, setVolume] = useState('0.2');
+
   const [songProgress, setSongProgress] = useState('0');
   const [songDetails, setSongDetails] = useState<TSongTetails>({
     duration: {
@@ -108,6 +110,7 @@ const useMusicPlayerLogic = () => {
     }
   };
 
+  // Music progress and all
   const handlePlaying = (): void => {
     const player = audioPlayer.current;
     const progressBar = songProgressBar.current;
@@ -142,6 +145,31 @@ const useMusicPlayerLogic = () => {
     }, 1000);
   };
 
+  // $##$##$#######$$$$$##### SEPERATION LINE $$$$$$####$$$$$#####$$$$####$$$$$###
+
+  // @@@@@@@@@@@@@@@@@@   Handling Volume   @@@@@@@@@@@@@@@@@@@@@@@@
+  const toggleMute = (): void => {
+    const player = audioPlayer.current;
+
+    if (player) {
+      setMute((prevState) => {
+        if (prevState && player) {
+          player.volume = 1;
+        }
+
+        if (!prevState && player) {
+          player.volume = 0;
+        }
+
+        return !prevState;
+      });
+    }
+  };
+
+  const handleVolume = (): void => {
+    //
+  };
+
   return {
     handleSongEnded,
     handlePlaying,
@@ -156,6 +184,9 @@ const useMusicPlayerLogic = () => {
     pause,
     songProgressBar,
     mute,
+    toggleMute,
+    volume,
+    handleVolume,
   };
 };
 
