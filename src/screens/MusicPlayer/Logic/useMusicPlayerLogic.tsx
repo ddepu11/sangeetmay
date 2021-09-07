@@ -26,6 +26,7 @@ const useMusicPlayerLogic = () => {
 
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
   const songProgressBar = useRef<HTMLInputElement | null>(null);
+  const volumeSeeker = useRef<HTMLInputElement | null>(null);
   const setIntervals = useRef<NodeJS.Timer | number>(0);
 
   const { currentSong, play, pause } = useAppSelector(
@@ -34,6 +35,7 @@ const useMusicPlayerLogic = () => {
 
   useEffect(() => {
     const player = audioPlayer.current;
+    const volSeeker = volumeSeeker.current;
 
     //These two conditions are for play,pause songs from song screen
     if (play && !pause && player && currentSong) {
@@ -50,6 +52,12 @@ const useMusicPlayerLogic = () => {
       player?.pause();
       // console.log('Pause');
     }
+
+    if (volSeeker)
+      volSeeker.style.setProperty(
+        '--volume-seeker-width',
+        `${(0.4 / 1) * 100}%`
+      );
 
     // console.log(songDetails);
   }, [dispatch, play, currentSong, pause, songDetails]);
@@ -159,17 +167,28 @@ const useMusicPlayerLogic = () => {
   const toggleMute = (): void => {
     const player = audioPlayer.current;
 
-    console.log('Toggle');
+    const volSeeker = volumeSeeker.current;
 
     setMute((prevState) => {
+      // Unmute
       if (prevState) {
         if (player) player.volume = 0.3;
         setVolume('0.4');
+
+        if (volSeeker)
+          volSeeker.style.setProperty(
+            '--volume-seeker-width',
+            `${(0.4 / 1) * 100}%`
+          );
       }
 
+      // mute
       if (!prevState) {
         if (player) player.volume = 0;
         setVolume('0');
+
+        if (volSeeker)
+          volSeeker.style.setProperty('--volume-seeker-width', `0%`);
       }
 
       return !prevState;
@@ -179,15 +198,22 @@ const useMusicPlayerLogic = () => {
   //Volume inc/dec
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
-
     setVolume(value);
 
     const player = audioPlayer.current;
-
     if (player) player.volume = Number(value);
 
+    // If volume 0 set mute true else false
     if (value === '0') setMute(true);
     else setMute(false);
+
+    const volSeeker = volumeSeeker.current;
+
+    if (volSeeker)
+      volSeeker.style.setProperty(
+        '--volume-seeker-width',
+        `${(+value / 1) * 100}%`
+      );
   };
 
   return {
@@ -207,6 +233,7 @@ const useMusicPlayerLogic = () => {
     toggleMute,
     volume,
     handleVolume,
+    volumeSeeker,
   };
 };
 

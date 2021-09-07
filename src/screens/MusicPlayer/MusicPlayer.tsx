@@ -24,6 +24,7 @@ const MusicPlayer: FC = (): JSX.Element => {
     toggleMute,
     volume,
     handleVolume,
+    volumeSeeker,
   } = useMusicPlayerLogic();
 
   return (
@@ -94,6 +95,7 @@ const MusicPlayer: FC = (): JSX.Element => {
           type='range'
           max='1.0'
           step='0.05'
+          ref={volumeSeeker}
         />
       </div>
     </Wrapper>
