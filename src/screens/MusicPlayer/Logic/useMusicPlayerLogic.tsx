@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { playerPauses, playerPlays } from '../../../features/player';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import clearAllIntervalsAndTimeOuts from '../../../utils/clearAllIntervalsAndTimeOuts';
 
 type TSongTetails = {
   duration: {
@@ -51,31 +52,30 @@ const useMusicPlayerLogic = () => {
     dispatch(playerPauses());
   };
 
+  // If song has ended playing then ---->
   const handleSongEnded = (): void => {
     if (setIntervals) {
-      let id = +setIntervals.current;
-
-      while (id) {
-        clearInterval(id);
-        id--;
-      }
+      clearAllIntervalsAndTimeOuts(Number(setIntervals.current));
     }
 
-    if (songProgressBar.current !== null) {
-      songProgressBar.current.style.setProperty('--song-completed-width', `0%`);
+    const progressBar = songProgressBar.current;
+    if (progressBar) {
+      progressBar.style.setProperty('--song-completed-width', `0%`);
       setSongProgress('0');
       dispatch(playerPauses());
     }
   };
 
-  const handleSongProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // If i move thumb change player current time ---->
+  const handleSongProgressChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { value } = e.target;
-
     setSongProgress(value);
 
-    if (audioPlayer.current !== null) {
-      audioPlayer.current.currentTime = +value;
-    }
+    const player = audioPlayer.current;
+
+    if (player) player.currentTime = Number(value);
   };
 
   const getherPlayedSongDetails = (
@@ -84,28 +84,24 @@ const useMusicPlayerLogic = () => {
     const player = e.currentTarget;
     const progressBar = songProgressBar.current;
 
+    // Get song details
     if (player) {
       const minutes: number = Math.floor(player.duration / 60);
+
       let seconds: number | string = player.duration % 60;
-
       seconds = Number(seconds.toFixed(0));
-
       seconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
 
-      setSongDetails((prevState) => {
-        return {
-          ...prevState,
-          duration: {
-            minutes,
-            seconds,
-          },
-        };
+      setSongDetails({
+        ...songDetails,
+        duration: {
+          minutes,
+          seconds,
+        },
       });
     }
-    //   --song-completed-width: 0%;
-    // --how-much-buffered-width: 0%;
 
-    if (progressBar !== null) {
+    if (progressBar) {
       progressBar.max = player.duration.toString();
       setSongProgress(player.currentTime.toString());
     }
@@ -115,6 +111,8 @@ const useMusicPlayerLogic = () => {
     const player = audioPlayer.current;
     const progressBar = songProgressBar.current;
 
+    // --how-much-buffered-width: 0%;
+    // Showing Buffer Progress
     if (player && progressBar && player.readyState > 0) {
       const bufferedAmount = Math.floor(
         player.buffered.end(player.buffered.length - 1)
@@ -126,9 +124,10 @@ const useMusicPlayerLogic = () => {
       );
     }
 
-    // Showing Progress
+    // --song-completed-width: 0%;
+    // Showing Song Progress
     setIntervals.current = setInterval(() => {
-      if (player !== null && songProgressBar.current !== null) {
+      if (player && songProgressBar.current) {
         const howMuchTheSongHasBeenPlayed =
           (player.currentTime / player.duration) * 100;
 
