@@ -168,12 +168,14 @@ const useMusicPlayerLogic = () => {
 
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
+
     setVolume(value);
     const player = audioPlayer.current;
 
-    if (player) {
-      player.volume = Number(value);
-    }
+    if (player) player.volume = Number(value);
+
+    if (value === '0') setMute(true);
+    else setMute(false);
   };
 
   return {
