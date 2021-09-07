@@ -13,7 +13,8 @@ type TSongTetails = {
 const useMusicPlayerLogic = () => {
   const dispatch = useAppDispatch();
 
-  const [songProgress, setSongProgress] = useState<string>('0');
+  const [mute, setMute] = useState(false);
+  const [songProgress, setSongProgress] = useState('0');
   const [songDetails, setSongDetails] = useState<TSongTetails>({
     duration: {
       minutes: 0,
@@ -154,6 +155,7 @@ const useMusicPlayerLogic = () => {
     play,
     pause,
     songProgressBar,
+    mute,
   };
 };
 

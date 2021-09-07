@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
+import { GiSpeaker, GiSpeakerOff } from 'react-icons/gi';
 import useMusicPlayerLogic from './Logic/useMusicPlayerLogic';
 
 const MusicPlayer: FC = (): JSX.Element => {
@@ -19,6 +20,7 @@ const MusicPlayer: FC = (): JSX.Element => {
     pause,
     play,
     songProgressBar,
+    mute,
   } = useMusicPlayerLogic();
 
   return (
@@ -30,6 +32,7 @@ const MusicPlayer: FC = (): JSX.Element => {
 
         <div className='like'>like</div>
       </div>
+
       <div className='player flex'>
         {currentSong && (
           <audio
@@ -72,8 +75,16 @@ const MusicPlayer: FC = (): JSX.Element => {
         </div>
       </div>
 
-      <div className='volume'>
-        <input className='seek' data-seek='' type='range' />
+      <div className='volume flex'>
+        <div className='volume_mute_toggel_btns'>
+          {mute ? (
+            <GiSpeakerOff className='speaker_off' />
+          ) : (
+            <GiSpeaker className='speaker_on' />
+          )}
+        </div>
+
+        <input className='volume_seek' type='range' max='100' />
       </div>
     </Wrapper>
   );
@@ -81,7 +92,7 @@ const MusicPlayer: FC = (): JSX.Element => {
 
 const Wrapper = styled.footer`
   margin-top: 10px;
-  padding: 0px 20px 10px;
+  padding: 0px 15px 10px;
   width: 100%;
   background-color: var(--primary-color);
 
@@ -91,13 +102,24 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   color: var(--little-dark-color);
 
+  .pic {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .like {
     margin-left: 15px;
   }
 
   .player {
     flex-direction: column;
-    width: 60%;
+    width: 55%;
 
     .top {
       padding: 12px 0px;
@@ -133,69 +155,92 @@ const Wrapper = styled.footer`
         --song-completed-width: 0%;
         --how-much-buffered-width: 0%;
       }
-
-      /* Container of slider and thumb */
-      input[type='range'] {
-        -webkit-appearance: none;
-        width: 100%;
-        height: 19px;
-        border-radius: 5px;
-        outline: none;
-        border: none;
-        position: relative;
-      }
-
-      /* from left will grow buffer and the actual seek whole line*/
-      input[type='range']::-webkit-slider-runnable-track {
-        height: 3px;
-        cursor: pointer;
-        border-radius: 5px;
-        background: linear-gradient(
-          to right,
-          #3daee2 var(--how-much-buffered-width),
-          var(--little-light-color) var(--how-much-buffered-width)
-        );
-      }
-
-      /* How much song is completed */
-      input[type='range']::before {
-        position: absolute;
-        content: '';
-        top: 8px;
-        left: 0;
-        width: var(--song-completed-width);
-        height: 3px;
-        background-color: var(--little-dark-color);
-        cursor: pointer;
-      }
-
-      input[type='range']::-webkit-slider-thumb {
-        position: relative;
-        -webkit-appearance: none;
-        height: 20px;
-        width: 20px;
-        background-color: var(--tertiary-color);
-        border-radius: 50%;
-        border: 1px solid var(--tertiary-color);
-        cursor: pointer;
-        margin: -9px 0 0 0;
-      }
-
-      input[type='range']:active::-webkit-slider-thumb {
-        transform: scale(1.2);
-        background: #007db5;
-      }
     }
   }
 
-  .pic {
-    width: 50px;
-    height: 50px;
+  /* Container of slider and thumb */
+  input[type='range'] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 19px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    position: relative;
+  }
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+  /* from left the buffer will grow when you play song and the actual seek whole line*/
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 3px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: linear-gradient(
+      to right,
+      #3daee2 var(--how-much-buffered-width),
+      var(--little-light-color) var(--how-much-buffered-width)
+    );
+  }
+
+  /* How much song has prograssed */
+  input[type='range']::before {
+    position: absolute;
+    content: '';
+    top: 8px;
+    left: 0;
+    width: var(--song-completed-width);
+    height: 3px;
+    background-color: var(--little-dark-color);
+    cursor: pointer;
+  }
+
+  /* The thumb */
+  input[type='range']::-webkit-slider-thumb {
+    position: relative;
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    background-color: var(--tertiary-color);
+    border-radius: 50%;
+    border: 1px solid var(--tertiary-color);
+    cursor: pointer;
+    margin: -9px 0 0 0;
+  }
+
+  /* on click on thumb */
+  input[type='range']:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: #007db5;
+  }
+
+  .volume {
+    width: 20%;
+
+    .volume_seeker {
+      --volume-seeker-width: 0%;
+    }
+
+    input[type='range']::-webkit-slider-runnable-track {
+      background: var(--little-light-color);
+    }
+
+    input[type='range']::before {
+      width: var(--volume-seeker-width);
+    }
+  }
+
+  .volume_mute_toggel_btns {
+    transition: transform 0.5s ease;
+
+    .speaker_on,
+    .speaker_off {
+      font-size: 1.5em;
+      margin-right: 5px;
+    }
+
+    :hover {
+      transform: scale(1.2);
+      color: var(--dark-color);
+      cursor: pointer;
     }
   }
 `;
