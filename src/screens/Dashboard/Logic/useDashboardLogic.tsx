@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 
@@ -104,7 +104,7 @@ const useDashboardLogic = () => {
     songId: string,
     idOfPlaylistToDelete: string
   ): void => {
-    const songRef = storage.ref(`songs/${song.song.name}`);
+    const songRef = storage.ref(`songs/${song.name}`);
 
     const songPicRef = storage.ref(`song_pics/${song.pic.name}`);
 
@@ -168,7 +168,9 @@ const useDashboardLogic = () => {
     }
   };
 
-  const handleDelete = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
+  const handleDelete = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     const wannaDelete: boolean = confirm(
       ' ############### !DANGER! ################ \nDo you really want to delete this playlist?\nNote: Deleting the playlist will also delete the songs you have added in it.'
     );
@@ -205,7 +207,11 @@ const useDashboardLogic = () => {
 
   // ############## Playlist Removal Ends ###############
 
-  return { handleDelete, playlistLoading, playlists };
+  return {
+    handleDelete,
+    playlistLoading,
+    playlists,
+  };
 };
 
 export default useDashboardLogic;

@@ -8,8 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Loading from '../Loading';
-
-import AppLogic from './Logic/AppLogic';
+import useAppLogic from './Logic/useAppLogic';
 import Navbar from '../../screens/Navbar/Navbar';
 import MusicPlayer from '../../screens/MusicPlayer/MusicPlayer';
 import Aside from '../../screens/Aside/Aside';
@@ -21,7 +20,7 @@ import AdminCreatePlaylist from '../../screens/AdminCreatePlaylist/AdminCreatePl
 import AddSongsToPlaylists from '../../screens/AddSongsToPlaylist/AddSongsToPlaylist';
 
 const App: FC = (): JSX.Element => {
-  const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
+  const { userLoading, notify, message, hasUserLoggedIn } = useAppLogic();
 
   if (userLoading) {
     return <Loading size='FULL' />;

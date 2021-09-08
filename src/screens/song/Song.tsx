@@ -4,17 +4,19 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { ISong } from '../../interfaces';
-
 import {
   playerPauses,
   playerPlays,
   playerSetCurrentSong,
 } from '../../features/player';
+import Dialog from '../../components/Dialog';
 
 type Props = {
   song: ISong;
   index: number;
-  handleDeleteSong: (e: React.MouseEvent<SVGElement, MouseEvent>) => void;
+  handleDeleteSong: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 };
 
 const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
@@ -22,6 +24,8 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
 
   const [isThisSongBeingplayed, setIsThisSongBeingplayed] =
     useState<boolean>(false);
+
+  const [viewDashBoard, setViewDashBoard] = useState(false);
 
   const { currentSong, play, pause } = useAppSelector(
     (state) => state.player.value
@@ -58,8 +62,25 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
     }
   }, [play, pause, currentSong, song.url]);
 
+  const showDashBoard = (): void => {
+    setViewDashBoard(true);
+  };
+
+  const hideDashBoard = (): void => {
+    setViewDashBoard(false);
+  };
+
   return (
     <Wrapper className='flex'>
+      {viewDashBoard && (
+        <Dialog
+          whatAreYouDeleting='song'
+          confirm={handleDeleteSong}
+          deny={hideDashBoard}
+          dataId={song.id}
+        />
+      )}
+
       <span className='index'>{index + 1}.</span>
       {/*  */}
 
@@ -79,11 +100,7 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
 
       <p className='likes'>Likes : {song.likes}</p>
 
-      <RiDeleteBin5Line
-        className='delete_btn'
-        onClick={handleDeleteSong}
-        data-id={song.id}
-      />
+      <RiDeleteBin5Line className='delete_btn' onClick={showDashBoard} />
     </Wrapper>
   );
 };

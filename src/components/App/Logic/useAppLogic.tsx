@@ -13,7 +13,7 @@ import {
 } from '../../../features/user';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
-const AppLogic = () => {
+const useAppLogic = () => {
   const { userLoading, hasUserLoggedIn } = useAppSelector(
     (state) => state.user.value
   );
@@ -44,41 +44,40 @@ const AppLogic = () => {
     const fetchUserData = async (email: string | null) => {
       dispatch(userLoadingBegin());
 
-      try {
-        const users = await firestore.collection('users').get();
+      firestore
+        .collection('users')
+        .get()
+        .then((users) => {
+          const user = users.docs.filter((user) => user.data().email === email);
 
-        // console.log(users);
+          if (user.length !== 0) {
+            dispatch(
+              sendNotification({
+                message: `Welcome back ${user[0].get(
+                  'firstName'
+                )} ${user[0].get('lastName')}`,
+                success: true,
+              })
+            );
 
-        const user = users.docs.filter((user) => user.data().email === email);
-
-        if (user.length !== 0) {
-          dispatch(
-            sendNotification({
-              message: `Welcome back ${user[0].get('firstName')} ${user[0].get(
-                'lastName'
-              )}`,
-              success: true,
-            })
-          );
-
-          dispatch(
-            customSignInSuccess({ ...user[0].data(), id: user[0].id.trim() })
-          );
-        }
-      } catch (err) {
-        dispatch(sendNotification({ message: err.message, error: true }));
-
-        dispatch(userError());
-      }
+            dispatch(
+              customSignInSuccess({
+                ...user[0].data(),
+                id: user[0].id.trim(),
+              })
+            );
+          }
+        })
+        .catch((err) => {
+          dispatch(sendNotification({ message: err.message, error: true }));
+          dispatch(userError());
+        });
     };
 
     // Waiting for user to log in
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        !hasUserLoggedIn && fetchUserData(user.email);
-      } else {
-        dispatch(signOut());
-      }
+      if (user) !hasUserLoggedIn && fetchUserData(user.email);
+      else dispatch(signOut());
     });
   }, [dispatch, hasUserLoggedIn]);
 
@@ -97,4 +96,4 @@ const AppLogic = () => {
   };
 };
 
-export default AppLogic;
+export default useAppLogic;

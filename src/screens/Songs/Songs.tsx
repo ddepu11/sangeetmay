@@ -89,7 +89,7 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
   };
 
   const handleDeleteSong = (
-    e: React.MouseEvent<SVGElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     console.log('0.Song delete process started');
 
@@ -102,7 +102,7 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
       return [...prevState.filter((item: ISong) => item.id !== songId)];
     });
 
-    const songRef = storage.ref(`songs/${songToDelete.song.name}`);
+    const songRef = storage.ref(`songs/${songToDelete.name}`);
     const songPicRef = storage.ref(`song_pics/${songToDelete.pic.name}`);
 
     songRef
