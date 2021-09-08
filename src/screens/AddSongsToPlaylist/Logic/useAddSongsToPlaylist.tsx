@@ -53,15 +53,13 @@ const useAddSongsToPlaylist = () => {
         });
     };
 
-    if (playlist === undefined) {
-      fetchPlaylistData();
-    }
+    if (playlist === undefined) fetchPlaylistData();
   }, [id, dispatch, playlist]);
 
-  const handleSongPicture = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSongPicture = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
 
-    if (files !== null) {
+    if (files) {
       if (files[0].size > 8388608) {
         setValidationMessage(
           songPicValidationMessageTag,
@@ -78,12 +76,10 @@ const useAddSongsToPlaylist = () => {
     }
   };
 
-  const handleSong = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSong = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
 
-    if (files !== null) {
-      setSong(files[0]);
-    }
+    if (files) setSong(files[0]);
   };
 
   const handleCancel = (): void => {
@@ -92,7 +88,6 @@ const useAddSongsToPlaylist = () => {
   };
 
   const songPicValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
-
   const songValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
 
   //################ Upload song and its pic starts ##########################
@@ -129,20 +124,19 @@ const useAddSongsToPlaylist = () => {
       .collection('songs')
       .add({
         id: uuidv4(),
-        song: {
-          name: song?.name,
-          url: songUrl,
-        },
+        name: song?.name,
+        url: songUrl,
+
+        likes: 0,
+
         pic: {
           name: songPicture?.file?.name,
           url: songPicUrl,
         },
-        likes: 0,
       })
       .then((doc) => {
         console.log('3. Song Doc created');
         addSongIdToPlaylistSongsArray(doc.id);
-        console.log(doc.id);
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));

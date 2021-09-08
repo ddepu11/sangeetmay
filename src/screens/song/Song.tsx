@@ -35,8 +35,8 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
   const handlePlaySong = () => {
     setIsThisSongBeingplayed(true);
 
-    if (currentSong !== song.song.url) {
-      dispatch(playerSetCurrentSong(song.song.url));
+    if (currentSong !== song.url) {
+      dispatch(playerSetCurrentSong(song.url));
     }
 
     dispatch(playerPlays());
@@ -44,19 +44,19 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
 
   useEffect(() => {
     // Both conditions to sync global player play, pause buttons with this screen play,pause button
-    if (play && !pause && currentSong === song.song.url) {
+    if (play && !pause && currentSong === song.url) {
       setIsThisSongBeingplayed(true);
     }
 
-    if (!play && pause && currentSong === song.song.url) {
+    if (!play && pause && currentSong === song.url) {
       setIsThisSongBeingplayed(false);
     }
 
     // THis is for when i play different play button should display instead of pause
-    if (currentSong !== song.song.url) {
+    if (currentSong !== song.url) {
       setIsThisSongBeingplayed(false);
     }
-  }, [play, pause, currentSong, song.song.url]);
+  }, [play, pause, currentSong, song.url]);
 
   return (
     <Wrapper className='flex'>
@@ -72,10 +72,10 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
       </div>
 
       <div className='song_img'>
-        <img src={song.pic.url} alt={song.song.name} />
+        <img src={song.pic.url} alt={song.name} />
       </div>
 
-      <p className='name'>{song.song.name}</p>
+      <p className='name'>{song.name}</p>
 
       <p className='likes'>Likes : {song.likes}</p>
 

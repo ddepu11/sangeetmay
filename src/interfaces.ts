@@ -33,14 +33,13 @@ export interface IPlaylist {
 
 export interface ISong {
   id: string;
+
+  name: string;
+  url: string;
+
   likes: number;
 
   pic: {
-    name: string;
-    url: string;
-  };
-
-  song: {
     name: string;
     url: string;
   };
