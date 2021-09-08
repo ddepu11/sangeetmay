@@ -24,7 +24,7 @@ const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn } = AppLogic();
 
   if (userLoading) {
-    return <Loading />;
+    return <Loading size='FULL' />;
   }
 
   return (

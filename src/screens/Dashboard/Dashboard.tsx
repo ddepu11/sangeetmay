@@ -10,8 +10,8 @@ import Button from '../../components/Button';
 const Dashboard: FC = (): JSX.Element => {
   const { handleDelete, playlistLoading, playlists } = useDashboardLogic();
 
-  if (playlistLoading) {
-    return <Loading />;
+  if (!playlistLoading) {
+    return <Loading size='MEDIUM' />;
   }
 
   return (

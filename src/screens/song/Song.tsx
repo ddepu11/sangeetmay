@@ -19,12 +19,12 @@ type Props = {
 const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
   const dispatch = useAppDispatch();
 
+  const [isThisSongBeingplayed, setIsThisSongBeingplayed] =
+    useState<boolean>(false);
+
   const { currentSong, play, pause } = useAppSelector(
     (state) => state.player.value
   );
-
-  const [isThisSongBeingplayed, setIsThisSongBeingplayed] =
-    useState<boolean>(false);
 
   const handlePauseSong = () => {
     setIsThisSongBeingplayed(false);
