@@ -3,15 +3,7 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import UpdateFormField from '../../components/UpdateFormField';
 import AccountLogic from './Logic/AccountLogic';
-import { css } from '@emotion/react';
-import BeatLoader from 'react-spinners/BeatLoader';
 import { FC } from 'react';
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: #ffffff;
-`;
 
 const Account: FC = (): JSX.Element => {
   const {
@@ -51,9 +43,7 @@ const Account: FC = (): JSX.Element => {
               }
             />
           ) : (
-            <div className='loader flex'>
-              <BeatLoader css={override} color='var(--light-color)' />
-            </div>
+            <div className='loader flex'>{/* ADDDD Loader */}Loading</div>
           )}
         </label>
 
