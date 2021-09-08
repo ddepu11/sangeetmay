@@ -19,8 +19,8 @@ const useDashboardLogic = () => {
   );
 
   useEffect(() => {
-    const fetchDocs = (): void => {
-      firestore
+    const fetchDocs = () => {
+      return firestore
         .collection('playlists')
         .get()
         .then((data) => {
@@ -43,6 +43,10 @@ const useDashboardLogic = () => {
     };
 
     fetchDocs();
+
+    return () => {
+      fetchDocs();
+    };
   }, [dispatch, playlistLoading]);
 
   // ############## Playlist Removal Starts ###############

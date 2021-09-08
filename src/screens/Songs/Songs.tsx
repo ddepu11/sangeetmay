@@ -10,6 +10,7 @@ import {
 } from '../../features/playlist';
 import { useAppDispatch } from '../../redux/hooks';
 import Song from '../song/Song';
+import { playerSetPlaylist } from '../../features/player';
 
 type Props = {
   songsIds: string[];
@@ -22,14 +23,16 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
   const [songs, setSongs] = useState<ISong[]>([]);
 
   useEffect(() => {
+    let fstr: any;
+
     const fetchSongs = () => {
-      return songsIds.forEach((item: string) => {
-        return firestore
+      songsIds.forEach((item: string) => {
+        fstr = firestore
           .collection('songs')
           .doc(item)
           .get()
           .then((doc) => {
-            if (songs !== undefined && doc.data() !== undefined) {
+            if (songs && doc.data()) {
               setSongs((prevState) => {
                 return [...prevState, doc.data() as ISong];
               });
@@ -43,6 +46,15 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
     };
 
     songs.length === 0 && fetchSongs();
+
+    //After getting songs add url of those in playlkistSongs in redux
+    const urls = songs.map((item: ISong) => {
+      return item.url;
+    });
+
+    dispatch(playerSetPlaylist(urls));
+
+    return () => fstr;
   }, [songsIds, songs, dispatch]);
 
   //############### Handle Deleting Song Starts #########################

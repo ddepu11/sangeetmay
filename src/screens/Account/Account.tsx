@@ -263,6 +263,7 @@ const Wrapper = styled.main`
       flex-direction: column;
       align-items: flex-start;
       padding: 0 20px;
+      color: var(--primary-color);
 
       .upload_img_text {
         font-size: 1.2em;

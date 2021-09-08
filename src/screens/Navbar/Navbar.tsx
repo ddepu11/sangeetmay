@@ -160,6 +160,7 @@ const Wrapper = styled.nav`
   justify-content: space-between;
   min-width: 100%;
   margin-bottom: 20px;
+  /* border: 1px solid red; */
 
   .logo {
     h1 {
@@ -183,6 +184,9 @@ const Wrapper = styled.nav`
     span {
       margin-left: 5px;
     }
+  }
+
+  @media screen and (max-width: 805px) {
   }
 `;
 

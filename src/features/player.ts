@@ -6,9 +6,9 @@ type TInitialState = {
     playerLoading: boolean;
     playerSongs: ISong[] | null;
     currentSong: string;
-    isSongBeingPlayed: boolean;
     play: boolean;
     pause: boolean;
+    playlistSongs: string[] | null;
   };
 };
 
@@ -17,9 +17,9 @@ const initialState: TInitialState = {
     playerLoading: false,
     playerSongs: null,
     currentSong: '',
-    isSongBeingPlayed: false,
     play: false,
     pause: false,
+    playlistSongs: null,
   },
 };
 
@@ -65,6 +65,13 @@ const playerSlice = createSlice({
       };
     },
 
+    playerSetPlaylist: (state, action) => {
+      state.value = {
+        ...state.value,
+        playlistSongs: [...action.payload],
+      };
+    },
+
     playerError: (state) => {
       state.value = { ...state.value, playerLoading: false };
     },
@@ -78,6 +85,7 @@ export const {
   playerSetSongs,
   playerPlays,
   playerPauses,
+  playerSetPlaylist,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

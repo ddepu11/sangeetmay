@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Loading from '../../components/Loading';
+
 import useDashboardLogic from './Logic/useDashboardLogic';
 import { IPlaylist } from '../../interfaces';
 import Button from '../../components/Button';
@@ -57,6 +58,7 @@ const Wrapper = styled.main`
   border: 1px dashed #555;
   width: 79%;
   height: 100%;
+  color: var(--primary-color);
 
   nav {
     justify-content: space-between;

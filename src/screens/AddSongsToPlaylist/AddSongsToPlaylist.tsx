@@ -173,10 +173,12 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.main`
-  padding: 10px 10px;
-  /* border: 1px dashed #555; */
+  padding: 10px 10px 0;
+  border: 1px dashed #555;
   color: var(--little-light-color);
   width: 79%;
+  height: 76vh;
+  overflow-y: scroll;
 
   header {
     justify-content: flex-start;

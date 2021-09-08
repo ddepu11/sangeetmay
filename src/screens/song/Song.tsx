@@ -81,44 +81,50 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
         />
       )}
 
-      <span className='index'>{index + 1}.</span>
-      {/*  */}
+      <div className='left_part flex'>
+        <span className='index'>{index + 1}.</span>
+        {/*  */}
 
-      <div className='play_pause_btns'>
-        {isThisSongBeingplayed ? (
-          <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
-        ) : (
-          <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
-        )}
+        <div className='play_pause_btns'>
+          {isThisSongBeingplayed ? (
+            <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
+          ) : (
+            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
+          )}
+        </div>
+
+        <div className='song_img'>
+          <img src={song.pic.url} alt={song.name} />
+        </div>
+
+        <p className='name'>{song.name}</p>
       </div>
 
-      <div className='song_img'>
-        <img src={song.pic.url} alt={song.name} />
+      <div className='right_part flex'>
+        <p className='likes'>Likes : {song.likes}</p>
+
+        <RiDeleteBin5Line className='delete_btn' onClick={showDashBoard} />
       </div>
-
-      <p className='name'>{song.name}</p>
-
-      <p className='likes'>Likes : {song.likes}</p>
-
-      <RiDeleteBin5Line className='delete_btn' onClick={showDashBoard} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.main`
-  padding: 5px 5px;
+  padding: 5px 5px 0;
 
   justify-content: space-between;
-  margin-bottom: 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 12px 10px;
+  margin-bottom: 12px;
 
   .index {
     font-size: 1.2em;
+    margin-right: 14px;
   }
 
   .play_pause_btns {
     transition: all 0.5s ease;
+    margin-right: 14px;
 
     .pause,
     .play {
@@ -135,6 +141,7 @@ const Wrapper = styled.main`
   .song_img {
     width: 50px;
     height: 50px;
+    margin-right: 14px;
 
     img {
       width: 100%;
@@ -158,6 +165,7 @@ const Wrapper = styled.main`
     font-size: 1.5em;
     transition: transform 0.5s ease;
     color: var(--danger-color);
+    margin-left: 15px;
   }
 
   .delete_btn:hover {

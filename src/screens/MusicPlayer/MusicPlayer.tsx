@@ -25,6 +25,9 @@ const MusicPlayer: FC = (): JSX.Element => {
     volume,
     handleVolume,
     volumeSeeker,
+    songDetails: { duration, currentTime },
+    playNextSong,
+    playPreviousSong,
   } = useMusicPlayerLogic();
 
   return (
@@ -50,7 +53,7 @@ const MusicPlayer: FC = (): JSX.Element => {
         )}
 
         <div className='top flex'>
-          <BiSkipPrevious className='previous' />
+          <BiSkipPrevious className='previous' onClick={playPreviousSong} />
 
           {!play && !pause && (
             <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
@@ -64,10 +67,13 @@ const MusicPlayer: FC = (): JSX.Element => {
             <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
           )}
 
-          <BiSkipNext className='next' />
+          <BiSkipNext className='next' onClick={playNextSong} />
         </div>
 
         <div className='bottom flex'>
+          <span className='current_time'>
+            {currentTime.minutes}:{currentTime.seconds}
+          </span>
           <input
             ref={songProgressBar}
             type='range'
@@ -76,6 +82,9 @@ const MusicPlayer: FC = (): JSX.Element => {
             value={songProgress}
             step={0.01}
           />
+          <span className='duration'>
+            {duration.minutes}:{duration.seconds}
+          </span>
         </div>
       </div>
 
@@ -109,7 +118,7 @@ const Wrapper = styled.footer`
   background-color: var(--primary-color);
   box-shadow: rgba(10, 196, 66, 0.24) 0px 3px 8px;
 
-  bottom: 10px;
+  bottom: 0px;
   position: sticky;
   border-radius: 2px;
   border-top-left-radius: 20px;
@@ -138,7 +147,7 @@ const Wrapper = styled.footer`
 
   .player {
     flex-direction: column;
-    width: 55%;
+    width: 65%;
 
     .top {
       padding: 12px 0px;
@@ -174,6 +183,16 @@ const Wrapper = styled.footer`
         --song-completed-width: 0%;
         --how-much-buffered-width: 0%;
       }
+    }
+
+    .current_time {
+      font-size: 1.1em;
+      margin-right: 10px;
+    }
+
+    .duration {
+      font-size: 1.1em;
+      margin-left: 10px;
     }
   }
 

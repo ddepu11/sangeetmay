@@ -25,6 +25,7 @@ const Wrapper = styled.div<Props>`
   height: 100vh;
   flex-direction: column;
   width: 100%;
+  color: var(--primary-color);
 
   .lds-facebook {
     display: inline-block;

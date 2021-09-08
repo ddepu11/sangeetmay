@@ -20,7 +20,7 @@ const AdminCreatePlaylist: FC = (): JSX.Element => {
   } = useAdminCreatePlaylist();
 
   if (playlistLoading) {
-    return <Loading />;
+    return <Loading size='MEDIUM' />;
   }
 
   return (
@@ -96,6 +96,8 @@ const Wrapper = styled.main`
   padding: 10px 5px 0;
   grid-area: main;
   border: 1px dashed #555;
+  width: 79%;
+  height: 100%;
 
   .playlist_pic_row {
     justify-content: center;
@@ -135,7 +137,7 @@ const Wrapper = styled.main`
   }
 
   .add_song_row {
-    padding: 20px 0 0;
+    margin-top: 40px;
     flex-direction: column;
     /* border: 1px dashed #555; */
   }

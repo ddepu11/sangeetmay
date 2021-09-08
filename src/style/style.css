@@ -42,12 +42,12 @@
 }
 
 body {
+  height: 100vh;
   background: linear-gradient(to right, #000000, #434343);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  color: white;
-  position: relative;
+  overflow: hidden;
 }
 
 .w-960 {

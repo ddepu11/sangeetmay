@@ -1,11 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-import { playerPauses, playerPlays } from '../../../features/player';
+import {
+  playerPauses,
+  playerPlays,
+  playerSetCurrentSong,
+} from '../../../features/player';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import clearAllIntervalsAndTimeOuts from '../../../utils/clearAllIntervalsAndTimeOuts';
 
 type TSongTetails = {
   duration: {
-    minutes: number;
+    minutes: number | string;
+    seconds: number | string;
+  };
+
+  currentTime: {
+    minutes: number | string;
     seconds: number | string;
   };
 };
@@ -17,10 +26,16 @@ const useMusicPlayerLogic = () => {
   const [volume, setVolume] = useState('0.4');
 
   const [songProgress, setSongProgress] = useState('0');
+
   const [songDetails, setSongDetails] = useState<TSongTetails>({
     duration: {
-      minutes: 0,
-      seconds: 0,
+      minutes: '00',
+      seconds: '00',
+    },
+
+    currentTime: {
+      minutes: '00',
+      seconds: '00',
     },
   });
 
@@ -29,7 +44,7 @@ const useMusicPlayerLogic = () => {
   const volumeSeeker = useRef<HTMLInputElement | null>(null);
   const setIntervals = useRef<NodeJS.Timer | number>(0);
 
-  const { currentSong, play, pause } = useAppSelector(
+  const { currentSong, play, pause, playlistSongs } = useAppSelector(
     (state) => state.player.value
   );
 
@@ -45,12 +60,12 @@ const useMusicPlayerLogic = () => {
       setVolume('0.4');
       setMute(false);
 
-      // console.log('Plays');
+      console.log('Play');
     }
 
     if (!play && pause && player && currentSong) {
       player?.pause();
-      // console.log('Pause');
+      console.log('Pause');
     }
 
     if (volSeeker)
@@ -60,7 +75,7 @@ const useMusicPlayerLogic = () => {
       );
 
     // console.log(songDetails);
-  }, [dispatch, play, currentSong, pause, songDetails]);
+  }, [dispatch, play, currentSong, pause]);
 
   const handlePlaySong = (): void => {
     dispatch(playerPlays());
@@ -72,16 +87,21 @@ const useMusicPlayerLogic = () => {
 
   // If song has ended playing then ---->
   const handleSongEnded = (): void => {
-    if (setIntervals) {
+    if (setIntervals)
       clearAllIntervalsAndTimeOuts(Number(setIntervals.current));
-    }
 
     const progressBar = songProgressBar.current;
+
     if (progressBar) {
       progressBar.style.setProperty('--song-completed-width', `0%`);
       setSongProgress('0');
       dispatch(playerPauses());
     }
+
+    setSongDetails({
+      duration: { seconds: '00', minutes: '00' },
+      currentTime: { seconds: '00', minutes: '00' },
+    });
   };
 
   // If i move thumb change player current time ---->
@@ -156,6 +176,20 @@ const useMusicPlayerLogic = () => {
         );
 
         setSongProgress(player.currentTime.toString());
+
+        // Updating time
+        const m = Math.floor(player.currentTime / 60);
+        let s: number | string = player.currentTime % 60;
+
+        s = Number(s.toFixed(0));
+
+        s = s < 10 ? `0${s}` : `${s}`;
+
+        setSongDetails({
+          ...songDetails,
+          currentTime: { minutes: m, seconds: s },
+        });
+        // ############$$$$$$$$$$$###############$$$$$$$$$$$
       }
     }, 1000);
   };
@@ -173,12 +207,12 @@ const useMusicPlayerLogic = () => {
       // Unmute
       if (prevState) {
         if (player) player.volume = 0.3;
-        setVolume('0.4');
+        setVolume('0.3');
 
         if (volSeeker)
           volSeeker.style.setProperty(
             '--volume-seeker-width',
-            `${(0.4 / 1) * 100}%`
+            `${(0.3 / 1) * 100}%`
           );
       }
 
@@ -216,7 +250,59 @@ const useMusicPlayerLogic = () => {
       );
   };
 
+  //Next and Previous song
+
+  const playNextSong = () => {
+    const player = audioPlayer.current;
+
+    if (player && playlistSongs && playlistSongs?.length > 1) {
+      handleSongEnded();
+
+      let indexOfNextSongToPlay = 0;
+
+      playlistSongs.forEach((item, index) => {
+        if (item === currentSong) {
+          indexOfNextSongToPlay = index + 1;
+
+          if (index === playlistSongs.length - 1) {
+            indexOfNextSongToPlay = 0;
+          }
+        }
+      });
+
+      dispatch(playerSetCurrentSong(playlistSongs[indexOfNextSongToPlay]));
+
+      handlePlaySong();
+    }
+  };
+
+  const playPreviousSong = () => {
+    const player = audioPlayer.current;
+
+    if (player && playlistSongs && playlistSongs?.length > 1) {
+      handleSongEnded();
+
+      let indexOfNextSongToPlay = 0;
+
+      playlistSongs.forEach((item, index) => {
+        if (item === currentSong) {
+          indexOfNextSongToPlay = index - 1;
+
+          if (index === 0) {
+            indexOfNextSongToPlay = playlistSongs.length - 1;
+          }
+        }
+      });
+
+      dispatch(playerSetCurrentSong(playlistSongs[indexOfNextSongToPlay]));
+
+      handlePlaySong();
+    }
+  };
+
   return {
+    playNextSong,
+    playPreviousSong,
     handleSongEnded,
     handlePlaying,
     getherPlayedSongDetails,
@@ -234,6 +320,7 @@ const useMusicPlayerLogic = () => {
     volume,
     handleVolume,
     volumeSeeker,
+    songDetails,
   };
 };
 
