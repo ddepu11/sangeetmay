@@ -23,7 +23,7 @@ const useMusicPlayerLogic = () => {
   const dispatch = useAppDispatch();
 
   const [mute, setMute] = useState(false);
-  const [volume, setVolume] = useState('0.4');
+  const [volume, setVolume] = useState('0');
 
   const [songProgress, setSongProgress] = useState('0');
 
@@ -53,27 +53,28 @@ const useMusicPlayerLogic = () => {
     const volSeeker = volumeSeeker.current;
 
     //These two conditions are for play,pause songs from song screen
-    if (play && !pause && player && currentSong) {
+    if (play && !pause && player && currentSong && volSeeker) {
       player?.play();
-      player.volume = 0.3;
 
-      setVolume('0.3');
-      setMute(false);
+      if (songProgress === '0') {
+        player.volume = 0.3;
+        setVolume('0.3');
+        setMute(false);
 
-      console.log('Play');
+        volSeeker.style.setProperty(
+          '--volume-seeker-width',
+          `${(0.3 / 1) * 100}%`
+        );
+      }
+
+      // console.log('Play');
     }
 
     if (!play && pause && player && currentSong) {
       player?.pause();
-      console.log('Pause');
+      // console.log('Pause');
     }
-
-    if (volSeeker)
-      volSeeker.style.setProperty(
-        '--volume-seeker-width',
-        `${(0.4 / 1) * 100}%`
-      );
-  }, [dispatch, play, currentSong, pause]);
+  }, [dispatch, play, currentSong, pause, songProgress]);
 
   const handlePlaySong = (): void => {
     dispatch(playerPlays());
