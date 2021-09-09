@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,6 +12,9 @@ import { FiMenu } from 'react-icons/fi';
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const innerLinkDiv = useRef<HTMLUListElement | null>(null);
+  const outerLinkDiv = useRef<HTMLDivElement | null>(null);
 
   const handleLogOut = async (): Promise<void> => {
     auth.signOut().then(() => {
@@ -27,6 +30,26 @@ const Navbar: FC = (): JSX.Element => {
   };
 
   const { userInfo, role } = useAppSelector((state) => state.user.value);
+
+  const handleToggleMenu = () => {
+    //React.MouseEvent<SVGElement, MouseEvent>
+    const inDiv = innerLinkDiv.current;
+    const outDiv = outerLinkDiv.current;
+
+    if (inDiv && outDiv) {
+      const inDivHeight = inDiv.getBoundingClientRect().height;
+      const outDivHeight = outDiv.getBoundingClientRect().height;
+
+      if (outDivHeight === 0) {
+        outDiv.style.height = `${inDivHeight}px`;
+        outDiv.style.padding = `10px 0`;
+      } else {
+        outDiv.style.height = `0px`;
+        3;
+        outDiv.style.padding = `0px 0`;
+      }
+    }
+  };
 
   return (
     <Wrapper className='flex'>
@@ -56,8 +79,8 @@ const Navbar: FC = (): JSX.Element => {
         </div>
       </div>
 
-      <div className='outer_link'>
-        <ul className='inner_link flex'>
+      <div className='outer_link' ref={outerLinkDiv}>
+        <ul className='inner_link flex' ref={innerLinkDiv}>
           <li className='name_text'>
             <Button
               type='button'
@@ -174,7 +197,7 @@ const Navbar: FC = (): JSX.Element => {
       </div>
 
       <div className='menu_bar'>
-        <FiMenu />
+        <FiMenu onClick={handleToggleMenu} />
       </div>
     </Wrapper>
   );
@@ -239,13 +262,14 @@ const Wrapper = styled.nav`
 
     .outer_link {
       width: 100%;
-      padding: 10px 0;
+      height: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
     }
 
     .inner_link {
       flex-direction: column;
       align-items: flex-start;
-
       li {
         margin-left: 0px;
         width: 100%;
@@ -268,6 +292,9 @@ const Wrapper = styled.nav`
     }
 
     .logo {
+      width: 60%;
+      justify-content: space-between;
+
       .name_after_logo {
         display: block;
       }
@@ -275,6 +302,12 @@ const Wrapper = styled.nav`
 
     .name_text {
       display: none;
+    }
+  }
+
+  @media screen and (min-width: 788px) {
+    .outer_link {
+      height: auto !important;
     }
   }
 `;
