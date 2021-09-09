@@ -6,7 +6,7 @@ import { userError, userLoadingBegin } from '../../../features/user';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
-const SignInLogic = () => {
+const useSignInLogic = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
 
   const setTimeOutId = useRef<NodeJS.Timeout>();
@@ -27,18 +27,21 @@ const SignInLogic = () => {
     hasUserLoggedIn && history.push('/');
   }, [history, hasUserLoggedIn]);
 
-  const signInWithEmailPassword = async () => {
+  const signInWithEmailPassword = () => {
     dispatch(userLoadingBegin());
 
-    try {
-      await auth.signInWithEmailAndPassword(
+    auth
+      .signInWithEmailAndPassword(
         credentials.email.trim(),
         credentials.password.trim()
-      );
-    } catch (err) {
-      dispatch(sendNotification({ message: err.message, error: true }));
-      dispatch(userError());
-    }
+      )
+      .then(() => {
+        console.log('Successfully signed in!');
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(userError());
+      });
   };
 
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -73,4 +76,4 @@ const SignInLogic = () => {
   };
 };
 
-export default SignInLogic;
+export default useSignInLogic;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
-import SignInLogic from './Logic/SignInLogic';
+import useSignInLogic from './Logic/useSignInLogic';
 
 const SignIn: FC = (): JSX.Element => {
   const {
@@ -12,7 +12,7 @@ const SignIn: FC = (): JSX.Element => {
     credentials: { email, password },
     emailValidationMessageTag,
     passwordValidationMessageTag,
-  } = SignInLogic();
+  } = useSignInLogic();
 
   return (
     <Wrapper className='flex '>
