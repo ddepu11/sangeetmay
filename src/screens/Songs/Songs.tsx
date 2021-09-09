@@ -47,7 +47,7 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
 
     songs.length === 0 && fetchSongs();
 
-    //After getting songs add url of those in playlkistSongs in redux
+    //After getting songs, add url of those in playlkistSongs array in redux
     const urls = songs.map((item: ISong) => {
       return item.url;
     });

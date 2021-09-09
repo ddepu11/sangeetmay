@@ -70,7 +70,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
 
                 <input
                   type='file'
-                  accept='.jpg, .png, jpeg'
+                  accept='.jpg, .png, .jpeg'
                   id='songImage'
                   onChange={handleSongPicture}
                   onLoad={() =>

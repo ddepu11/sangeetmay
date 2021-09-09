@@ -55,9 +55,9 @@ const useMusicPlayerLogic = () => {
     //These two conditions are for play,pause songs from song screen
     if (play && !pause && player && currentSong) {
       player?.play();
-      player.volume = 0.4;
+      player.volume = 0.3;
 
-      setVolume('0.4');
+      setVolume('0.3');
       setMute(false);
 
       console.log('Play');
@@ -73,8 +73,6 @@ const useMusicPlayerLogic = () => {
         '--volume-seeker-width',
         `${(0.4 / 1) * 100}%`
       );
-
-    // console.log(songDetails);
   }, [dispatch, play, currentSong, pause]);
 
   const handlePlaySong = (): void => {
