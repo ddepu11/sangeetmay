@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import validateUserCredentials from '../../../utils/validateUserCredentials';
 
-const SignUpLogic = () => {
+const useSignUpLogic = () => {
   const [credentials, setCredentials] = useState<ICredentials>({
     firstName: '',
     lastName: '',
@@ -264,4 +264,4 @@ const SignUpLogic = () => {
   };
 };
 
-export default SignUpLogic;
+export default useSignUpLogic;

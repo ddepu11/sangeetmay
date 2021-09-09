@@ -87,7 +87,6 @@ const Wrapper = styled.main`
 
   .middle-section {
     width: 100%;
-    height: 100vh;
     justify-content: flex-start;
     align-items: flex-start;
   }

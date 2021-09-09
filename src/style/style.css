@@ -42,12 +42,11 @@
 }
 
 body {
-  height: 100vh;
   background: linear-gradient(to right, #000000, #434343);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .w-960 {
@@ -83,7 +82,7 @@ input:focus {
 }
 
 .message {
-  font-size: 1.2em;
+  font-size: 1em;
   letter-spacing: 1px;
 }
 

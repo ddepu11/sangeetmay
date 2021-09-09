@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
-import SignUpLogic from './Logic/SignUpLogic';
+import useSignUpLogic from './Logic/useSignUpLogic';
 import dummyDP from '../../images/dummy_user.svg';
 import { FC } from 'react';
 
@@ -16,7 +16,7 @@ const SignUp: FC = (): JSX.Element => {
     handleCountry,
     displayPic,
     handleDisplayPic,
-  } = SignUpLogic();
+  } = useSignUpLogic();
 
   return (
     <Wrapper className='flex'>
@@ -69,11 +69,11 @@ const SignUp: FC = (): JSX.Element => {
             handleInput={handleInput}
             refObj={vmt.firstNameValidationMessageTag}
             formControlStyle={{
-              inputColor: 'var(--secondary-color)',
+              inputColor: 'var(--little-dark-color)',
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.1em',
               inputW: '100%',
             }}
@@ -90,9 +90,9 @@ const SignUp: FC = (): JSX.Element => {
             refObj={vmt.lastNameValidationMessageTag}
             formControlStyle={{
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.2em',
               inputW: '100%',
             }}
@@ -112,11 +112,11 @@ const SignUp: FC = (): JSX.Element => {
             handleInput={handleInput}
             refObj={vmt.emailValidationMessageTag}
             formControlStyle={{
-              inputColor: 'var(--secondary-color)',
+              inputColor: 'var(--little-dark-color)',
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.1em',
               inputW: '100%',
             }}
@@ -134,9 +134,9 @@ const SignUp: FC = (): JSX.Element => {
             numberInputMin={12}
             formControlStyle={{
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.2em',
               inputW: '100%',
             }}
@@ -468,11 +468,11 @@ const SignUp: FC = (): JSX.Element => {
             handleInput={handleInput}
             refObj={vmt.passwordValidationMessageTag}
             formControlStyle={{
-              inputColor: 'var(--secondary-color)',
+              inputColor: 'var(--little-dark-color)',
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.1em',
               inputW: '100%',
             }}
@@ -489,9 +489,9 @@ const SignUp: FC = (): JSX.Element => {
             refObj={vmt.confirmPasswordValidationMessageTag}
             formControlStyle={{
               fcWidth: '45%',
-              labelFs: '1.4em',
-              inputFs: '1.2em',
-              inputPadding: '10px 10px',
+              labelFs: '1.2em',
+              inputFs: '1em',
+              inputPadding: '8px 10px',
               messageFs: '1.2em',
               inputW: '100%',
             }}
@@ -503,10 +503,10 @@ const SignUp: FC = (): JSX.Element => {
           handleClick={handleSignUp}
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.4em',
+            fontSize: '1.2em',
             hoverTransform: 'scale(1.05) translateY(-2px)',
             transition: 'transform 0.4s ease',
-            mt: '40px',
+            mt: '20px',
             width: '100%',
             bgColor: 'var(--secondary-color)',
             color: 'var(--dark-color)',
@@ -537,7 +537,7 @@ const SignUp: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.main`
-  padding: 5px 5px 50px;
+  padding: 5px 5px 10px;
   flex-direction: column;
   border: 1px dashed #8888;
   width: 100%;
@@ -550,6 +550,7 @@ const Wrapper = styled.main`
     font-weight: 300;
     text-align: center;
     line-height: 1.4;
+    color: var(--primary-color);
   }
 
   form {
@@ -557,17 +558,16 @@ const Wrapper = styled.main`
 
     .row {
       justify-content: space-between;
-      padding: 10px 0 22px;
+      padding: 8px 0 18px;
     }
 
     .display_pic_row {
       justify-content: center;
       padding: 0px 0 0px;
-      /* flex-direction: column; */
 
       label {
         width: 200px;
-        height: 200px;
+        height: 170px;
         cursor: pointer;
 
         img {
@@ -585,6 +585,7 @@ const Wrapper = styled.main`
 
         .upload_img_text {
           font-size: 1.2em;
+          color: var(--primary-color);
 
           span {
             margin-left: 10px;
@@ -602,7 +603,7 @@ const Wrapper = styled.main`
         padding: 8px 0;
 
         label {
-          font-size: 1.4em;
+          font-size: 1.2em;
           color: #dfc6c6;
         }
       }
@@ -613,6 +614,7 @@ const Wrapper = styled.main`
         .bottom {
           padding: 5px 0 0;
           justify-content: flex-start;
+          color: var(--primary-color);
 
           .male,
           .female {
@@ -632,7 +634,7 @@ const Wrapper = styled.main`
         #country {
           width: 100%;
           border-radius: 2px;
-          font-size: 1.2em;
+          font-size: 1em;
           padding: 8px 5px;
         }
       }
@@ -641,7 +643,7 @@ const Wrapper = styled.main`
 
   .sign_in_link {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 `;
 

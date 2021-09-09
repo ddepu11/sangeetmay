@@ -31,12 +31,12 @@ const SignIn: FC = (): JSX.Element => {
           handleInput={handleInput}
           refObj={emailValidationMessageTag}
           formControlStyle={{
-            inputColor: 'var(--secondary-color)',
+            inputColor: 'var(--little-dark-color)',
             fcMargin: '30px 0 0',
             fcWidth: '100%',
-            labelFs: '1.4em',
-            inputFs: '1.2em',
-            inputPadding: '10px 10px',
+            labelFs: '1.2em',
+            inputFs: '1.0em',
+            inputPadding: '8px 10px',
             messageFs: '1.1em',
             inputW: '100%',
           }}
@@ -54,9 +54,9 @@ const SignIn: FC = (): JSX.Element => {
           formControlStyle={{
             fcMargin: '40px 0 0',
             fcWidth: '100%',
-            labelFs: '1.4em',
-            inputFs: '1.2em',
-            inputPadding: '10px 10px',
+            labelFs: '1.2em',
+            inputFs: '1.0em',
+            inputPadding: '8px 10px',
             messageFs: '1.2em',
             inputW: '100%',
           }}
@@ -66,7 +66,7 @@ const SignIn: FC = (): JSX.Element => {
           type='submit'
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.4em',
+            fontSize: '1.2em',
             hoverTransform: 'scale(1.05) translateY(-2px)',
             transition: 'transform 0.4s ease',
             mt: '40px',
@@ -107,13 +107,14 @@ const Wrapper = styled.main`
   width: 100%;
 
   .heading {
-    font-size: 1.5em;
+    font-size: 1.3em;
     text-transform: capitalize;
     letter-spacing: 3px;
     padding: 10px 0 10px;
     font-weight: 300;
-    text-align: center;
     line-height: 1.6;
+    color: var(--primary-color);
+    text-align: center;
   }
 
   form {
