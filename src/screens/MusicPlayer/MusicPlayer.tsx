@@ -31,7 +31,7 @@ const MusicPlayer: FC = (): JSX.Element => {
   } = useMusicPlayerLogic();
 
   return (
-    <Wrapper className='flex'>
+    <Wrapper className='w-960 flex'>
       <div className='left flex'>
         <div className='pic'>
           <img src={dummy} alt='some' />
@@ -113,9 +113,9 @@ const MusicPlayer: FC = (): JSX.Element => {
 
 const Wrapper = styled.footer`
   margin-top: 10px;
-  padding: 0px 15px 10px;
+  padding: 0px 15px 8px;
   width: 100%;
-  background-color: var(--primary-color);
+  background: var(--primary-color);
   box-shadow: rgba(10, 196, 66, 0.24) 0px 3px 8px;
 
   bottom: 0px;
@@ -150,7 +150,7 @@ const Wrapper = styled.footer`
     width: 65%;
 
     .top {
-      padding: 12px 0px;
+      padding: 10px 0px;
       width: 100%;
 
       .next,

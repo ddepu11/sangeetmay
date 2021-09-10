@@ -27,63 +27,68 @@ const App: FC = (): JSX.Element => {
   }
 
   return (
-    <Wrapper className='w-960 flex'>
-      {message !== '' && notify()}
+    <>
+      <Wrapper className='w-960 flex'>
+        {message !== '' && notify()}
 
-      <ToastContainer />
-      <Router>
-        {hasUserLoggedIn && <Navbar />}
+        <ToastContainer />
 
-        <div className='middle-section flex'>
-          {hasUserLoggedIn && <Aside />}
+        <Router>
+          {hasUserLoggedIn && <Navbar />}
 
-          <Switch>
-            <Route path='/' exact>
-              <Home />
-            </Route>
+          <div className='middle-section flex'>
+            {hasUserLoggedIn && <Aside />}
 
-            <Route path='/search' exact>
-              <Search />
-            </Route>
+            <Switch>
+              <Route path='/' exact>
+                <Home />
+              </Route>
 
-            <Route path='/library' exact>
-              <Library />
-            </Route>
+              <Route path='/search' exact>
+                <Search />
+              </Route>
 
-            <Route path='/account' exact>
-              <Account />
-            </Route>
+              <Route path='/library' exact>
+                <Library />
+              </Route>
 
-            <Route path='/dashboard' exact>
-              <Dashboard />
-            </Route>
+              <Route path='/account' exact>
+                <Account />
+              </Route>
 
-            <Route path='/admin-create-playlist' exact>
-              <AdminCreatePlaylist />
-            </Route>
+              <Route path='/dashboard' exact>
+                <Dashboard />
+              </Route>
 
-            <Route path='/add-songs-to-playlist/:id' exact>
-              <AddSongsToPlaylists />
-            </Route>
+              <Route path='/admin-create-playlist' exact>
+                <AdminCreatePlaylist />
+              </Route>
 
-            <Route path='/sign-in' exact>
-              <SignIn />
-            </Route>
+              <Route path='/add-songs-to-playlist/:id' exact>
+                <AddSongsToPlaylists />
+              </Route>
 
-            <Route path='/sign-up' exact>
-              <SignUp />
-            </Route>
-          </Switch>
-        </div>
+              <Route path='/sign-in' exact>
+                <SignIn />
+              </Route>
 
-        {hasUserLoggedIn && <MusicPlayer />}
-      </Router>
-    </Wrapper>
+              <Route path='/sign-up' exact>
+                <SignUp />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </Wrapper>
+
+      {hasUserLoggedIn && <MusicPlayer />}
+    </>
   );
 };
 
 const Wrapper = styled.main`
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
 
   .middle-section {
     width: 100%;

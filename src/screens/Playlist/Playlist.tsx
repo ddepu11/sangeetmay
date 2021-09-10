@@ -34,13 +34,25 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
       )}
 
       <Wrapper className='flex'>
-        <div className='add_songs_div'>
+        <div className='playlist_pic'>
+          <img src={playlist.playlistPic?.url} alt={playlist.name} />
+        </div>
+        <div className='playlist_info'>
+          <p>{playlist.name}</p>
+        </div>
+        <div className='delete_icon_div'>
+          <ImBin onClick={showDashBoard} />
+        </div>
+        {/* SHOWS On Hover */}
+
+        <div className='add_songs'>
+          {/*  */}
           <Button
             type='button'
             buttonStyle={{
-              bgColor: 'var(--secondary-color)',
-              padding: '4px 8px',
-              borderRadius: '10px',
+              bgColor: 'var(--primary-color)',
+              padding: '5px 10px',
+              borderRadius: '5px',
               hoverCursor: 'pointer',
               fontSize: '0.8em',
             }}
@@ -54,18 +66,6 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
               Add Songs
             </Link>
           </Button>
-        </div>
-
-        <div className='playlist_pic'>
-          <img src={playlist.playlistPic?.url} alt={playlist.name} />
-        </div>
-
-        <div className='playlist_info'>
-          <p>{playlist.name}</p>
-        </div>
-
-        <div className='delete_icon_div'>
-          <ImBin onClick={showDashBoard} />
         </div>
       </Wrapper>
     </>
@@ -120,8 +120,28 @@ const Wrapper = styled.main`
     transform: scale(1.2);
   }
 
-  :hover {
+  .add_songs {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0);
+    display: grid;
+    place-content: center;
+    transition: all 0.5s ease-in;
+
+    button {
+      display: none;
+    }
+  }
+
+  .add_songs:hover {
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.8);
+
+    button {
+      display: block;
+    }
   }
 `;
 

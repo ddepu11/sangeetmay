@@ -234,6 +234,8 @@ const Wrapper = styled.main`
   justify-content: flex-start;
   flex-direction: column;
   width: 79%;
+  overflow-y: scroll;
+  height: 77vh;
 
   .display_pic_row {
     justify-content: center;
