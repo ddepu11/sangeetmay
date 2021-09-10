@@ -4,6 +4,7 @@ import {
   playerPlays,
   playerSetCurrentSongAndPlaylist,
 } from '../../../features/player';
+import { ISong } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import clearAllIntervalsAndTimeOuts from '../../../utils/clearAllIntervalsAndTimeOuts';
 
@@ -259,8 +260,8 @@ const useMusicPlayerLogic = () => {
 
       let indexOfNextSongToPlay = 0;
 
-      playlistSongs.forEach((item, index) => {
-        if (item === currentSong) {
+      playlistSongs.forEach((item: ISong, index) => {
+        if (item.url === currentSong) {
           indexOfNextSongToPlay = index + 1;
 
           if (index === playlistSongs.length - 1) {
@@ -285,8 +286,8 @@ const useMusicPlayerLogic = () => {
 
       let indexOfNextSongToPlay = 0;
 
-      playlistSongs.forEach((item, index) => {
-        if (item === currentSong) {
+      playlistSongs.forEach((item: ISong, index) => {
+        if (item.url === currentSong) {
           indexOfNextSongToPlay = index - 1;
 
           if (index === 0) {

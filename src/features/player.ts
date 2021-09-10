@@ -4,21 +4,19 @@ import { ISong } from '../interfaces';
 type TInitialState = {
   value: {
     playerLoading: boolean;
-    playerSongs: ISong[] | null;
     currentPlaylistId: string;
     currentSong: string;
     currentSongPic: string;
     currentSongName: string;
     play: boolean;
     pause: boolean;
-    playlistSongs: string[] | null;
+    playlistSongs: ISong[] | null;
   };
 };
 
 const initialState: TInitialState = {
   value: {
     playerLoading: false,
-    playerSongs: null,
     currentPlaylistId: '',
     currentSong: '',
     currentSongPic: '',
@@ -39,13 +37,13 @@ const playerSlice = createSlice({
       state.value = { ...state.value, playerLoading: true };
     },
 
-    playerSetSongs: (state, action) => {
-      state.value = {
-        ...state.value,
-        playerSongs: action.payload,
-        playerLoading: false,
-      };
-    },
+    // playerSetSongs: (state, action) => {
+    //   state.value = {
+    //     ...state.value,
+    //     playerSongs: action.payload,
+    //     playerLoading: false,
+    //   };
+    // },
 
     playerSetCurrentSongAndPlaylist: (state, action) => {
       const { currentSong, playlistId, currentSongPic, currentSongName } =
@@ -80,7 +78,7 @@ const playerSlice = createSlice({
     playerSetPlaylistSongs: (state, action) => {
       state.value = {
         ...state.value,
-        playlistSongs: [...action.payload],
+        playlistSongs: action.payload,
       };
     },
 
@@ -94,7 +92,6 @@ export const {
   playerError,
   playerLoadingBegins,
   playerSetCurrentSongAndPlaylist,
-  playerSetSongs,
   playerPlays,
   playerPauses,
   playerSetPlaylistSongs,

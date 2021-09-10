@@ -63,8 +63,10 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
     setIsThisPlaylistBeingPlayed(true);
 
     if (currentPlaylistId !== playlist.id) {
+      const songs: ISong[] = [];
+
       playlist.songs &&
-        playlist.songs.forEach((item: string, index) => {
+        playlist.songs.forEach((item: string, index, array) => {
           firestore
             .collection('songs')
             .doc(item)
@@ -72,6 +74,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
             .then((doc) => {
               const song: ISong = doc.data() as ISong;
 
+              // Set first song from playlist as current song
               if (index === 0) {
                 dispatch(
                   playerSetCurrentSongAndPlaylist({
@@ -84,8 +87,13 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
                 dispatch(playerPlays());
               }
 
-              if (doc.data()) {
-                dispatch(playerSetPlaylistSongs(doc.get('url')));
+              if (song) {
+                songs.push(song);
+              }
+
+              // Set songs url from playlist to playlistArray of player
+              if (index === array.length - 1) {
+                dispatch(playerSetPlaylistSongs(songs));
               }
             })
             .catch((err) => {
