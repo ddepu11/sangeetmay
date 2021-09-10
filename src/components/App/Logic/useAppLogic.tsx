@@ -77,7 +77,9 @@ const useAppLogic = () => {
     // Waiting for user to log in
     auth.onAuthStateChanged((user) => {
       if (user) !hasUserLoggedIn && fetchUserData(user.email);
-      else dispatch(signOut());
+      else {
+        dispatch(signOut());
+      }
     });
   }, [dispatch, hasUserLoggedIn]);
 

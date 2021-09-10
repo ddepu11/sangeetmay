@@ -21,11 +21,13 @@ const useSignInLogic = () => {
 
   const history = useHistory();
 
-  const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
+  const { hasUserLoggedIn, role } = useAppSelector((state) => state.user.value);
 
   useEffect(() => {
-    hasUserLoggedIn && history.push('/');
-  }, [history, hasUserLoggedIn]);
+    if (hasUserLoggedIn) {
+      role === 'ADMIN' ? history.push('/dashboard') : history.push('/');
+    }
+  }, [history, hasUserLoggedIn, role]);
 
   const signInWithEmailPassword = () => {
     dispatch(userLoadingBegin());

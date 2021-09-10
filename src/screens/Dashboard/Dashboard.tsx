@@ -6,7 +6,7 @@ import Loading from '../../components/Loading';
 import useDashboardLogic from './Logic/useDashboardLogic';
 import { IPlaylist } from '../../interfaces';
 import Button from '../../components/Button';
-import Playlist from '../Playlist/Playlist';
+import Playlist from '../../components/Playlist/Playlist';
 
 const Dashboard: FC = (): JSX.Element => {
   const { handleDelete, playlistLoading, playlists } = useDashboardLogic();

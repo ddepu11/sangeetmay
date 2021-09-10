@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import { ImBin } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../../components/Button';
-import Dialog from '../../components/Dialog';
+import Button from '../Button';
+import Dialog from '../Dialog';
 import { IPlaylist } from '../../interfaces';
 import { useAppSelector } from '../../redux/hooks';
 
@@ -40,6 +40,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
         <div className='playlist_pic'>
           <img src={playlist.playlistPic?.url} alt={playlist.name} />
         </div>
+
         <div className='playlist_info'>
           <p>{playlist.name}</p>
         </div>
@@ -54,29 +55,29 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
         <div className='add_songs'>
           {/*  */}
-          {role === 'ADMIN' ? (
-            <Button
-              type='button'
-              buttonStyle={{
-                bgColor: 'var(--little-light-color)',
-                padding: '5px 10px',
-                borderRadius: '5px',
-                hoverCursor: 'pointer',
-                fontSize: '0.8em',
+          <Button
+            type='button'
+            buttonStyle={{
+              bgColor: 'var(--little-light-color)',
+              padding: '5px 10px',
+              borderRadius: '5px',
+              hoverCursor: 'pointer',
+              fontSize: '0.8em',
+            }}
+          >
+            <Link
+              style={{
+                color: 'var(--dark-color)',
               }}
+              to={
+                role === 'ADMIN'
+                  ? `/add-songs-to-playlist/${playlist.id}`
+                  : '/playlist'
+              }
             >
-              <Link
-                style={{
-                  color: 'var(--dark-color)',
-                }}
-                to={`/add-songs-to-playlist/${playlist.id}`}
-              >
-                Add Songs
-              </Link>
-            </Button>
-          ) : (
-            'show Playlist'
-          )}
+              {role === 'ADMIN' ? 'Add Songs' : 'open'}
+            </Link>
+          </Button>
         </div>
       </Wrapper>
     </>

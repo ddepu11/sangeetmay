@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 
@@ -13,12 +14,16 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 const useDashboardLogic = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const { playlistLoading, playlists } = useAppSelector(
     (state) => state.playlist.value
   );
+  const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
 
   useEffect(() => {
+    !hasUserLoggedIn && history.push('/sign-in');
+
     const fetchDocs = () => {
       return firestore
         .collection('playlists')
@@ -47,7 +52,8 @@ const useDashboardLogic = () => {
     return () => {
       fetchDocs();
     };
-  }, [dispatch, playlistLoading]);
+  
+  }, [dispatch, playlistLoading, hasUserLoggedIn, history]);
 
   // ############## Playlist Removal Starts ###############
 

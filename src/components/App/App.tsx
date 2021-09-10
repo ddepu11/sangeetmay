@@ -18,6 +18,9 @@ import Library from '../../screens/Library/Library';
 import Dashboard from '../../screens/Dashboard/Dashboard';
 import AdminCreatePlaylist from '../../screens/AdminCreatePlaylist/AdminCreatePlaylist';
 import AddSongsToPlaylists from '../../screens/AddSongsToPlaylist/AddSongsToPlaylist';
+import PlaylistScreen from '../../screens/Playlist/PlaylistScreen';
+import AdminProtectedRoute from '../AdminProtectedRoute';
+import UserProtectedRoute from '../UserProtectedRoute';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn, role } = useAppLogic();
@@ -44,29 +47,48 @@ const App: FC = (): JSX.Element => {
                 <Home />
               </Route>
 
-              <Route path='/search' exact>
-                <Search />
-              </Route>
+              <UserProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={Search}
+                path='/search'
+                role={role}
+              />
 
-              <Route path='/library' exact>
-                <Library />
-              </Route>
+              <UserProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={Library}
+                path='/library'
+                role={role}
+              />
 
-              <Route path='/account' exact>
-                <Account />
-              </Route>
+              <UserProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={PlaylistScreen}
+                path='/playlist'
+                role={role}
+              />
 
-              <Route path='/dashboard' exact>
-                <Dashboard />
-              </Route>
+              {/* Admin Routes */}
+              <AdminProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={Dashboard}
+                path='/dashboard'
+                role={role}
+              />
 
-              <Route path='/admin-create-playlist' exact>
-                <AdminCreatePlaylist />
-              </Route>
+              <AdminProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={AdminCreatePlaylist}
+                path='/admin-create-playlist'
+                role={role}
+              />
 
-              <Route path='/add-songs-to-playlist/:id' exact>
-                <AddSongsToPlaylists />
-              </Route>
+              <AdminProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={AddSongsToPlaylists}
+                path='/admin-create-playlist/:id'
+                role={role}
+              />
 
               <Route path='/sign-in' exact>
                 <SignIn />
@@ -74,6 +96,10 @@ const App: FC = (): JSX.Element => {
 
               <Route path='/sign-up' exact>
                 <SignUp />
+              </Route>
+
+              <Route path='/account' exact>
+                <Account />
               </Route>
             </Switch>
           </div>
@@ -88,7 +114,6 @@ const App: FC = (): JSX.Element => {
 const Wrapper = styled.main`
   flex-direction: column;
   justify-content: flex-start;
-  height: 100vh;
 
   .middle-section {
     width: 100%;
