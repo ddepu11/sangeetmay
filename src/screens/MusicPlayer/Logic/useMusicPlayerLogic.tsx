@@ -45,9 +45,8 @@ const useMusicPlayerLogic = () => {
   const volumeSeeker = useRef<HTMLInputElement | null>(null);
   const setIntervals = useRef<NodeJS.Timer | number>(0);
 
-  const { currentSong, play, pause, playlistSongs } = useAppSelector(
-    (state) => state.player.value
-  );
+  const { currentSong, play, pause, playlistSongs, currentPlaylistId } =
+    useAppSelector((state) => state.player.value);
 
   useEffect(() => {
     const player = audioPlayer.current;
@@ -270,8 +269,15 @@ const useMusicPlayerLogic = () => {
         }
       });
 
+      const song = playlistSongs[indexOfNextSongToPlay];
+
       dispatch(
-        playerSetCurrentSongAndPlaylist(playlistSongs[indexOfNextSongToPlay])
+        playerSetCurrentSongAndPlaylist({
+          currentSong: song.url,
+          currentSongPic: song.pic.url,
+          currentSongName: song.name,
+          playlistId: currentPlaylistId,
+        })
       );
 
       handlePlaySong();
@@ -296,8 +302,15 @@ const useMusicPlayerLogic = () => {
         }
       });
 
+      const song = playlistSongs[indexOfNextSongToPlay];
+
       dispatch(
-        playerSetCurrentSongAndPlaylist(playlistSongs[indexOfNextSongToPlay])
+        playerSetCurrentSongAndPlaylist({
+          currentSong: song.url,
+          currentSongPic: song.pic.url,
+          currentSongName: song.name,
+          playlistId: currentPlaylistId,
+        })
       );
 
       handlePlaySong();
