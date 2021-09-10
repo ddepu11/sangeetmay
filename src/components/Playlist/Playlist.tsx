@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { ImBin } from 'react-icons/im';
+import { AiOutlinePauseCircle, AiOutlinePlayCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../Button';
@@ -13,6 +14,9 @@ type Props = {
 };
 
 const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
+  const [isThisPlaylistBeingPlayed, setIsThisPlaylistBeingPlayed] =
+    useState(false);
+
   const [viewDashBoard, setViewDashBoard] = useState(false);
 
   const { role } = useAppSelector((state) => state.user.value);
@@ -23,6 +27,19 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
   const hideDashBoard = (): void => {
     setViewDashBoard(false);
+  };
+
+  // Play Or Pause Playlist
+
+  const handlePlayPlaylist = () => {
+    //
+    console.log('play');
+    setIsThisPlaylistBeingPlayed(true);
+  };
+
+  const handlePausePlaylist = () => {
+    console.log('pause');
+    setIsThisPlaylistBeingPlayed(false);
   };
 
   return (
@@ -37,6 +54,14 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
       )}
 
       <Wrapper className='flex'>
+        <div className='play__pause_btns'>
+          {isThisPlaylistBeingPlayed ? (
+            <AiOutlinePauseCircle onClick={handlePausePlaylist} />
+          ) : (
+            <AiOutlinePlayCircle onClick={handlePlayPlaylist} />
+          )}
+        </div>
+
         <div className='playlist_pic'>
           <img src={playlist.playlistPic?.url} alt={playlist.name} />
         </div>
@@ -91,6 +116,20 @@ const Wrapper = styled.main`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+  .play__pause_btns {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 5;
+    font-size: 2em;
+    transition: transform 0.5s ease;
+  }
+
+  .play__pause_btns:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
 
   .add_songs_div {
     position: absolute;
