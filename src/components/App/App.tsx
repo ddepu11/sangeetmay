@@ -86,7 +86,7 @@ const App: FC = (): JSX.Element => {
               <AdminProtectedRoute
                 isLoggedIn={hasUserLoggedIn}
                 component={AddSongsToPlaylists}
-                path='/admin-create-playlist/:id'
+                path='/add-songs-to-playlist/:id'
                 role={role}
               />
 

@@ -17,7 +17,7 @@ const Loading: FC<Props> = ({ size }): JSX.Element => (
 );
 
 const styleForMediumSize = {
-  height: '65vh',
+  height: '78vh',
   width: '80%',
 };
 

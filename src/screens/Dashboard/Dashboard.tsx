@@ -58,6 +58,7 @@ const Wrapper = styled.main`
   border: 1px dashed #555;
   width: 100%;
   color: var(--primary-color);
+  min-height: 76vh;
 
   nav {
     justify-content: space-between;

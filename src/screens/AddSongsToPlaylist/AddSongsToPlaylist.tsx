@@ -11,7 +11,6 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
   const {
     playlistLoading,
     playlist,
-    playlistId,
     songPicture,
     handleSongPicture,
     song,
@@ -162,7 +161,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
           </div>
 
           {playlist.songs !== undefined && (
-            <Songs songsIds={playlist.songs} playlistId={playlistId} />
+            <Songs songsIds={playlist.songs} playlistId={playlist.id} />
           )}
         </>
       )}

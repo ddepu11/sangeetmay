@@ -7,11 +7,12 @@ import { ISong } from '../../interfaces';
 import {
   playerPauses,
   playerPlays,
-  playerSetCurrentSong,
+  playerSetCurrentSongAndPlaylist,
 } from '../../features/player';
 import Dialog from '../../components/Dialog';
 
 type Props = {
+  playlistId: string | undefined;
   song: ISong;
   index: number;
   handleDeleteSong: (
@@ -19,7 +20,12 @@ type Props = {
   ) => void;
 };
 
-const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
+const Song: FC<Props> = ({
+  song,
+  index,
+  handleDeleteSong,
+  playlistId,
+}): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [isThisSongBeingplayed, setIsThisSongBeingplayed] =
@@ -40,7 +46,12 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
     setIsThisSongBeingplayed(true);
 
     if (currentSong !== song.url) {
-      dispatch(playerSetCurrentSong(song.url));
+      dispatch(
+        playerSetCurrentSongAndPlaylist({
+          song: song.url,
+          playlistId: playlistId,
+        })
+      );
     }
 
     dispatch(playerPlays());
@@ -56,7 +67,7 @@ const Song: FC<Props> = ({ song, index, handleDeleteSong }): JSX.Element => {
       setIsThisSongBeingplayed(false);
     }
 
-    // THis is for when i play different play button should display instead of pause
+    // THis is for when i play different song,this song's play button should display
     if (currentSong !== song.url) {
       setIsThisSongBeingplayed(false);
     }

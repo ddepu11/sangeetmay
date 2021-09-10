@@ -18,7 +18,7 @@ const Home: FC = (): JSX.Element => {
   useEffect(() => {
     !hasUserLoggedIn && history.push('/sign-in');
 
-    role === 'ADMIN' && history.push('/dashborad');
+    role === 'ADMIN' && history.push('/dashboard');
 
     let didComponentUnmount = false;
 

@@ -96,8 +96,8 @@ const Wrapper = styled.main`
   padding: 10px 5px 0;
   grid-area: main;
   border: 1px dashed #555;
-  width: 79%;
-  height: 100%;
+  width: 100%;
+  height: 76vh;
 
   .playlist_pic_row {
     justify-content: center;

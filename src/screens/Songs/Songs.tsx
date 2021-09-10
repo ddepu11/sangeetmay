@@ -10,7 +10,7 @@ import {
 } from '../../features/playlist';
 import { useAppDispatch } from '../../redux/hooks';
 import Song from '../song/Song';
-import { playerSetPlaylist } from '../../features/player';
+import { playerSetPlaylistSongs } from '../../features/player';
 
 type Props = {
   songsIds: string[];
@@ -23,26 +23,27 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
   const [songs, setSongs] = useState<ISong[]>([]);
 
   useEffect(() => {
-    let fstr: any;
+    let hasComponentBeenUnmounted = false;
 
     const fetchSongs = () => {
-      songsIds.forEach((item: string) => {
-        fstr = firestore
-          .collection('songs')
-          .doc(item)
-          .get()
-          .then((doc) => {
-            if (songs && doc.data()) {
-              setSongs((prevState) => {
-                return [...prevState, doc.data() as ISong];
-              });
-            }
-          })
-          .catch((err) => {
-            dispatch(sendNotification({ message: err.message, error: true }));
-            dispatch(playlistError());
-          });
-      });
+      !hasComponentBeenUnmounted &&
+        songsIds.forEach((item: string) => {
+          firestore
+            .collection('songs')
+            .doc(item)
+            .get()
+            .then((doc) => {
+              if (songs && doc.data()) {
+                setSongs((prevState) => {
+                  return [...prevState, doc.data() as ISong];
+                });
+              }
+            })
+            .catch((err) => {
+              dispatch(sendNotification({ message: err.message, error: true }));
+              dispatch(playlistError());
+            });
+        });
     };
 
     songs.length === 0 && fetchSongs();
@@ -52,9 +53,11 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
       return item.url;
     });
 
-    dispatch(playerSetPlaylist(urls));
+    dispatch(playerSetPlaylistSongs(urls));
 
-    return () => fstr;
+    return () => {
+      hasComponentBeenUnmounted = true;
+    };
   }, [songsIds, songs, dispatch]);
 
   //############### Handle Deleting Song Starts #########################
@@ -149,6 +152,7 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
           if (item !== undefined) {
             return (
               <Song
+                playlistId={playlistId}
                 key={item.id}
                 song={item}
                 index={index}

@@ -211,7 +211,6 @@ const useAddSongsToPlaylist = () => {
   return {
     playlistLoading,
     playlist,
-    playlistId,
     songPicture,
     handleSongPicture,
     handleSong,

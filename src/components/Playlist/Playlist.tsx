@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ImBin } from 'react-icons/im';
 import { AiOutlinePauseCircle, AiOutlinePlayCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
@@ -21,24 +21,39 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
   const { role } = useAppSelector((state) => state.user.value);
 
-  const showDashBoard = (): void => {
+  const { currentPlaylistId, play, pause } = useAppSelector(
+    (state) => state.player.value
+  );
+
+  useEffect(() => {
+    // Both conditions to sync global player play, pause buttons with this screen play,pause button
+    if (play && !pause && currentPlaylistId === playlist.id) {
+      setIsThisPlaylistBeingPlayed(true);
+    }
+
+    if (!play && pause && currentPlaylistId === playlist.id) {
+      setIsThisPlaylistBeingPlayed(false);
+    }
+
+    if (currentPlaylistId !== playlist.id) {
+      setIsThisPlaylistBeingPlayed(false);
+    }
+  }, [currentPlaylistId, playlist.id, play, pause]);
+
+  const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };
 
-  const hideDashBoard = (): void => {
+  const hideConfirmDialogBox = (): void => {
     setViewDashBoard(false);
   };
 
   // Play Or Pause Playlist
-
   const handlePlayPlaylist = () => {
-    //
-    console.log('play');
     setIsThisPlaylistBeingPlayed(true);
   };
 
   const handlePausePlaylist = () => {
-    console.log('pause');
     setIsThisPlaylistBeingPlayed(false);
   };
 
@@ -48,7 +63,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
         <Dialog
           whatAreYouDeleting='playlist'
           confirm={handleDelete}
-          deny={hideDashBoard}
+          deny={hideConfirmDialogBox}
           dataId={playlist.id}
         />
       )}
@@ -72,7 +87,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
         {role === 'ADMIN' && (
           <div className='delete_icon_div'>
-            <ImBin onClick={showDashBoard} />
+            <ImBin onClick={showConfirmDialogBox} />
           </div>
         )}
 

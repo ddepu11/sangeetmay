@@ -25,13 +25,11 @@ const useDashboardLogic = () => {
     !hasUserLoggedIn && history.push('/sign-in');
 
     const fetchDocs = () => {
-      return firestore
+      firestore
         .collection('playlists')
         .get()
         .then((data) => {
           const newDocs: IPlaylist[] = [];
-
-          // const noPlaylists = data.docs.length === 0;
 
           data.docs.forEach((item) => {
             if (item.data() !== undefined) {
@@ -48,11 +46,6 @@ const useDashboardLogic = () => {
     };
 
     fetchDocs();
-
-    return () => {
-      fetchDocs();
-    };
-  
   }, [dispatch, playlistLoading, hasUserLoggedIn, history]);
 
   // ############## Playlist Removal Starts ###############
