@@ -7,6 +7,8 @@ type TInitialState = {
     playerSongs: ISong[] | null;
     currentPlaylistId: string;
     currentSong: string;
+    currentSongPic: string;
+    currentSongName: string;
     play: boolean;
     pause: boolean;
     playlistSongs: string[] | null;
@@ -19,6 +21,8 @@ const initialState: TInitialState = {
     playerSongs: null,
     currentPlaylistId: '',
     currentSong: '',
+    currentSongPic: '',
+    currentSongName: '',
     play: false,
     pause: false,
     playlistSongs: null,
@@ -44,10 +48,15 @@ const playerSlice = createSlice({
     },
 
     playerSetCurrentSongAndPlaylist: (state, action) => {
+      const { currentSong, playlistId, currentSongPic, currentSongName } =
+        action.payload;
+
       state.value = {
         ...state.value,
-        currentSong: action.payload.song,
-        currentPlaylistId: action.payload.playlistId,
+        currentSong,
+        currentPlaylistId: playlistId,
+        currentSongPic,
+        currentSongName,
         playerLoading: false,
       };
     },

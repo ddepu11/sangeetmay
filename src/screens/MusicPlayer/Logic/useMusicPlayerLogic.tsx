@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   playerPauses,
   playerPlays,
-  playerSetCurrentSong,
+  playerSetCurrentSongAndPlaylist,
 } from '../../../features/player';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import clearAllIntervalsAndTimeOuts from '../../../utils/clearAllIntervalsAndTimeOuts';
@@ -269,7 +269,9 @@ const useMusicPlayerLogic = () => {
         }
       });
 
-      dispatch(playerSetCurrentSong(playlistSongs[indexOfNextSongToPlay]));
+      dispatch(
+        playerSetCurrentSongAndPlaylist(playlistSongs[indexOfNextSongToPlay])
+      );
 
       handlePlaySong();
     }
@@ -293,7 +295,9 @@ const useMusicPlayerLogic = () => {
         }
       });
 
-      dispatch(playerSetCurrentSong(playlistSongs[indexOfNextSongToPlay]));
+      dispatch(
+        playerSetCurrentSongAndPlaylist(playlistSongs[indexOfNextSongToPlay])
+      );
 
       handlePlaySong();
     }

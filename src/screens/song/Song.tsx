@@ -48,7 +48,9 @@ const Song: FC<Props> = ({
     if (currentSong !== song.url) {
       dispatch(
         playerSetCurrentSongAndPlaylist({
-          song: song.url,
+          currentSong: song.url,
+          currentSongPic: song.pic.url,
+          currentSongName: song.name,
           playlistId: playlistId,
         })
       );
@@ -73,11 +75,11 @@ const Song: FC<Props> = ({
     }
   }, [play, pause, currentSong, song.url]);
 
-  const showDashBoard = (): void => {
+  // Confirming or denying song delete request
+  const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };
-
-  const hideDashBoard = (): void => {
+  const hideConfirmDialogBox = (): void => {
     setViewDashBoard(false);
   };
 
@@ -87,7 +89,7 @@ const Song: FC<Props> = ({
         <Dialog
           whatAreYouDeleting='song'
           confirm={handleDeleteSong}
-          deny={hideDashBoard}
+          deny={hideConfirmDialogBox}
           dataId={song.id}
         />
       )}
@@ -114,7 +116,10 @@ const Song: FC<Props> = ({
       <div className='right_part flex'>
         <p className='likes'>Likes : {song.likes}</p>
 
-        <RiDeleteBin5Line className='delete_btn' onClick={showDashBoard} />
+        <RiDeleteBin5Line
+          className='delete_btn'
+          onClick={showConfirmDialogBox}
+        />
       </div>
     </Wrapper>
   );

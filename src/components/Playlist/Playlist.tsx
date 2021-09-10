@@ -5,8 +5,16 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../Button';
 import Dialog from '../Dialog';
-import { IPlaylist } from '../../interfaces';
-import { useAppSelector } from '../../redux/hooks';
+import { IPlaylist, ISong } from '../../interfaces';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  playerPlays,
+  playerSetCurrentSongAndPlaylist,
+  playerSetPlaylistSongs,
+} from '../../features/player';
+import { firestore } from '../../config/firebase';
+import { sendNotification } from '../../features/notification';
+import { playlistError } from '../../features/playlist';
 
 type Props = {
   playlist: IPlaylist;
@@ -14,6 +22,8 @@ type Props = {
 };
 
 const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
+  const dispatch = useAppDispatch();
+
   const [isThisPlaylistBeingPlayed, setIsThisPlaylistBeingPlayed] =
     useState(false);
 
@@ -40,10 +50,10 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
     }
   }, [currentPlaylistId, playlist.id, play, pause]);
 
+  // Confirming or denying song delete request
   const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };
-
   const hideConfirmDialogBox = (): void => {
     setViewDashBoard(false);
   };
@@ -51,6 +61,39 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
   // Play Or Pause Playlist
   const handlePlayPlaylist = () => {
     setIsThisPlaylistBeingPlayed(true);
+
+    if (currentPlaylistId !== playlist.id) {
+      playlist.songs &&
+        playlist.songs.forEach((item: string, index) => {
+          firestore
+            .collection('songs')
+            .doc(item)
+            .get()
+            .then((doc) => {
+              const song: ISong = doc.data() as ISong;
+
+              if (index === 0) {
+                dispatch(
+                  playerSetCurrentSongAndPlaylist({
+                    currentSong: song.url,
+                    currentSongPic: song.pic.url,
+                    currentSongName: song.name,
+                    playlistId: playlist.id,
+                  })
+                );
+                dispatch(playerPlays());
+              }
+
+              if (doc.data()) {
+                dispatch(playerSetPlaylistSongs(doc.get('url')));
+              }
+            })
+            .catch((err) => {
+              dispatch(sendNotification({ message: err.message, error: true }));
+              dispatch(playlistError());
+            });
+        });
+    }
   };
 
   const handlePausePlaylist = () => {
