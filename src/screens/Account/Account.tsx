@@ -2,7 +2,7 @@ import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import UpdateFormField from '../../components/UpdateFormField';
-import AccountLogic from './Logic/AccountLogic';
+import useAccountLogic from './Logic/useAccountLogic';
 import { FC } from 'react';
 
 const Account: FC = (): JSX.Element => {
@@ -28,10 +28,10 @@ const Account: FC = (): JSX.Element => {
     wannaEdit,
 
     validationMessageTags: vmt,
-  } = AccountLogic();
+  } = useAccountLogic();
 
   return (
-    <Wrapper className='flex'>
+    <Wrapper className='flex' personRole={role}>
       <div className='display_pic_row flex'>
         <label htmlFor='dp'>
           {displayPic.preview || dp?.url ? (
@@ -224,7 +224,7 @@ const Account: FC = (): JSX.Element => {
   );
 };
 
-const Wrapper = styled.main`
+const Wrapper = styled.main<{ personRole: string | null }>`
   padding: 15px 0 0px;
   /* border: 1px dashed var(--little-dark-color); */
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
@@ -233,7 +233,7 @@ const Wrapper = styled.main`
 
   justify-content: flex-start;
   flex-direction: column;
-  width: 79%;
+  width: ${({ personRole }) => (personRole === 'ADMIN' ? '100%' : '79%')};
   overflow-y: scroll;
   height: 77vh;
 

@@ -20,7 +20,7 @@ import AdminCreatePlaylist from '../../screens/AdminCreatePlaylist/AdminCreatePl
 import AddSongsToPlaylists from '../../screens/AddSongsToPlaylist/AddSongsToPlaylist';
 
 const App: FC = (): JSX.Element => {
-  const { userLoading, notify, message, hasUserLoggedIn } = useAppLogic();
+  const { userLoading, notify, message, hasUserLoggedIn, role } = useAppLogic();
 
   if (userLoading) {
     return <Loading size='FULL' />;
@@ -37,7 +37,7 @@ const App: FC = (): JSX.Element => {
           {hasUserLoggedIn && <Navbar />}
 
           <div className='middle-section flex'>
-            {hasUserLoggedIn && <Aside />}
+            {hasUserLoggedIn && role !== 'ADMIN' && <Aside />}
 
             <Switch>
               <Route path='/' exact>

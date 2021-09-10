@@ -19,7 +19,7 @@ interface ICredentials {
   country: string | undefined;
 }
 
-const AccountLogic = () => {
+const useAccountLogic = () => {
   const dispatch = useDispatch();
 
   const [credentials, setCredentials] = useState<ICredentials>({
@@ -283,4 +283,4 @@ const AccountLogic = () => {
   };
 };
 
-export default AccountLogic;
+export default useAccountLogic;

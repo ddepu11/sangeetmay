@@ -54,9 +54,10 @@ const Navbar: FC = (): JSX.Element => {
   return (
     <Wrapper className='flex'>
       <div className='logo flex'>
-        <Link to='/'>
+        <Link to={role === 'ADMIN' ? '/dashboard' : '/'}>
           <h1>SangeetMay</h1>
         </Link>
+
         <div className='name_after_logo'>
           <Button
             type='button'

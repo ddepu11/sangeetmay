@@ -56,8 +56,7 @@ const Dashboard: FC = (): JSX.Element => {
 const Wrapper = styled.main`
   padding: 20px 15px;
   border: 1px dashed #555;
-  width: 79%;
-  height: 100%;
+  width: 100%;
   color: var(--primary-color);
 
   nav {

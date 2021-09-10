@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Button from '../../components/Button';
 import Dialog from '../../components/Dialog';
 import { IPlaylist } from '../../interfaces';
+import { useAppSelector } from '../../redux/hooks';
 
 type Props = {
   playlist: IPlaylist;
@@ -13,6 +14,8 @@ type Props = {
 
 const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
   const [viewDashBoard, setViewDashBoard] = useState(false);
+
+  const { role } = useAppSelector((state) => state.user.value);
 
   const showDashBoard = (): void => {
     setViewDashBoard(true);
@@ -40,32 +43,40 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
         <div className='playlist_info'>
           <p>{playlist.name}</p>
         </div>
-        <div className='delete_icon_div'>
-          <ImBin onClick={showDashBoard} />
-        </div>
+
+        {role === 'ADMIN' && (
+          <div className='delete_icon_div'>
+            <ImBin onClick={showDashBoard} />
+          </div>
+        )}
+
         {/* SHOWS On Hover */}
 
         <div className='add_songs'>
           {/*  */}
-          <Button
-            type='button'
-            buttonStyle={{
-              bgColor: 'var(--primary-color)',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              hoverCursor: 'pointer',
-              fontSize: '0.8em',
-            }}
-          >
-            <Link
-              style={{
-                color: 'var(--dark-color)',
+          {role === 'ADMIN' ? (
+            <Button
+              type='button'
+              buttonStyle={{
+                bgColor: 'var(--little-light-color)',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                hoverCursor: 'pointer',
+                fontSize: '0.8em',
               }}
-              to={`/add-songs-to-playlist/${playlist.id}`}
             >
-              Add Songs
-            </Link>
-          </Button>
+              <Link
+                style={{
+                  color: 'var(--dark-color)',
+                }}
+                to={`/add-songs-to-playlist/${playlist.id}`}
+              >
+                Add Songs
+              </Link>
+            </Button>
+          ) : (
+            'show Playlist'
+          )}
         </div>
       </Wrapper>
     </>
@@ -113,6 +124,7 @@ const Wrapper = styled.main`
     right: 10px;
     color: var(--danger-color);
     transition: transform 0.5s ease;
+    z-index: 5;
   }
 
   .delete_icon_div:hover {
@@ -128,7 +140,7 @@ const Wrapper = styled.main`
     background: rgba(0, 0, 0, 0);
     display: grid;
     place-content: center;
-    transition: all 0.5s ease-in;
+    transition: all 0.5s ease;
 
     button {
       display: none;
@@ -137,7 +149,7 @@ const Wrapper = styled.main`
 
   .add_songs:hover {
     cursor: pointer;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
 
     button {
       display: block;

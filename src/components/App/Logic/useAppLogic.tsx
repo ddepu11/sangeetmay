@@ -14,7 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 const useAppLogic = () => {
-  const { userLoading, hasUserLoggedIn } = useAppSelector(
+  const { userLoading, hasUserLoggedIn, role } = useAppSelector(
     (state) => state.user.value
   );
 
@@ -93,6 +93,7 @@ const useAppLogic = () => {
     notify,
     message,
     hasUserLoggedIn,
+    role,
   };
 };
 

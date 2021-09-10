@@ -50,6 +50,8 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
           </header>
 
           <div className='add_song flex'>
+            <h1 className='add_heading_heading'>Add songs to your playlist:</h1>
+
             <div className='song_pic_and_file flex'>
               <div className='select_pic'>
                 <label htmlFor='songImage'>
@@ -77,7 +79,6 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
                   }
                 />
               </div>
-
               <div className='choose_text flex'>
                 <div className='top flex'>
                   <FiArrowLeftCircle fontSize='1.3em' />
@@ -85,7 +86,6 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
                 </div>
                 <p className='must' ref={songPicValidationMessageTag} />
               </div>
-
               {/*    */}
               <div className='song_file'>
                 <label htmlFor='song'>
@@ -94,9 +94,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
                     <span>Browse</span>
                   </div>
                 </label>
-
                 <p className='must' ref={songValidationMessageTag} />
-
                 <input
                   type='file'
                   accept='.mp3'
@@ -162,6 +160,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
               </div>
             )}
           </div>
+
           {playlist.songs !== undefined && (
             <Songs songsIds={playlist.songs} playlistId={playlistId} />
           )}
@@ -173,9 +172,8 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
 
 const Wrapper = styled.main`
   padding: 10px 10px 0;
-  border: 1px dashed #555;
   color: var(--little-light-color);
-  width: 79%;
+  width: 100%;
   height: 76vh;
   overflow-y: scroll;
 
@@ -350,6 +348,14 @@ const Wrapper = styled.main`
         flex-direction: column;
       }
     }
+  }
+
+  .add_heading_heading {
+    font-size: 1.2em;
+    letter-spacing: 2px;
+    font-weight: 400;
+    align-self: flex-start;
+    padding: 0px 0 15px;
   }
 `;
 

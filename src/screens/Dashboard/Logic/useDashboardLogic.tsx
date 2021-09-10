@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 
