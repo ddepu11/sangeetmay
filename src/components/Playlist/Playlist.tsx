@@ -60,32 +60,30 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
         {/* SHOWS On Hover */}
 
-        <div className='add_songs'>
-          {/*  */}
-          <Button
-            type='button'
-            buttonStyle={{
-              bgColor: 'var(--little-light-color)',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              hoverCursor: 'pointer',
-              fontSize: '0.8em',
-            }}
-          >
-            <Link
-              style={{
-                color: 'var(--dark-color)',
+        {role === 'ADMIN' && (
+          <div className='add_songs'>
+            {/*  */}
+            <Button
+              type='button'
+              buttonStyle={{
+                bgColor: 'var(--little-light-color)',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                hoverCursor: 'pointer',
+                fontSize: '0.8em',
               }}
-              to={
-                role === 'ADMIN'
-                  ? `/add-songs-to-playlist/${playlist.id}`
-                  : '/playlist'
-              }
             >
-              {role === 'ADMIN' ? 'Add Songs' : 'open'}
-            </Link>
-          </Button>
-        </div>
+              <Link
+                style={{
+                  color: 'var(--dark-color)',
+                }}
+                to={`/add-songs-to-playlist/${playlist.id}`}
+              >
+                Add Songs
+              </Link>
+            </Button>
+          </div>
+        )}
       </Wrapper>
     </>
   );

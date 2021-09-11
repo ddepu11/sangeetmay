@@ -1,4 +1,4 @@
-import { useEffect, FC, useState } from 'react';
+import { useEffect, FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { firestore } from '../../config/firebase';
@@ -11,14 +11,16 @@ import {
   playerSetCurrentSongAndPlaylist,
   playerSetPlaylistSongs,
 } from '../../features/player';
+import { playlistFetchSuccess } from '../../features/playlist';
 
 const Home: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const [playlist, setPlaylist] = useState<IPlaylist[]>([]);
-
+  const { playlists } = useAppSelector((state) => state.playlist.value);
   const { hasUserLoggedIn, role } = useAppSelector((state) => state.user.value);
-  const { playlistSongs } = useAppSelector((state) => state.player.value);
+  const { playlistSongs, play, pause } = useAppSelector(
+    (state) => state.player.value
+  );
   const history = useHistory();
 
   useEffect(() => {
@@ -29,72 +31,81 @@ const Home: FC = (): JSX.Element => {
     let hasComponentBeenUnmounted = false;
 
     if (role !== 'ADMIN' && hasUserLoggedIn) {
-      // Fetch Songs
-      const songsRef = firestore.collection('songs');
+      if (!play && !pause) {
+        // Fetch Songs
+        const songsRef = firestore.collection('songs');
 
-      let index = 0;
-      const songs: ISong[] = [];
+        let index = 0;
+        const songs: ISong[] = [];
 
-      songsRef
-        .get()
-        .then((docs) => {
-          docs.forEach((item) => {
-            if (!hasComponentBeenUnmounted) {
-              songs.push(item.data() as ISong);
-
-              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
-              if (index === docs.size - 1) {
-                dispatch(
-                  playerSetCurrentSongAndPlaylist({
-                    currentSong: songs[0].url,
-                    currentSongPic: songs[0].pic.url,
-                    currentSongName: songs[0].name,
-                    playlistId: 'ALL_SONGS',
-                  })
-                );
-
-                dispatch(playerSetPlaylistSongs(songs));
-              }
-
-              index++;
-            }
-          });
-        })
-        .catch((err) => {
-          dispatch(sendNotification({ message: err.message, error: true }));
-        });
-
-      // Fetch PLaylists
-      const playlistsRef = firestore.collection('playlists');
-
-      playlistsRef
-        .get()
-        .then((docs) => {
-          !hasComponentBeenUnmounted &&
+        songsRef
+          .get()
+          .then((docs) => {
             docs.forEach((item) => {
-              setPlaylist((prevState) => {
-                return [...prevState, item.data() as IPlaylist];
-              });
+              if (!hasComponentBeenUnmounted) {
+                songs.push(item.data() as ISong);
+
+                //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+                if (index === docs.size - 1) {
+                  dispatch(
+                    playerSetCurrentSongAndPlaylist({
+                      currentSong: songs[0].url,
+                      currentSongPic: songs[0].pic.url,
+                      currentSongName: songs[0].name,
+                      playlistId: 'ALL_SONGS',
+                    })
+                  );
+
+                  dispatch(playerSetPlaylistSongs(songs));
+                }
+
+                index++;
+              }
             });
-        })
-        .catch((err) => {
-          dispatch(sendNotification({ message: err.message, error: true }));
-        });
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+          });
+
+        // Fetch PLaylists
+        const playlistsRef = firestore.collection('playlists');
+
+        let plylistIndex = 0;
+        const playlists: IPlaylist[] = [];
+
+        playlistsRef
+          .get()
+          .then((docs) => {
+            !hasComponentBeenUnmounted &&
+              docs.forEach((item) => {
+                playlists.push(item.data() as IPlaylist);
+
+                if (plylistIndex === docs.size - 1) {
+                  dispatch(playlistFetchSuccess(playlists));
+                }
+
+                plylistIndex++;
+              });
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+          });
+      }
     }
 
     return () => {
       console.log('Clean Up Function runs.');
       hasComponentBeenUnmounted = true;
     };
-  }, [history, hasUserLoggedIn, dispatch, role]);
+  }, [history, hasUserLoggedIn, dispatch, role, play, pause]);
 
   return (
     <Wrapper>
       <h1 className='heading'>Playlist</h1>
 
       <section className='playlists'>
-        {playlist.length !== 0 &&
-          playlist.map((item: IPlaylist) => (
+        {playlists.length !== 0 &&
+          playlists.map((item: IPlaylist) => (
             <Playlist key={item.id} playlist={item} />
           ))}
       </section>
