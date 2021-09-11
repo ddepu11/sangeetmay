@@ -47,8 +47,15 @@ const useMusicPlayerLogic = () => {
   const volumeSeeker = useRef<HTMLInputElement | null>(null);
   const setIntervals = useRef<NodeJS.Timer | number>(0);
 
-  const { currentSong, play, pause, playlistSongs, currentPlaylistId } =
-    useAppSelector((state) => state.player.value);
+  const {
+    currentSong,
+    play,
+    pause,
+    playlistSongs,
+    currentPlaylistId,
+    currentSongName,
+    currentSongPic,
+  } = useAppSelector((state) => state.player.value);
 
   useEffect(() => {
     const player = audioPlayer.current;
@@ -92,23 +99,32 @@ const useMusicPlayerLogic = () => {
     dispatch(playerPauses());
   };
 
-  // If song has ended playing then ---->
-  const handleSongEnded = (): void => {
+  const resetEveryThingAfterSongEnded = (): void => {
     if (setIntervals)
       clearAllIntervalsAndTimeOuts(Number(setIntervals.current));
 
     const progressBar = songProgressBar.current;
 
+    // set progress bar 0
     if (progressBar) {
       progressBar.style.setProperty('--song-completed-width', `0%`);
       setSongProgress('0');
       dispatch(playerPauses());
     }
 
+    // reset song details
     setSongDetails({
       duration: { seconds: '00', minutes: '00' },
       currentTime: { seconds: '00', minutes: '00' },
     });
+  };
+
+  // If song has ended playing then ---->
+  const handleSongEnded = (): void => {
+    resetEveryThingAfterSongEnded();
+
+    //next song
+    playNextSong();
   };
 
   // If i move thumb change player current time ---->
@@ -248,7 +264,7 @@ const useMusicPlayerLogic = () => {
     const player = audioPlayer.current;
     if (player) player.volume = Number(value);
 
-    // If volume 0 set mute true else false
+    // If volume 0, set mute true else false
     if (value === '0') setMute(true);
     else setMute(false);
 
@@ -261,13 +277,12 @@ const useMusicPlayerLogic = () => {
       );
   };
 
-  //Next and Previous song
-
+  //Next  song
   const playNextSong = () => {
     const player = audioPlayer.current;
 
     if (player && playlistSongs && playlistSongs?.length > 1) {
-      handleSongEnded();
+      resetEveryThingAfterSongEnded();
 
       let indexOfNextSongToPlay = 0;
 
@@ -275,6 +290,7 @@ const useMusicPlayerLogic = () => {
         if (item.url === currentSong) {
           indexOfNextSongToPlay = index + 1;
 
+          //this condition is for when current song is th last of the playlist then next song will be the first one of playlist
           if (index === playlistSongs.length - 1) {
             indexOfNextSongToPlay = 0;
           }
@@ -296,11 +312,12 @@ const useMusicPlayerLogic = () => {
     }
   };
 
+  //Previous song
   const playPreviousSong = () => {
     const player = audioPlayer.current;
 
     if (player && playlistSongs && playlistSongs?.length > 1) {
-      handleSongEnded();
+      resetEveryThingAfterSongEnded();
 
       let indexOfNextSongToPlay = 0;
 
@@ -308,6 +325,7 @@ const useMusicPlayerLogic = () => {
         if (item.url === currentSong) {
           indexOfNextSongToPlay = index - 1;
 
+          //this condition is for when current song is the first one of the playlist then previous song will be the last one of playlist
           if (index === 0) {
             indexOfNextSongToPlay = playlistSongs.length - 1;
           }
@@ -330,6 +348,8 @@ const useMusicPlayerLogic = () => {
   };
 
   return {
+    currentSongName,
+    currentSongPic,
     loading,
     playNextSong,
     playPreviousSong,

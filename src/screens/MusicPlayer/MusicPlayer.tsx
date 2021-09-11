@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import dummy from '../../images/dummySongImage.jpg';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
 import { GiSpeaker, GiSpeakerOff } from 'react-icons/gi';
 import useMusicPlayerLogic from './Logic/useMusicPlayerLogic';
+import dummySongImg from '../../images/dummySongImage.jpg';
 
 const MusicPlayer: FC = (): JSX.Element => {
   const {
@@ -29,16 +29,25 @@ const MusicPlayer: FC = (): JSX.Element => {
     playNextSong,
     playPreviousSong,
     loading,
+    currentSongName,
+    currentSongPic,
   } = useMusicPlayerLogic();
 
   return (
     <Wrapper className='w-960 flex'>
       <div className='left flex'>
         <div className='pic'>
-          <img src={dummy} alt='some' />
+          <img
+            src={currentSongPic ? currentSongPic : dummySongImg}
+            alt='some_song'
+          />
         </div>
 
-        <div className='like'>like</div>
+        {currentSongName && (
+          <div className='song_name'>
+            <span>{currentSongName.slice(0, 20)}</span>
+          </div>
+        )}
       </div>
 
       <div className='player flex'>
@@ -69,7 +78,7 @@ const MusicPlayer: FC = (): JSX.Element => {
 
           <BiSkipNext className='next' onClick={playNextSong} />
 
-          {!loading && (
+          {loading && (
             <div className='cover'>
               <span>Loading Song</span>
             </div>
@@ -119,7 +128,7 @@ const MusicPlayer: FC = (): JSX.Element => {
 
 const Wrapper = styled.footer`
   margin-top: 10px;
-  padding: 0px 15px 8px;
+  padding: 0px 5px 8px;
   width: 100%;
   background: var(--primary-color);
   box-shadow: rgba(10, 196, 66, 0.24) 0px 3px 8px;
@@ -134,18 +143,28 @@ const Wrapper = styled.footer`
   color: var(--little-dark-color);
 
   .pic {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 70px;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 5px;
+      transition: transform 0.5s ease;
+    }
+
+    img:hover {
+      cursor: pointer;
+      transform: scale(1.3) translateY(-10px);
     }
   }
 
-  .like {
-    margin-left: 15px;
+  .song_name {
+    margin-left: 5px;
+    span {
+      font-size: 0.9em;
+    }
   }
 
   .player {
