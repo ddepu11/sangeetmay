@@ -10,7 +10,7 @@ type Props = {
   playlistId: string | undefined;
   song: ISong;
   index: number;
-  handleDeleteSong: (
+  handleDeleteSong?: (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
 };
@@ -28,6 +28,7 @@ const Song: FC<Props> = ({
     handlePlaySong,
     handlePauseSong,
     viewDashBoard,
+    role,
   } = useSongLogic(playlistId, song);
 
   return (
@@ -63,10 +64,12 @@ const Song: FC<Props> = ({
       <div className='right_part flex'>
         <p className='likes'>Likes : {song.likes}</p>
 
-        <RiDeleteBin5Line
-          className='delete_btn'
-          onClick={showConfirmDialogBox}
-        />
+        {role === 'ADMIN' && (
+          <RiDeleteBin5Line
+            className='delete_btn'
+            onClick={showConfirmDialogBox}
+          />
+        )}
       </div>
     </Wrapper>
   );

@@ -19,6 +19,8 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     (state) => state.player.value
   );
 
+  const { role } = useAppSelector((state) => state.user.value);
+
   const handlePauseSong = () => {
     setIsThisSongBeingplayed(false);
     dispatch(playerPauses());
@@ -72,6 +74,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     handlePlaySong,
     handlePauseSong,
     viewDashBoard,
+    role,
   };
 };
 

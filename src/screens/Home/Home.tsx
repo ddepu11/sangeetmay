@@ -3,9 +3,14 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { firestore } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
-import { IPlaylist } from '../../interfaces';
+import { IPlaylist, ISong } from '../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Playlist from '../../components/Playlist/Playlist';
+import Song from '../song/Song';
+import {
+  playerSetCurrentSongAndPlaylist,
+  playerSetPlaylistSongs,
+} from '../../features/player';
 
 const Home: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -13,6 +18,7 @@ const Home: FC = (): JSX.Element => {
   const [playlist, setPlaylist] = useState<IPlaylist[]>([]);
 
   const { hasUserLoggedIn, role } = useAppSelector((state) => state.user.value);
+  const { playlistSongs } = useAppSelector((state) => state.player.value);
   const history = useHistory();
 
   useEffect(() => {
@@ -20,18 +26,54 @@ const Home: FC = (): JSX.Element => {
 
     role === 'ADMIN' && history.push('/dashboard');
 
-    let didComponentUnmount = false;
+    let hasComponentBeenUnmounted = false;
 
-    if (playlist.length === 0 && role !== 'ADMIN' && hasUserLoggedIn) {
-      const collectionref = firestore.collection('playlists');
+    if (role !== 'ADMIN' && hasUserLoggedIn) {
+      // Fetch Songs
+      const songsRef = firestore.collection('songs');
 
-      collectionref
+      let index = 0;
+      const songs: ISong[] = [];
+
+      songsRef
         .get()
         .then((docs) => {
-          !didComponentUnmount &&
+          docs.forEach((item) => {
+            if (!hasComponentBeenUnmounted) {
+              songs.push(item.data() as ISong);
+
+              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+              if (index === docs.size - 1) {
+                dispatch(
+                  playerSetCurrentSongAndPlaylist({
+                    currentSong: songs[0].url,
+                    currentSongPic: songs[0].pic.url,
+                    currentSongName: songs[0].name,
+                    playlistId: 'ALL_SONGS',
+                  })
+                );
+
+                dispatch(playerSetPlaylistSongs(songs));
+              }
+
+              index++;
+            }
+          });
+        })
+        .catch((err) => {
+          dispatch(sendNotification({ message: err.message, error: true }));
+        });
+
+      // Fetch PLaylists
+      const playlistsRef = firestore.collection('playlists');
+
+      playlistsRef
+        .get()
+        .then((docs) => {
+          !hasComponentBeenUnmounted &&
             docs.forEach((item) => {
               setPlaylist((prevState) => {
-                return [...prevState, item.data()];
+                return [...prevState, item.data() as IPlaylist];
               });
             });
         })
@@ -41,9 +83,10 @@ const Home: FC = (): JSX.Element => {
     }
 
     return () => {
-      didComponentUnmount = true;
+      console.log('Clean Up Function runs.');
+      hasComponentBeenUnmounted = true;
     };
-  }, [history, hasUserLoggedIn, dispatch, playlist, role]);
+  }, [history, hasUserLoggedIn, dispatch, role]);
 
   return (
     <Wrapper>
@@ -55,6 +98,19 @@ const Home: FC = (): JSX.Element => {
             <Playlist key={item.id} playlist={item} />
           ))}
       </section>
+
+      <div className='songs'>
+        {playlistSongs &&
+          playlistSongs.length !== 0 &&
+          playlistSongs.map((item: ISong, index: number) => (
+            <Song
+              key={item.id}
+              song={item}
+              index={index}
+              playlistId='ALL_SONGS'
+            />
+          ))}
+      </div>
     </Wrapper>
   );
 };
