@@ -8,10 +8,13 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Playlist from '../../components/Playlist/Playlist';
 import Song from '../song/Song';
 import {
+  playerAllSongs,
+  playerPlays,
   playerSetCurrentSongAndPlaylist,
   playerSetPlaylistSongs,
 } from '../../features/player';
 import { playlistFetchSuccess } from '../../features/playlist';
+import Button from '../../components/Button';
 
 const Home: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -99,9 +102,32 @@ const Home: FC = (): JSX.Element => {
     };
   }, [history, hasUserLoggedIn, dispatch, role, play, pause]);
 
+  const playAllSongs = (): void => {
+    dispatch(playerAllSongs());
+
+    setTimeout(() => {
+      dispatch(playerPlays());
+    }, 2000);
+  };
+
   return (
     <Wrapper>
-      <h1 className='heading'>Playlist</h1>
+      <div className='header flex'>
+        <h1 className='heading'>Playlist</h1>
+
+        <Button
+          type='button'
+          buttonStyle={{
+            padding: '8px 16px',
+            borderRadius: '10px',
+            transition: 'transform 0.5s ease ',
+            hoverTransform: 'scale(1.2) translateX(-5px)',
+          }}
+          handleClick={playAllSongs}
+        >
+          Play All Song
+        </Button>
+      </div>
 
       <section className='playlists'>
         {playlists.length !== 0 &&
@@ -139,11 +165,19 @@ const Wrapper = styled.main`
     font-weight: 400;
   }
 
+  .header {
+    justify-content: space-between;
+  }
+
   .playlists {
     margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, auto));
     gap: 15px 12px;
+  }
+
+  .songs {
+    margin-top: 10px;
   }
 `;
 
