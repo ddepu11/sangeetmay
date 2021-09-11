@@ -28,6 +28,7 @@ const MusicPlayer: FC = (): JSX.Element => {
     songDetails: { duration, currentTime },
     playNextSong,
     playPreviousSong,
+    loading,
   } = useMusicPlayerLogic();
 
   return (
@@ -62,12 +63,17 @@ const MusicPlayer: FC = (): JSX.Element => {
           {play && currentSong && (
             <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
           )}
-
           {pause && currentSong && (
             <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
           )}
 
           <BiSkipNext className='next' onClick={playNextSong} />
+
+          {!loading && (
+            <div className='cover'>
+              <span>Loading Song</span>
+            </div>
+          )}
         </div>
 
         <div className='bottom flex'>
@@ -124,9 +130,6 @@ const Wrapper = styled.footer`
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 
-  /* border-top-right-radius: -20px; */
-  /* border-bottom-left-radius: -20px; */
-
   justify-content: space-between;
   color: var(--little-dark-color);
 
@@ -148,6 +151,7 @@ const Wrapper = styled.footer`
   .player {
     flex-direction: column;
     width: 65%;
+    position: relative;
 
     .top {
       padding: 10px 0px;
@@ -174,6 +178,20 @@ const Wrapper = styled.footer`
         color: var(--dark-color);
         cursor: pointer;
       }
+    }
+
+    .top > .cover {
+      top: 0;
+      bottom: 25px;
+      width: 22%;
+      background-color: rgba(37, 37, 37, 0.8);
+      border-radius: 5px;
+      display: grid;
+      place-content: center;
+      font-size: 1.1em;
+      color: var(--primary-color);
+      letter-spacing: 1px;
+      position: absolute;
     }
 
     .bottom {

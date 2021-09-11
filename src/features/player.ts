@@ -37,14 +37,6 @@ const playerSlice = createSlice({
       state.value = { ...state.value, playerLoading: true };
     },
 
-    // playerSetSongs: (state, action) => {
-    //   state.value = {
-    //     ...state.value,
-    //     playerSongs: action.payload,
-    //     playerLoading: false,
-    //   };
-    // },
-
     playerSetCurrentSongAndPlaylist: (state, action) => {
       const { currentSong, playlistId, currentSongPic, currentSongName } =
         action.payload;

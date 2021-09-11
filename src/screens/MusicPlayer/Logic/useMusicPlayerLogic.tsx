@@ -28,6 +28,8 @@ const useMusicPlayerLogic = () => {
 
   const [songProgress, setSongProgress] = useState('0');
 
+  const [loading, setLoading] = useState(false);
+
   const [songDetails, setSongDetails] = useState<TSongTetails>({
     duration: {
       minutes: '00',
@@ -56,6 +58,12 @@ const useMusicPlayerLogic = () => {
     if (play && !pause && player && currentSong && volSeeker) {
       player?.play();
 
+      // This will disable the next,previous, play, pause btns until songs is being played
+      if (songProgress === '0' && !loading) {
+        setLoading(true);
+      }
+
+      // when you play any song set volume to 0.3
       if (songProgress === '0') {
         player.volume = 0.3;
         setVolume('0.3');
@@ -74,7 +82,7 @@ const useMusicPlayerLogic = () => {
       player?.pause();
       // console.log('Pause');
     }
-  }, [dispatch, play, currentSong, pause, songProgress]);
+  }, [dispatch, play, currentSong, pause, songProgress, loading]);
 
   const handlePlaySong = (): void => {
     dispatch(playerPlays());
@@ -149,8 +157,8 @@ const useMusicPlayerLogic = () => {
     const player = audioPlayer.current;
     const progressBar = songProgressBar.current;
 
-    // --how-much-buffered-width: 0%;
     // Showing Buffer Progress
+    // --how-much-buffered-width: 0%;
     if (player && progressBar && player.readyState > 0) {
       const bufferedAmount = Math.floor(
         player.buffered.end(player.buffered.length - 1)
@@ -162,8 +170,8 @@ const useMusicPlayerLogic = () => {
       );
     }
 
-    // --song-completed-width: 0%;
     // Showing Song Progress
+    // --song-completed-width: 0%;
     setIntervals.current = setInterval(() => {
       if (player && songProgressBar.current) {
         const howMuchTheSongHasBeenPlayed =
@@ -190,13 +198,17 @@ const useMusicPlayerLogic = () => {
         });
         // ############$$$$$$$$$$$###############$$$$$$$$$$$
       }
+
+      //if song playing enable playpause,next,previous btns
+      if (loading) {
+        setLoading(false);
+      }
     }, 1000);
   };
 
   // $##$##$#######$$$$$##### SEPERATION LINE $$$$$$####$$$$$#####$$$$####$$$$$###
 
   // @@@@@@@@@@@@@@@@@@   Handling Volume   @@@@@@@@@@@@@@@@@@@@@@@@
-
   const toggleMute = (): void => {
     const player = audioPlayer.current;
 
@@ -318,6 +330,7 @@ const useMusicPlayerLogic = () => {
   };
 
   return {
+    loading,
     playNextSong,
     playPreviousSong,
     handleSongEnded,
