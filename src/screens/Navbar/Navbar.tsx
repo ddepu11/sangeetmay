@@ -246,6 +246,16 @@ const Wrapper = styled.nav`
     display: none;
   }
 
+  @media screen and (max-width: 600px) {
+    .logo {
+      a > h1 {
+        padding: 7px 10px;
+        font-size: 0.8em;
+        letter-spacing: 1px;
+      }
+    }
+  }
+
   @media screen and (max-width: 788px) {
     flex-direction: column;
     align-items: flex-start;

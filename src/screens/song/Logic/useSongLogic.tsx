@@ -74,22 +74,26 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
   const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };
-
   const hideConfirmDialogBox = (): void => {
     setViewDashBoard(false);
   };
 
-  //Like Or Dislike Song
-  let disYouLikeTheSong = false;
+  // Figuiring out did user liked.
+  let didYouLikeTheSong = false;
 
-  if (userInfo.likedSongs && userInfo.likedSongs?.length > 0) {
+  if (
+    userInfo.likedSongs &&
+    userInfo.likedSongs?.length > 0 &&
+    role !== 'ADMIN'
+  ) {
     userInfo.likedSongs.forEach((item: string) => {
       if (item === song.id) {
-        disYouLikeTheSong = true;
+        didYouLikeTheSong = true;
       }
     });
   }
 
+  //Like Or Dislike Song
   const handleLikeSsong = () => {
     dispatch(userLoadingBegin());
 
@@ -105,18 +109,18 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
       .then(() => {
         dispatch(
           sendNotification({
-            message: 'Successfully like the song!',
+            message: 'Successfully liked the song!',
             success: true,
           })
         );
 
-        //FInd which song to like
+        //Find which song to like
         songsRef
           .where('id', '==', song.id)
           .get()
           .then((doc) => {
             doc.forEach((item) => {
-              //save song id of current song
+              //increase likes of song
               if (item.get('id') === songId) {
                 songsRef
                   .doc(item.id)
@@ -160,7 +164,72 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
   };
 
   const handleDisLikeSsong = () => {
-    //
+    dispatch(userLoadingBegin());
+
+    const songId = song.id;
+
+    const usersRef = firestore.collection('users');
+    const songsRef = firestore.collection('songs');
+
+    // remove song id in user doc ---> likedSong array
+    usersRef
+      .doc(userDocId)
+      .update({ likedSongs: firebase.firestore.FieldValue.arrayRemove(songId) })
+      .then(() => {
+        dispatch(
+          sendNotification({
+            message: 'Successfully disliked the song!',
+            success: true,
+          })
+        );
+
+        //Find which song to dislike
+        songsRef
+          .where('id', '==', song.id)
+          .get()
+          .then((doc) => {
+            doc.forEach((item) => {
+              //decrese likes of songs
+              if (item.get('id') === songId) {
+                songsRef
+                  .doc(item.id)
+                  .update({ likes: song.likes - 1 })
+                  .then(() => {
+                    //Get Updated user info
+                    firestore
+                      .collection('users')
+                      .doc(userDocId)
+                      .get()
+                      .then((doc) => {
+                        dispatch(userInfoUpdateSuccess(doc.data()));
+                      })
+                      .catch((err) => {
+                        dispatch(
+                          sendNotification({
+                            message: err.message,
+                            error: true,
+                          })
+                        );
+                        dispatch(userError());
+                      });
+                  })
+                  .catch((err) => {
+                    dispatch(
+                      sendNotification({ message: err.message, error: true })
+                    );
+                    dispatch(userError());
+                  });
+              } else {
+                //
+                return;
+              }
+            });
+          });
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(userError());
+      });
   };
 
   return {
@@ -173,7 +242,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     role,
     handleDisLikeSsong,
     handleLikeSsong,
-    disYouLikeTheSong,
+    didYouLikeTheSong,
   };
 };
 

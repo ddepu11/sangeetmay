@@ -63,7 +63,7 @@ const Wrapper = styled.main`
   .heading {
     color: var(--primary-color);
     letter-spacing: 2px;
-    font-size: 2.5em;
+    font-size: 1.8em;
   }
 
   .btns {
@@ -71,7 +71,7 @@ const Wrapper = styled.main`
 
     .delete {
       color: var(--danger-color);
-      font-size: 2.2em;
+      font-size: 1.8em;
       margin-right: 50px;
       transition: transform 0.5s ease;
       background: transparent;
@@ -83,7 +83,7 @@ const Wrapper = styled.main`
     }
 
     .cancel {
-      font-size: 2.2em;
+      font-size: 1.8em;
       transition: transform 0.5s ease;
       background: transparent;
       color: var(--primary-color);

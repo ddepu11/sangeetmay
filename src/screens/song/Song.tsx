@@ -30,7 +30,7 @@ const Song: FC<Props> = ({
     handlePauseSong,
     viewDashBoard,
     role,
-    disYouLikeTheSong,
+    didYouLikeTheSong,
     handleDisLikeSsong,
     handleLikeSsong,
   } = useSongLogic(playlistId, song);
@@ -68,7 +68,7 @@ const Song: FC<Props> = ({
       <div className='right_part flex'>
         {role === 'ADMIN' && (
           <>
-            <p className='likes'>Likes : {song.likes}</p>
+            <p className='likes'>Likes: {song.likes}</p>
 
             <RiDeleteBin5Line
               className='delete_btn'
@@ -79,7 +79,7 @@ const Song: FC<Props> = ({
 
         {role !== 'ADMIN' && (
           <div className='like_or_deslike'>
-            {disYouLikeTheSong ? (
+            {didYouLikeTheSong ? (
               <FcLike onClick={handleDisLikeSsong} />
             ) : (
               <FcLikePlaceholder onClick={handleLikeSsong} />
@@ -92,15 +92,14 @@ const Song: FC<Props> = ({
 };
 
 const Wrapper = styled.main`
-  padding: 5px 5px 0;
-
+  padding: 8px 10px;
   justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 12px 10px;
   margin-bottom: 12px;
+  transition: transform 0.5s ease;
 
   .index {
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin-right: 14px;
   }
 
@@ -134,12 +133,12 @@ const Wrapper = styled.main`
   }
 
   .name {
-    font-size: 1.2em;
+    font-size: 1.1em;
     /* margin-left: 30px; */
   }
 
   .likes {
-    font-size: 1.2em;
+    font-size: 1em;
     /* margin-left: 20px; */
   }
 
@@ -165,6 +164,10 @@ const Wrapper = styled.main`
   .delete_btn:hover {
     transform: scale(1.3);
     cursor: pointer;
+  }
+
+  :hover {
+    transform: scale(1.05) translateY(-10px);
   }
 `;
 
