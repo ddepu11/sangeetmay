@@ -104,7 +104,15 @@ const useAccountLogic = () => {
                 success: true,
               })
             );
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(userError());
           });
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+        dispatch(userError());
       });
   };
 

@@ -69,31 +69,31 @@ const Home: FC = (): JSX.Element => {
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));
           });
-
-        // Fetch PLaylists
-        const playlistsRef = firestore.collection('playlists');
-
-        let plylistIndex = 0;
-        const playlists: IPlaylist[] = [];
-
-        playlistsRef
-          .get()
-          .then((docs) => {
-            !hasComponentBeenUnmounted &&
-              docs.forEach((item) => {
-                playlists.push(item.data() as IPlaylist);
-
-                if (plylistIndex === docs.size - 1) {
-                  dispatch(playlistFetchSuccess(playlists));
-                }
-
-                plylistIndex++;
-              });
-          })
-          .catch((err) => {
-            dispatch(sendNotification({ message: err.message, error: true }));
-          });
       }
+
+      // Fetch PLaylists
+      const playlistsRef = firestore.collection('playlists');
+
+      let plylistIndex = 0;
+      const playlists: IPlaylist[] = [];
+
+      playlistsRef
+        .get()
+        .then((docs) => {
+          !hasComponentBeenUnmounted &&
+            docs.forEach((item) => {
+              playlists.push(item.data() as IPlaylist);
+
+              if (plylistIndex === docs.size - 1) {
+                dispatch(playlistFetchSuccess(playlists));
+              }
+
+              plylistIndex++;
+            });
+        })
+        .catch((err) => {
+          dispatch(sendNotification({ message: err.message, error: true }));
+        });
     }
 
     return () => {
@@ -113,7 +113,7 @@ const Home: FC = (): JSX.Element => {
   return (
     <Wrapper>
       <div className='header flex'>
-        <h1 className='heading'>Playlists</h1>
+        <h1 className='heading'>Playlists:</h1>
 
         <Button
           type='button'
@@ -137,6 +137,8 @@ const Home: FC = (): JSX.Element => {
       </section>
 
       <div className='songs'>
+        <h1>Songs:</h1>
+
         {playlistSongs &&
           playlistSongs.length !== 0 &&
           playlistSongs.map((item: ISong, index: number) => (
@@ -153,7 +155,7 @@ const Home: FC = (): JSX.Element => {
 };
 
 const Wrapper = styled.main`
-  width: 100%;
+  width: 80%;
   height: 77.5vh;
   color: var(--little-light-color);
   overflow-y: scroll;
@@ -177,7 +179,12 @@ const Wrapper = styled.main`
   }
 
   .songs {
-    margin-top: 10px;
+    margin-top: 20px;
+
+    h1 {
+      font-size: 1.2em;
+      font-weight: 400;
+    }
   }
 `;
 

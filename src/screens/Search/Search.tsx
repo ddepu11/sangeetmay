@@ -86,7 +86,7 @@ const Wrapper = styled.main`
   padding: 5px 5px;
   grid-area: main;
   min-height: 77vh;
-  width: 100%;
+  width: 80%;
   color: var(--little-light-color);
 
   .heading {
@@ -105,6 +105,10 @@ const Wrapper = styled.main`
       font-size: 1.2em;
       color: var(--little-dark-color);
     }
+  }
+
+  .songs {
+    padding: 15px 0;
   }
 `;
 

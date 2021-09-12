@@ -1,20 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-interface IDisplayPic {
-  url: string | undefined;
-  picNameInStorage: string | undefined;
-}
-
-interface IUserInfo {
-  age: number | undefined;
-  country: string | undefined;
-  dp: IDisplayPic | undefined;
-  email: string | undefined;
-  firstName: string | undefined;
-  gender: string | undefined;
-  lastName: string | undefined;
-  role: string | undefined;
-}
+import { IUserInfo } from '../interfaces';
 
 interface IInitialState {
   value: {

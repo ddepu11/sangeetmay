@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
-import { RiDeleteBin5Line } from 'react-icons/ri';
 import { ISong } from '../../interfaces';
 import Dialog from '../../components/Dialog';
 import useSongLogic from './Logic/useSongLogic';
+import { RiDeleteBin5Line } from 'react-icons/ri';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 
 type Props = {
   playlistId: string | undefined;
@@ -29,6 +30,9 @@ const Song: FC<Props> = ({
     handlePauseSong,
     viewDashBoard,
     role,
+    disYouLikeTheSong,
+    handleDisLikeSsong,
+    handleLikeSsong,
   } = useSongLogic(playlistId, song);
 
   return (
@@ -62,14 +66,24 @@ const Song: FC<Props> = ({
       </div>
 
       <div className='right_part flex'>
-        <p className='likes'>Likes : {song.likes}</p>
-
         {role === 'ADMIN' && (
-          <RiDeleteBin5Line
-            className='delete_btn'
-            onClick={showConfirmDialogBox}
-          />
+          <>
+            <p className='likes'>Likes : {song.likes}</p>
+
+            <RiDeleteBin5Line
+              className='delete_btn'
+              onClick={showConfirmDialogBox}
+            />
+          </>
         )}
+
+        <div className='like_or_deslike'>
+          {disYouLikeTheSong ? (
+            <FcLike onClick={handleDisLikeSsong} />
+          ) : (
+            <FcLikePlaceholder onClick={handleLikeSsong} />
+          )}
+        </div>
       </div>
     </Wrapper>
   );
@@ -125,6 +139,18 @@ const Wrapper = styled.main`
   .likes {
     font-size: 1.2em;
     /* margin-left: 20px; */
+  }
+
+  .like_or_deslike {
+    font-size: 1.5em;
+    transition: transform 0.5s ease;
+    color: var(--danger-color);
+    margin-left: 15px;
+  }
+
+  .like_or_deslike:hover {
+    transform: scale(1.3);
+    cursor: pointer;
   }
 
   .delete_btn {

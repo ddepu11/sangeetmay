@@ -9,6 +9,23 @@ export interface ICredentials {
   confirmPassword?: string | undefined;
 }
 
+export interface IDisplayPic {
+  url: string | undefined;
+  picNameInStorage: string | undefined;
+}
+
+export interface IUserInfo {
+  age: number | undefined;
+  country: string | undefined;
+  dp: IDisplayPic | undefined;
+  email: string | undefined;
+  firstName: string | undefined;
+  gender: string | undefined;
+  lastName: string | undefined;
+  role: string | undefined;
+  likedSongs?: string[];
+}
+
 export interface IFile {
   lastModified?: number;
   lastModifiedDate?: Date;

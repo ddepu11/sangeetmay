@@ -32,6 +32,7 @@ const Aside: FC = (): JSX.Element => {
           </Link>
         </li>
 
+        {/* 
         <li>
           <Link to='/library'>
             <div className='link flex'>
@@ -39,7 +40,7 @@ const Aside: FC = (): JSX.Element => {
               <span className='link_text'>Library</span>
             </div>
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       <ul className='middle_ul'>
