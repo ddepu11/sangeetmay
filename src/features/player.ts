@@ -74,7 +74,7 @@ const playerSlice = createSlice({
       };
     },
 
-    playerAllSongs: (state) => {
+    playerPlayAllSongs: (state) => {
       state.value = { ...state.value, play: false, pause: false };
     },
 
@@ -91,7 +91,7 @@ export const {
   playerPlays,
   playerPauses,
   playerSetPlaylistSongs,
-  playerAllSongs,
+  playerPlayAllSongs,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

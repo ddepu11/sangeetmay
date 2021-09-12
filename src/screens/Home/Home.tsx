@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Playlist from '../../components/Playlist/Playlist';
 import Song from '../song/Song';
 import {
-  playerAllSongs,
+  playerPlayAllSongs,
   playerPlays,
   playerSetCurrentSongAndPlaylist,
   playerSetPlaylistSongs,
@@ -103,7 +103,7 @@ const Home: FC = (): JSX.Element => {
   }, [history, hasUserLoggedIn, dispatch, role, play, pause]);
 
   const playAllSongs = (): void => {
-    dispatch(playerAllSongs());
+    dispatch(playerPlayAllSongs());
 
     setTimeout(() => {
       dispatch(playerPlays());
@@ -113,7 +113,7 @@ const Home: FC = (): JSX.Element => {
   return (
     <Wrapper>
       <div className='header flex'>
-        <h1 className='heading'>Playlist</h1>
+        <h1 className='heading'>Playlists</h1>
 
         <Button
           type='button'

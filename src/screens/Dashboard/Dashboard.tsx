@@ -4,12 +4,19 @@ import styled from 'styled-components';
 import Loading from '../../components/Loading';
 
 import useDashboardLogic from './Logic/useDashboardLogic';
-import { IPlaylist } from '../../interfaces';
+import { IPlaylist, ISong } from '../../interfaces';
 import Button from '../../components/Button';
 import Playlist from '../../components/Playlist/Playlist';
+import Song from '../song/Song';
 
 const Dashboard: FC = (): JSX.Element => {
-  const { handleDelete, playlistLoading, playlists } = useDashboardLogic();
+  const {
+    handleDelete,
+    playlistLoading,
+    playlists,
+    playlistSongs,
+    playAllSongs,
+  } = useDashboardLogic();
 
   if (playlistLoading) {
     return <Loading size='MEDIUM' />;
@@ -19,6 +26,19 @@ const Dashboard: FC = (): JSX.Element => {
     <Wrapper>
       <nav className='flex'>
         <h1 className='playlist_heading'>Playlists in the system</h1>
+
+        <Button
+          type='button'
+          buttonStyle={{
+            padding: '8px 16px',
+            borderRadius: '10px',
+            transition: 'transform 0.5s ease ',
+            hoverTransform: 'scale(1.2) translateX(-5px)',
+          }}
+          handleClick={playAllSongs}
+        >
+          Play All Song
+        </Button>
 
         <Link to='/admin-create-playlist'>
           <Button
@@ -49,6 +69,19 @@ const Dashboard: FC = (): JSX.Element => {
           <h1 className='no_playlist_text'>Sorry there are no playlists!</h1>
         )}
       </div>
+
+      <div className='songs'>
+        {playlistSongs &&
+          playlistSongs.length !== 0 &&
+          playlistSongs.map((item: ISong, index: number) => (
+            <Song
+              key={item.id}
+              song={item}
+              index={index}
+              playlistId='ALL_SONGS'
+            />
+          ))}
+      </div>
     </Wrapper>
   );
 };
@@ -73,6 +106,7 @@ const Wrapper = styled.main`
   }
 
   .playlists {
+    padding: 10px 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, auto));
     gap: 15px 12px;
@@ -85,6 +119,10 @@ const Wrapper = styled.main`
     font-size: 1.3em;
     text-transform: lowercase;
     font-weight: 400;
+  }
+
+  .songs {
+    margin-top: 20px;
   }
 `;
 
