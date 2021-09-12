@@ -39,7 +39,7 @@ const SignUp: FC = (): JSX.Element => {
 
           <div className='right flex'>
             <div className='upload_img_text flex'>
-              <FaArrowAltCircleLeft />
+              <FaArrowAltCircleLeft className='directing_to_dp_arrow' />
               <span>Upload Display Pic</span>
               <span className='must'> *</span>
             </div>
@@ -101,7 +101,7 @@ const SignUp: FC = (): JSX.Element => {
 
         {/* Email , age Row */}
 
-        <div className='row flex'>
+        <div className='row email_age_row flex'>
           <FormControl
             inputId='email'
             type='text'
@@ -644,6 +644,54 @@ const Wrapper = styled.main`
   .sign_in_link {
     width: 100%;
     margin-top: 20px;
+  }
+
+  @media only screen and (max-width: 750px) {
+    padding: 10px;
+
+    form {
+      width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 570px) {
+    /* padding: 10px; */
+
+    form {
+      .row {
+        padding: 5px 0 5px;
+        flex-direction: column;
+
+        .form-control {
+          width: 100%;
+        }
+
+        .gender_div,
+        .country_div {
+          width: 100%;
+        }
+      }
+
+      .email_age_row {
+        padding: 5px 0 0px;
+      }
+
+      .gender_country_row {
+        padding: 5px 0 15px;
+
+        .gender_div {
+          padding: 0px 0 15px;
+        }
+
+        /* .country_div {
+          
+        } */
+      }
+
+      .directing_to_dp_arrow {
+        transform: rotate(90deg);
+      }
+    }
   }
 `;
 

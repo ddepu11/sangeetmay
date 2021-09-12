@@ -85,6 +85,7 @@ const Wrapper = styled.div<IFormControlStyle>`
     padding: ${({ inputPadding }) => inputPadding};
     width: ${({ inputW }) => inputW};
   }
+
   .pwd-label {
     justify-content: space-between;
   }
@@ -119,7 +120,7 @@ const Wrapper = styled.div<IFormControlStyle>`
 
     input {
       font-size: 1em;
-      padding: 5px 5px;
+      padding: 8px 5px;
       width: 100%;
     }
   }
