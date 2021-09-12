@@ -2,45 +2,40 @@ import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { firestore } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
-import {
-  playerSetCurrentSongAndPlaylist,
-  playerSetPlaylistSongs,
-} from '../../features/player';
 import { ISong } from '../../interfaces';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
+import Song from '../song/Song';
 
 const Search: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
+
   const [searchText, setSearchText] = useState('');
-  const { playlistSongs } = useAppSelector((state) => state.player.value);
+  const [songs, setSongs] = useState<ISong[]>([]);
 
   useEffect(() => {
     const songRef = firestore.collection('songs');
-
     let hasComponentBeenUnmounted = false;
-    let index = 0;
-    const songs: ISong[] = [];
 
-    searchText &&
+    let index = 0;
+    const newSongs: ISong[] = [];
+
+    if (searchText) {
       songRef
         .get()
         .then((docs) => {
           docs.forEach((item) => {
             if (!hasComponentBeenUnmounted) {
-              songs.push(item.data() as ISong);
+              const songName: string = item.get('name');
+              const doestSearchTermMatches = songName
+                .toLowerCase()
+                .includes(searchText.toLowerCase());
 
-              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+              if (doestSearchTermMatches) {
+                newSongs.push(item.data() as ISong);
+              }
+
               if (index === docs.size - 1) {
-                dispatch(
-                  playerSetCurrentSongAndPlaylist({
-                    currentSong: songs[0].url,
-                    currentSongPic: songs[0].pic.url,
-                    currentSongName: songs[0].name,
-                    playlistId: 'ALL_SONGS',
-                  })
-                );
-
-                dispatch(playerSetPlaylistSongs(songs));
+                setSongs(newSongs);
               }
 
               index++;
@@ -50,6 +45,9 @@ const Search: FC = (): JSX.Element => {
         .catch((err) => {
           dispatch(sendNotification({ message: err.message, error: true }));
         });
+    } else {
+      setSongs([]);
+    }
 
     return () => {
       hasComponentBeenUnmounted = true;
@@ -68,12 +66,17 @@ const Search: FC = (): JSX.Element => {
         <input type='text' value={searchText} onChange={handleSearchText} />
       </div>
 
-      <div className='main'>
-        {playlistSongs &&
-          playlistSongs.length !== 0 &&
-          playlistSongs.map((item: ISong) => {
-            return <h1 key={item.id}>{item.name}</h1>;
-          })}
+      <div className='songs'>
+        {songs &&
+          songs.length !== 0 &&
+          songs.map((item: ISong, index: number) => (
+            <Song
+              key={item.id}
+              song={item}
+              index={index}
+              playlistId='ALL_SONGS'
+            />
+          ))}
       </div>
     </Wrapper>
   );
