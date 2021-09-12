@@ -124,6 +124,20 @@ const Wrapper = styled.main`
   .sign_up_link {
     margin-top: 40px;
   }
+
+  @media screen and (max-width: 798px) {
+    form {
+      width: 70%;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    padding: 10px 10px;
+
+    form {
+      width: 100%;
+    }
+  }
 `;
 
 export default SignIn;
