@@ -77,13 +77,15 @@ const Song: FC<Props> = ({
           </>
         )}
 
-        <div className='like_or_deslike'>
-          {disYouLikeTheSong ? (
-            <FcLike onClick={handleDisLikeSsong} />
-          ) : (
-            <FcLikePlaceholder onClick={handleLikeSsong} />
-          )}
-        </div>
+        {role !== 'ADMIN' && (
+          <div className='like_or_deslike'>
+            {disYouLikeTheSong ? (
+              <FcLike onClick={handleDisLikeSsong} />
+            ) : (
+              <FcLikePlaceholder onClick={handleLikeSsong} />
+            )}
+          </div>
+        )}
       </div>
     </Wrapper>
   );

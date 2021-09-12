@@ -96,8 +96,9 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     const songId = song.id;
 
     const usersRef = firestore.collection('users');
-    // const songsRef = firestore.collection('songs');
+    const songsRef = firestore.collection('songs');
 
+    // save song id in user doc ---> likedSong array
     usersRef
       .doc(userDocId)
       .update({ likedSongs: firebase.firestore.FieldValue.arrayUnion(songId) })
@@ -109,16 +110,47 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
           })
         );
 
-        firestore
-          .collection('users')
-          .doc(userDocId)
+        //FInd which song to like
+        songsRef
+          .where('id', '==', song.id)
           .get()
           .then((doc) => {
-            dispatch(userInfoUpdateSuccess(doc.data()));
-          })
-          .catch((err) => {
-            dispatch(sendNotification({ message: err.message, error: true }));
-            dispatch(userError());
+            doc.forEach((item) => {
+              //save song id of current song
+              if (item.get('id') === songId) {
+                songsRef
+                  .doc(item.id)
+                  .update({ likes: song.likes + 1 })
+                  .then(() => {
+                    //Get Updated user info
+                    firestore
+                      .collection('users')
+                      .doc(userDocId)
+                      .get()
+                      .then((doc) => {
+                        dispatch(userInfoUpdateSuccess(doc.data()));
+                      })
+                      .catch((err) => {
+                        dispatch(
+                          sendNotification({
+                            message: err.message,
+                            error: true,
+                          })
+                        );
+                        dispatch(userError());
+                      });
+                  })
+                  .catch((err) => {
+                    dispatch(
+                      sendNotification({ message: err.message, error: true })
+                    );
+                    dispatch(userError());
+                  });
+              } else {
+                //
+                return;
+              }
+            });
           });
       })
       .catch((err) => {
