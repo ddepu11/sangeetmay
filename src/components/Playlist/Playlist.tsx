@@ -134,8 +134,8 @@ const Wrapper = styled.main`
   }
 
   .playlist_info {
-    margin-left: 5px;
-    font-size: 0.9em;
+    margin-left: 20px;
+    font-size: 1.3em;
   }
 
   .delete_icon_div {

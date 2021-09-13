@@ -62,7 +62,7 @@ const Song: FC<Props> = ({
           <img src={song.pic.url} alt={song.name} />
         </div>
 
-        <p className='name'>{song.name}</p>
+        <p className='name'>{song.name.slice(0, 30)}...</p>
       </div>
 
       <div className='right_part flex'>
@@ -168,6 +168,40 @@ const Wrapper = styled.main`
 
   :hover {
     transform: scale(1.05) translateY(-10px);
+  }
+
+  @media screen and (max-width: 545px) {
+    padding: 8px 0px;
+    overflow-x: scroll;
+
+    .index {
+      font-size: 1em;
+      margin-right: 8px;
+    }
+
+    .play_pause_btns {
+      margin-right: 12px;
+
+      .pause,
+      .play {
+        font-size: 2em;
+      }
+
+      :hover {
+        transform: scale(1.2);
+      }
+    }
+
+    .song_img {
+      width: 40px;
+      height: 40px;
+      margin-right: 8px;
+    }
+
+    .name {
+      font-size: 1em;
+      /* margin-left: 30px; */
+    }
   }
 `;
 

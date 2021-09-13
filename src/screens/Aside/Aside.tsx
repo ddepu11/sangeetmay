@@ -169,11 +169,10 @@ const Wrapper = styled.aside`
 
   @media screen and (max-width: 929px) {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     padding: 0 5px;
-    overflow-x: scroll;
 
     ul {
       display: flex;
@@ -181,8 +180,13 @@ const Wrapper = styled.aside`
       justify-content: space-between;
     }
 
+    .top_ul {
+      width: 35%;
+    }
+
     .middle_ul {
       margin-top: 0;
+      width: 60%;
     }
 
     .seperateing_line {
