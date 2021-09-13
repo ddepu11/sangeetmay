@@ -21,6 +21,7 @@ import AddSongsToPlaylists from '../../screens/AddSongsToPlaylist/AddSongsToPlay
 import PlaylistScreen from '../../screens/Playlist/PlaylistScreen';
 import AdminProtectedRoute from '../AdminProtectedRoute';
 import UserProtectedRoute from '../UserProtectedRoute';
+import LikedSongs from '../../screens/LikedSongs/LikedSongs';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, notify, message, hasUserLoggedIn, role } = useAppLogic();
@@ -65,6 +66,13 @@ const App: FC = (): JSX.Element => {
                 isLoggedIn={hasUserLoggedIn}
                 component={PlaylistScreen}
                 path='/playlist'
+                role={role}
+              />
+
+              <UserProtectedRoute
+                isLoggedIn={hasUserLoggedIn}
+                component={LikedSongs}
+                path='/liked-songs'
                 role={role}
               />
 
