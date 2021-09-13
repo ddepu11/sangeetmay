@@ -26,47 +26,45 @@ const LikedSongs = () => {
     // shjiahsi
     let hasComponentBeenUnmounted = false;
 
-    if (!play && !pause) {
-      // Fetch Songs
-      const songsRef = firestore.collection('songs');
+    // Fetch Songs
+    const songsRef = firestore.collection('songs');
 
-      let index = 0;
-      const songs: ISong[] = [];
+    let index = 0;
+    const songs: ISong[] = [];
 
-      likedSongs?.forEach((item) => {
-        songsRef
-          .where('id', '==', item)
-          .get()
-          .then((doc) => {
-            const song = doc.docs[0];
+    likedSongs?.forEach((item) => {
+      songsRef
+        .where('id', '==', item)
+        .get()
+        .then((doc) => {
+          const song = doc.docs[0];
 
-            if (doc.docs.length > 0) {
-              if (!hasComponentBeenUnmounted) {
-                songs.push(song.data() as ISong);
+          if (doc.docs.length > 0) {
+            if (!hasComponentBeenUnmounted) {
+              songs.push(song.data() as ISong);
 
-                //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
-                if (index === likedSongs.length - 1) {
-                  dispatch(
-                    playerSetCurrentSongAndPlaylist({
-                      currentSong: songs[0].url,
-                      currentSongPic: songs[0].pic.url,
-                      currentSongName: songs[0].name,
-                      playlistId: 'ALL_SONGS',
-                    })
-                  );
+              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+              if (index === likedSongs.length - 1) {
+                dispatch(
+                  playerSetCurrentSongAndPlaylist({
+                    currentSong: songs[0].url,
+                    currentSongPic: songs[0].pic.url,
+                    currentSongName: songs[0].name,
+                    playlistId: 'ALL_SONGS',
+                  })
+                );
 
-                  dispatch(playerSetPlaylistSongs(songs));
-                }
-
-                index++;
+                dispatch(playerSetPlaylistSongs(songs));
               }
+
+              index++;
             }
-          })
-          .catch((err) => {
-            dispatch(sendNotification({ message: err.message, error: true }));
-          });
-      });
-    }
+          }
+        })
+        .catch((err) => {
+          dispatch(sendNotification({ message: err.message, error: true }));
+        });
+    });
 
     return () => {
       hasComponentBeenUnmounted = true;

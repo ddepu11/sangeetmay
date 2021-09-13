@@ -1,11 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  AiOutlineHome,
-  AiOutlineSearch,
-  AiFillPlusSquare,
-} from 'react-icons/ai';
+import { AiOutlineHome, AiOutlineSearch } from 'react-icons/ai';
 
 // import { VscLibrary } from 'react-icons/vsc';
 import { FcLike } from 'react-icons/fc';
@@ -45,15 +41,6 @@ const Aside: FC = (): JSX.Element => {
 
       <ul className='middle_ul'>
         <li>
-          <Link to='/create-playlist'>
-            <div className='link flex'>
-              <AiFillPlusSquare fontSize='1.7em' className='ic_plus' />
-              <span className='link_text'>Create Playlist</span>
-            </div>
-          </Link>
-        </li>
-
-        <li>
           <Link to='/liked-songs'>
             <div className='link flex'>
               <FcLike fontSize='1.7em' className='ic_liked' />
@@ -62,47 +49,6 @@ const Aside: FC = (): JSX.Element => {
           </Link>
         </li>
       </ul>
-
-      {/* #################### BETWEEN ################ */}
-      <div className='seperateing_line' />
-
-      {/* <ul className='bottom_ul'>
-        <li>
-          <Link to='/' className='playlist'>
-            <span>Mega hit mix</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link to='/' className='playlist'>
-            <span>90 Romance Rewind</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link to='/' className='playlist'>
-            <span>Old hindi classics</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link to='/' className='playlist'>
-            <span>Old hindi classics</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link to='/' className='playlist'>
-            <span>Old hindi classics</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link to='/' className='playlist'>
-            <span>Old hindi classics</span>
-          </Link>
-        </li>
-      </ul> */}
     </Wrapper>
   );
 };
