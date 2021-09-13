@@ -9,7 +9,7 @@ import {
   playlistSuccess,
 } from '../../features/playlist';
 import { useAppDispatch } from '../../redux/hooks';
-import Song from '../song/Song';
+import Song from '../../components/song/Song';
 import { playerSetPlaylistSongs } from '../../features/player';
 
 type Props = {

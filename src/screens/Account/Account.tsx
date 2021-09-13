@@ -308,6 +308,13 @@ const Wrapper = styled.main<{ personRole: string | null }>`
       }
     }
   }
+
+  @media screen and (max-width: 929px) {
+    width: 100%;
+
+    .detalis {
+    }
+  }
 `;
 
 export default Account;

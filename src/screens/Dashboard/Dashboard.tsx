@@ -7,7 +7,7 @@ import useDashboardLogic from './Logic/useDashboardLogic';
 import { IPlaylist, ISong } from '../../interfaces';
 import Button from '../../components/Button';
 import Playlist from '../../components/Playlist/Playlist';
-import Song from '../song/Song';
+import Song from '../../components/song/Song';
 
 const Dashboard: FC = (): JSX.Element => {
   const {

@@ -4,7 +4,7 @@ import { firestore } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
 import { ISong } from '../../interfaces';
 import { useAppDispatch } from '../../redux/hooks';
-import Song from '../song/Song';
+import Song from '../../components/song/Song';
 
 const Search: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -109,6 +109,14 @@ const Wrapper = styled.main`
 
   .songs {
     padding: 15px 0;
+  }
+
+  @media screen and (max-width: 929px) {
+    width: 100%;
+
+    .header {
+      justify-content: space-between;
+    }
   }
 `;
 

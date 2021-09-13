@@ -120,6 +120,12 @@ const Wrapper = styled.main`
     justify-content: flex-start;
     align-items: flex-start;
   }
+
+  @media screen and (max-width: 929px) {
+    .middle-section {
+      flex-direction: column;
+    }
+  }
 `;
 
 export default App;

@@ -6,7 +6,7 @@ import { sendNotification } from '../../features/notification';
 import { IPlaylist, ISong } from '../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Playlist from '../../components/Playlist/Playlist';
-import Song from '../song/Song';
+import Song from '../../components/song/Song';
 import {
   playerPlayAllSongs,
   playerPlays,
@@ -185,6 +185,9 @@ const Wrapper = styled.main`
       font-size: 1.2em;
       font-weight: 400;
     }
+  }
+  @media screen and (max-width: 929px) {
+    width: 100%;
   }
 `;
 

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { ISong } from '../../interfaces';
-import Dialog from '../../components/Dialog';
+import Dialog from '../Dialog';
 import useSongLogic from './Logic/useSongLogic';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
