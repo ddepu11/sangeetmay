@@ -210,9 +210,9 @@ const Wrapper = styled.footer`
     .top > .cover {
       top: 0;
       bottom: 25px;
-      width: 22%;
-      background-color: rgba(37, 37, 37, 0.8);
-      border-radius: 5px;
+      width: 100%;
+      background-color: rgba(90, 90, 90, 0.8);
+      border-radius: 10px;
       display: grid;
       place-content: center;
       font-size: 1.1em;
@@ -324,6 +324,65 @@ const Wrapper = styled.footer`
       transform: scale(1.2);
       color: var(--dark-color);
       cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 929px) {
+    .pic {
+      width: 40px;
+      height: 70px;
+    }
+
+    .song_name {
+      margin-left: 2px;
+
+      span {
+        font-size: 0.8em;
+      }
+    }
+
+    .player {
+      .top {
+        padding: 5px 0px;
+
+        .next,
+        .previous {
+          font-size: 1.8em;
+        }
+
+        .pause,
+        .play {
+          font-size: 2.2em;
+        }
+      }
+
+      .top > .cover {
+        top: 0;
+        bottom: 25px;
+        width: 100%;
+        background-color: rgba(90, 90, 90, 0.8);
+        border-radius: 10px;
+        display: grid;
+        place-content: center;
+        font-size: 1.1em;
+        color: var(--primary-color);
+        letter-spacing: 1px;
+        position: absolute;
+      }
+
+      .bottom {
+        width: 100%;
+      }
+
+      .current_time {
+        font-size: 1em;
+        margin-right: 7px;
+      }
+
+      .duration {
+        font-size: 1em;
+        margin-left: 7px;
+      }
     }
   }
 `;

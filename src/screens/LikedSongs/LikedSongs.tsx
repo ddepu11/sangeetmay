@@ -116,6 +116,10 @@ const Wrapper = styled.main`
   .songs {
     margin-top: 20px;
   }
+
+  @media screen and (max-width: 929px) {
+    width: 100%;
+  }
 `;
 
 export default LikedSongs;

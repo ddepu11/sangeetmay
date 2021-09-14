@@ -83,9 +83,9 @@ const Song: FC<Props> = ({
         {role !== 'ADMIN' && (
           <div className='like_or_deslike'>
             {didYouLikeTheSong ? (
-              <ThumbDownIcon onClick={handleDisLikeSsong} />
+              <ThumbDownIcon onClick={handleDisLikeSsong} className='unlike' />
             ) : (
-              <ThumbUpAltIcon onClick={handleLikeSsong} />
+              <ThumbUpAltIcon onClick={handleLikeSsong} className='like' />
             )}
           </div>
         )}
@@ -150,6 +150,14 @@ const Wrapper = styled.main`
     transition: transform 0.5s ease;
     color: var(--little-light-color);
     margin-left: 15px;
+
+    .like {
+      color: var(--tertiary-color);
+    }
+
+    .unlike {
+      color: var(--secondary-color);
+    }
   }
 
   .like_or_deslike:hover {
@@ -170,7 +178,7 @@ const Wrapper = styled.main`
   }
 
   :hover {
-    transform: scale(1.05) translateY(-10px);
+    transform: scale(1.01) translateY(-5px);
   }
 
   @media screen and (max-width: 545px) {

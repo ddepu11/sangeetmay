@@ -28,18 +28,6 @@ const Aside: FC = (): JSX.Element => {
           </Link>
         </li>
 
-        {/* 
-        <li>
-          <Link to='/library'>
-            <div className='link flex'>
-              <VscLibrary fontSize='1.7em' />
-              <span className='link_text'>Library</span>
-            </div>
-          </Link>
-        </li> */}
-      </ul>
-
-      <ul className='middle_ul'>
         <li>
           <Link to='/liked-songs'>
             <div className='link flex'>
@@ -77,22 +65,20 @@ const Wrapper = styled.aside`
       font-size: 1.1em;
       transition: all 0.5s ease;
     }
+
+    .ic_liked {
+      color: var(--danger-color);
+    }
+
+    .ic_home,
+    .ic_search,
+    .ic_liked {
+      font-size: 2em;
+    }
   }
 
   .link:hover {
     color: var(--light-color);
-  }
-
-  .middle_ul {
-    /* border: 1px solid red; */
-    margin-top: 18px;
-  }
-
-  .seperateing_line {
-    margin: 10px 0;
-    width: 85%;
-    background-color: var(--little-dark-color);
-    height: 0.5px;
   }
 
   .bottom_ul {
@@ -118,7 +104,7 @@ const Wrapper = styled.aside`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 5px;
+    padding: 5px 15px;
 
     ul {
       display: flex;
@@ -127,27 +113,17 @@ const Wrapper = styled.aside`
     }
 
     .top_ul {
-      width: 35%;
-    }
-
-    .middle_ul {
-      margin-top: 0;
-      width: 60%;
-    }
-
-    .seperateing_line {
-      display: none;
+      width: 100%;
     }
 
     .link {
       .link_text {
-        margin-left: 5px;
-        font-size: 0.9em;
+        margin-left: 10px;
+        font-size: 1.2em;
       }
 
       .ic_home,
       .ic_search,
-      .ic_plus,
       .ic_liked {
         font-size: 1.4em;
       }

@@ -119,7 +119,19 @@ const Wrapper = styled.main`
     }
   }
   @media screen and (max-width: 545px) {
-    padding: 5px 0;
+    padding: 5px 5px;
+  }
+
+  @media screen and (max-width: 450px) {
+    .heading {
+      font-size: 1.1em;
+    }
+
+    .header {
+      input {
+        font-size: 1em;
+      }
+    }
   }
 `;
 
