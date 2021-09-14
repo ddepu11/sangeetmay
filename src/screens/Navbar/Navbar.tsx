@@ -6,8 +6,9 @@ import Button from '../../components/Button';
 import { auth } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
 import { useAppSelector } from '../../redux/hooks';
-import { HiBadgeCheck } from 'react-icons/hi';
-import { FiMenu } from 'react-icons/fi';
+
+import LabelImportantIcon from '@material-ui/icons/LabelImportant';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -124,7 +125,7 @@ const Navbar: FC = (): JSX.Element => {
                   }}
                 >
                   <div className='center flex'>
-                    <HiBadgeCheck />
+                    <LabelImportantIcon />
                     <span>Admin</span>
                   </div>
                 </Button>
@@ -198,7 +199,7 @@ const Navbar: FC = (): JSX.Element => {
       </div>
 
       <div className='menu_bar'>
-        <FiMenu onClick={handleToggleMenu} />
+        <MenuIcon onClick={handleToggleMenu} />
       </div>
     </Wrapper>
   );

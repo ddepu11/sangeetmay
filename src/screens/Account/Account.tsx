@@ -1,9 +1,9 @@
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import UpdateFormField from '../../components/UpdateFormField';
 import useAccountLogic from './Logic/useAccountLogic';
 import { FC } from 'react';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const Account: FC = (): JSX.Element => {
   const {
@@ -49,7 +49,7 @@ const Account: FC = (): JSX.Element => {
 
         <div className='right flex'>
           <div className='upload_img_text flex'>
-            <FaArrowAltCircleLeft />
+            <ArrowBackIcon />
             {displayPic.preview ? (
               <>
                 <Button

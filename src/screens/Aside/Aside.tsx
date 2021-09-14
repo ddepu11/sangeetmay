@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { AiOutlineHome, AiOutlineSearch } from 'react-icons/ai';
 
-// import { VscLibrary } from 'react-icons/vsc';
-import { FcLike } from 'react-icons/fc';
+import HomeIcon from '@material-ui/icons/Home';
+import SearchIcon from '@material-ui/icons/Search';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const Aside: FC = (): JSX.Element => {
   return (
@@ -13,7 +13,7 @@ const Aside: FC = (): JSX.Element => {
         <li>
           <Link to='/'>
             <div className='link flex'>
-              <AiOutlineHome fontSize='1.7em' className='ic_home' />
+              <HomeIcon className='ic_home' />
               <span className='link_text'>Home</span>
             </div>
           </Link>
@@ -22,7 +22,7 @@ const Aside: FC = (): JSX.Element => {
         <li>
           <Link to='/search'>
             <div className='link flex'>
-              <AiOutlineSearch fontSize='1.7em' className='ic_search' />
+              <SearchIcon className='ic_search' />
               <span className='link_text'>Search</span>
             </div>
           </Link>
@@ -43,7 +43,7 @@ const Aside: FC = (): JSX.Element => {
         <li>
           <Link to='/liked-songs'>
             <div className='link flex'>
-              <FcLike fontSize='1.7em' className='ic_liked' />
+              <FavoriteIcon className='ic_liked' />
               <span className='link_text'>Liked Songs</span>
             </div>
           </Link>

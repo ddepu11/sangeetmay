@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+
 import { ISong } from '../../interfaces';
 import Dialog from '../Dialog';
 import useSongLogic from './Logic/useSongLogic';
-import { RiDeleteBin5Line } from 'react-icons/ri';
-import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 type Props = {
   playlistId: string | undefined;
@@ -52,9 +55,12 @@ const Song: FC<Props> = ({
 
         <div className='play_pause_btns'>
           {isThisSongBeingplayed ? (
-            <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
+            <PauseCircleOutlineIcon
+              className='pause'
+              onClick={handlePauseSong}
+            />
           ) : (
-            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
+            <PlayCircleOutlineIcon className='play' onClick={handlePlaySong} />
           )}
         </div>
 
@@ -70,19 +76,16 @@ const Song: FC<Props> = ({
           <>
             <p className='likes'>Likes: {song.likes}</p>
 
-            <RiDeleteBin5Line
-              className='delete_btn'
-              onClick={showConfirmDialogBox}
-            />
+            <DeleteIcon className='delete_btn' onClick={showConfirmDialogBox} />
           </>
         )}
 
         {role !== 'ADMIN' && (
           <div className='like_or_deslike'>
             {didYouLikeTheSong ? (
-              <FcLike onClick={handleDisLikeSsong} />
+              <ThumbDownIcon onClick={handleDisLikeSsong} />
             ) : (
-              <FcLikePlaceholder onClick={handleLikeSsong} />
+              <ThumbUpAltIcon onClick={handleLikeSsong} />
             )}
           </div>
         )}
@@ -145,7 +148,7 @@ const Wrapper = styled.main`
   .like_or_deslike {
     font-size: 1.5em;
     transition: transform 0.5s ease;
-    color: var(--danger-color);
+    color: var(--little-light-color);
     margin-left: 15px;
   }
 

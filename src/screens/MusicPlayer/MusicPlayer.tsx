@@ -1,10 +1,15 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
-import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi';
-import { GiSpeaker, GiSpeakerOff } from 'react-icons/gi';
 import useMusicPlayerLogic from './Logic/useMusicPlayerLogic';
 import dummySongImg from '../../images/dummySongImage.jpg';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 const MusicPlayer: FC = (): JSX.Element => {
   const {
@@ -63,20 +68,23 @@ const MusicPlayer: FC = (): JSX.Element => {
         )}
 
         <div className='top flex'>
-          <BiSkipPrevious className='previous' onClick={playPreviousSong} />
+          <SkipPreviousIcon className='previous' onClick={playPreviousSong} />
 
           {!play && !pause && (
-            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
+            <PlayCircleOutlineIcon className='play' onClick={handlePlaySong} />
           )}
 
           {play && currentSong && (
-            <AiOutlinePauseCircle className='pause' onClick={handlePauseSong} />
+            <PauseCircleOutlineIcon
+              className='pause'
+              onClick={handlePauseSong}
+            />
           )}
           {pause && currentSong && (
-            <AiOutlinePlayCircle className='play' onClick={handlePlaySong} />
+            <PlayCircleOutlineIcon className='play' onClick={handlePlaySong} />
           )}
 
-          <BiSkipNext className='next' onClick={playNextSong} />
+          <SkipNextIcon className='next' onClick={playNextSong} />
 
           {loading && (
             <div className='cover'>
@@ -106,9 +114,9 @@ const MusicPlayer: FC = (): JSX.Element => {
       <div className='volume flex'>
         <div className='volume_mute_toggel_btns'>
           {mute ? (
-            <GiSpeakerOff className='speaker_off' onClick={toggleMute} />
+            <VolumeOffIcon className='speaker_off' onClick={toggleMute} />
           ) : (
-            <GiSpeaker className='speaker_on' onClick={toggleMute} />
+            <VolumeUpIcon className='speaker_on' onClick={toggleMute} />
           )}
         </div>
 

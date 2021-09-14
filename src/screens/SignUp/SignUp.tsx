@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import Button from '../../components/Button';
 import FormControl from '../../components/FormControl';
 import useSignUpLogic from './Logic/useSignUpLogic';
 import dummyDP from '../../images/dummy_user.svg';
 import { FC } from 'react';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const SignUp: FC = (): JSX.Element => {
   const {
@@ -39,7 +39,7 @@ const SignUp: FC = (): JSX.Element => {
 
           <div className='right flex'>
             <div className='upload_img_text flex'>
-              <FaArrowAltCircleLeft className='directing_to_dp_arrow' />
+              <ArrowBackIcon className='directing_to_dp_arrow' />
               <span>Upload Display Pic</span>
               <span className='must'> *</span>
             </div>

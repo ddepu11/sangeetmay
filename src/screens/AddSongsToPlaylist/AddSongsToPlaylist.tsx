@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import Loading from '../../components/Loading';
 import useAddSongsToPlaylist from './Logic/useAddSongsToPlaylist';
 import DummySongImage from '../../images/dummySongImage.jpg';
-import { FiArrowLeftCircle } from 'react-icons/fi';
 import Button from '../../components/Button';
 import Songs from '../Songs/Songs';
 import { FC } from 'react';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const AddSongsToPlaylists: FC = (): JSX.Element => {
   const {
@@ -80,7 +80,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
               </div>
               <div className='choose_text flex'>
                 <div className='top flex'>
-                  <FiArrowLeftCircle fontSize='1.3em' />
+                  <ArrowBackIcon />
                   <h3>Choose song image</h3>
                 </div>
                 <p className='must' ref={songPicValidationMessageTag} />

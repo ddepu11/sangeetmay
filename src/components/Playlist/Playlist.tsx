@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { ImBin } from 'react-icons/im';
-import { AiOutlinePauseCircle, AiOutlinePlayCircle } from 'react-icons/ai';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../Button';
@@ -38,9 +40,9 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
       <Wrapper className='flex'>
         <div className='play__pause_btns'>
           {isThisPlaylistBeingPlayed ? (
-            <AiOutlinePauseCircle onClick={handlePausePlaylist} />
+            <PauseCircleOutlineIcon onClick={handlePausePlaylist} />
           ) : (
-            <AiOutlinePlayCircle onClick={handlePlayPlaylist} />
+            <PlayCircleOutlineIcon onClick={handlePlayPlaylist} />
           )}
         </div>
 

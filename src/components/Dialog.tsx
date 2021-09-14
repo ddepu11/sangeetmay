@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { RiDeleteBin5Line } from 'react-icons/ri';
-import { TiCancel } from 'react-icons/ti';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 type Props = {
   whatAreYouDeleting: string;
@@ -35,12 +35,12 @@ const Dialog: FC<Props> = ({
 
       <div className='btns flex'>
         <button className='delete flex' onClick={handleDelete} data-id={dataId}>
-          <RiDeleteBin5Line className='del_icon' />
+          <DeleteIcon className='del_icon' />
           <span>Delete</span>
         </button>
 
         <button className='cancel flex' onClick={handleCancel}>
-          <TiCancel className='can_icon' />
+          <CancelIcon className='can_icon' />
           <span>Cancel</span>
         </button>
       </div>

@@ -1,4 +1,3 @@
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import styled from 'styled-components';
 import dummyPlaylistImage from '../../images/dummyPlaylistImage.jpg';
 import FormControl from '../../components/FormControl';
@@ -7,6 +6,7 @@ import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 import useAdminCreatePlaylist from './Logic/useAdminCreatePlaylist';
 import { FC } from 'react';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const AdminCreatePlaylist: FC = (): JSX.Element => {
   const {
@@ -38,7 +38,7 @@ const AdminCreatePlaylist: FC = (): JSX.Element => {
 
         <div className='right flex'>
           <div className='upload_img_text flex'>
-            <FaArrowAltCircleLeft />
+            <ArrowBackIcon />
             <span>Choose Pic</span>
             <span className='must'> *</span>
           </div>
