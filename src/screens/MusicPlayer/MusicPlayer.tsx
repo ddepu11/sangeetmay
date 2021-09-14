@@ -327,14 +327,17 @@ const Wrapper = styled.footer`
     }
   }
 
-  @media screen and (max-width: 929px) {
+  @media screen and (max-width: 550px) {
+    .left {
+      width: 10%;
+    }
+
     .pic {
-      width: 40px;
-      height: 70px;
+      display: none;
     }
 
     .song_name {
-      margin-left: 2px;
+      margin-left: 0px;
 
       span {
         font-size: 0.8em;
@@ -342,6 +345,7 @@ const Wrapper = styled.footer`
     }
 
     .player {
+      width: 70%;
       .top {
         padding: 5px 0px;
 
@@ -382,6 +386,23 @@ const Wrapper = styled.footer`
       .duration {
         font-size: 1em;
         margin-left: 7px;
+      }
+    }
+
+    .volume {
+      width: 10%;
+      transform: rotate(90deg);
+      flex-direction: column-reverse;
+      justify-content: space-between;
+    }
+
+    .volume_mute_toggel_btns {
+      transform: rotate(270deg);
+
+      .speaker_on,
+      .speaker_off {
+        font-size: 1.2em;
+        margin-right: 0px;
       }
     }
   }

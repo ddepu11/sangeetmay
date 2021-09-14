@@ -118,6 +118,7 @@ const Wrapper = styled.main`
       justify-content: space-between;
     }
   }
+  
   @media screen and (max-width: 545px) {
     padding: 5px 5px;
   }
