@@ -38,7 +38,7 @@ const useSignInLogic = () => {
         credentials.password.trim()
       )
       .then(() => {
-        console.log('Successfully signed in!');
+        // console.log('Successfully signed in!');
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
@@ -46,8 +46,8 @@ const useSignInLogic = () => {
       });
   };
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const handleSignIn = (e?: React.FormEvent<HTMLFormElement>): void => {
+    e && e.preventDefault();
 
     const error = validateUserCredentials(
       credentials,
@@ -69,12 +69,27 @@ const useSignInLogic = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
+  //Login as random user
+  const loginAsRandomUser = () => {
+    const randomUser = [
+      { email: 'ddepu11@gmail.com', password: 'aaaaaa' },
+      { email: 'aayush11@gmail.com', password: '111111' },
+    ];
+
+    const randomUserIndex =
+      randomUser[Math.floor(Math.random() * randomUser.length)];
+
+    setCredentials(randomUserIndex);
+    handleSignIn();
+  };
+
   return {
     handleSignIn,
     handleInput,
     credentials,
     emailValidationMessageTag,
     passwordValidationMessageTag,
+    loginAsRandomUser,
   };
 };
 

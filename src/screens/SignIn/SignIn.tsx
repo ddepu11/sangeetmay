@@ -12,6 +12,7 @@ const SignIn: FC = (): JSX.Element => {
     credentials: { email, password },
     emailValidationMessageTag,
     passwordValidationMessageTag,
+    loginAsRandomUser,
   } = useSignInLogic();
 
   return (
@@ -78,6 +79,23 @@ const SignIn: FC = (): JSX.Element => {
           SignIn
         </Button>
 
+        <Button
+          type='submit'
+          buttonStyle={{
+            padding: '8px 20px',
+            fontSize: '1.2em',
+            hoverTransform: 'scale(1.05) translateY(-2px)',
+            transition: 'transform 0.4s ease',
+            mt: '15px',
+            width: '100%',
+            bgColor: 'var(--little-light-color)',
+            color: 'var(--dark-color)',
+          }}
+          handleClick={loginAsRandomUser}
+        >
+          Sign in as random user
+        </Button>
+
         <Link to='/sign-up' className='sign_up_link'>
           <Button
             type='button'
@@ -122,7 +140,7 @@ const Wrapper = styled.main`
   }
 
   .sign_up_link {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 
   @media screen and (max-width: 798px) {

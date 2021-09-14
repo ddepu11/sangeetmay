@@ -97,7 +97,6 @@ const Home: FC = (): JSX.Element => {
     }
 
     return () => {
-      console.log('Clean Up Function runs.');
       hasComponentBeenUnmounted = true;
     };
   }, [history, hasUserLoggedIn, dispatch, role, play, pause]);
