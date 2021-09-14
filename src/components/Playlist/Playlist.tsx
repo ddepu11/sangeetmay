@@ -1,7 +1,4 @@
 import { FC } from 'react';
-import { ImBin } from 'react-icons/im';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +6,10 @@ import Button from '../Button';
 import Dialog from '../Dialog';
 import { IPlaylist } from '../../interfaces';
 import usePlayListLogic from './Logic/usePlaylistLogic';
+
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 type Props = {
   playlist: IPlaylist;
@@ -56,7 +57,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
         {role === 'ADMIN' && (
           <div className='delete_icon_div'>
-            <ImBin onClick={showConfirmDialogBox} />
+            <DeleteIcon onClick={showConfirmDialogBox} />
           </div>
         )}
 
