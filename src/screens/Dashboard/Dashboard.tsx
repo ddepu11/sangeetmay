@@ -70,6 +70,7 @@ const Dashboard: FC = (): JSX.Element => {
         )}
       </div>
 
+      <h3 className='songs_in_system'>Songs in the system:-</h3>
       <div className='songs'>
         {playlistSongs &&
           playlistSongs.length !== 0 &&
@@ -122,6 +123,13 @@ const Wrapper = styled.main`
     font-size: 1.3em;
     text-transform: lowercase;
     font-weight: 400;
+  }
+
+  .songs_in_system {
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin-top: 20px;
   }
 
   .songs {

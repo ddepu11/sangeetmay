@@ -70,7 +70,7 @@ const useSignInLogic = () => {
   };
 
   //Login as random user
-  const loginAsRandomUser = () => {
+  const loginAsRandomUser = (): void => {
     const randomUser = [
       { email: 'ddepu11@gmail.com', password: 'aaaaaa' },
       { email: 'aayush11@gmail.com', password: '111111' },
@@ -83,6 +83,12 @@ const useSignInLogic = () => {
     handleSignIn();
   };
 
+  // Log in as admin
+  const loginAsAdmin = (): void => {
+    setCredentials({ email: 'mohan11@gmail.com', password: 'aaaaaa' });
+    handleSignIn();
+  };
+
   return {
     handleSignIn,
     handleInput,
@@ -90,6 +96,7 @@ const useSignInLogic = () => {
     emailValidationMessageTag,
     passwordValidationMessageTag,
     loginAsRandomUser,
+    loginAsAdmin,
   };
 };
 

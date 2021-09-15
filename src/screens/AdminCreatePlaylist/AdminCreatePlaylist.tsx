@@ -124,6 +124,7 @@ const Wrapper = styled.main`
 
       .upload_img_text {
         font-size: 1.2em;
+        color: var(--primary-color);
 
         span {
           margin-left: 10px;

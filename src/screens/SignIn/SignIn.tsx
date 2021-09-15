@@ -13,6 +13,7 @@ const SignIn: FC = (): JSX.Element => {
     emailValidationMessageTag,
     passwordValidationMessageTag,
     loginAsRandomUser,
+    loginAsAdmin,
   } = useSignInLogic();
 
   return (
@@ -79,6 +80,22 @@ const SignIn: FC = (): JSX.Element => {
           SignIn
         </Button>
 
+        <Button
+          type='submit'
+          buttonStyle={{
+            padding: '8px 20px',
+            fontSize: '1.2em',
+            hoverTransform: 'scale(1.05) translateY(-2px)',
+            transition: 'transform 0.4s ease',
+            mt: '15px',
+            width: '100%',
+            bgColor: 'var(--little-dark-color)',
+            color: 'var(--light-color)',
+          }}
+          handleClick={loginAsAdmin}
+        >
+          Sign in as Admin
+        </Button>
         <Button
           type='submit'
           buttonStyle={{

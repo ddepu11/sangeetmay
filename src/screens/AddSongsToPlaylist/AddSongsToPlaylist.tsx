@@ -89,7 +89,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
               <div className='song_file'>
                 <label htmlFor='song'>
                   <div className='choose_song_file flex'>
-                    <p>{song ? song.name?.slice(0, 20) : 'choose file'}</p>
+                    <p>{song ? song.name?.slice(0, 20) : 'choose song'}</p>
                     <span>Browse</span>
                   </div>
                 </label>
