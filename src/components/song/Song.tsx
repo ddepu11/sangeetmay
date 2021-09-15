@@ -39,7 +39,7 @@ const Song: FC<Props> = ({
   } = useSongLogic(playlistId, song);
 
   return (
-    <Wrapper className='flex'>
+    <>
       {viewDashBoard && (
         <Dialog
           whatAreYouDeleting='song'
@@ -49,48 +49,59 @@ const Song: FC<Props> = ({
         />
       )}
 
-      <div className='left_part flex'>
-        <span className='index'>{index + 1}.</span>
-        {/*  */}
+      <Wrapper className='flex'>
+        <div className='left_part flex'>
+          <span className='index'>{index + 1}.</span>
+          {/*  */}
 
-        <div className='play_pause_btns'>
-          {isThisSongBeingplayed ? (
-            <PauseCircleOutlineIcon
-              className='pause'
-              onClick={handlePauseSong}
-            />
-          ) : (
-            <PlayCircleOutlineIcon className='play' onClick={handlePlaySong} />
-          )}
-        </div>
-
-        <div className='song_img'>
-          <img src={song.pic.url} alt={song.name} />
-        </div>
-
-        <p className='name'>{song.name.slice(0, 30)}...</p>
-      </div>
-
-      <div className='right_part flex'>
-        {role === 'ADMIN' && (
-          <>
-            <p className='likes'>Likes: {song.likes}</p>
-
-            <DeleteIcon className='delete_btn' onClick={showConfirmDialogBox} />
-          </>
-        )}
-
-        {role !== 'ADMIN' && (
-          <div className='like_or_deslike'>
-            {didYouLikeTheSong ? (
-              <ThumbDownIcon onClick={handleDisLikeSsong} className='unlike' />
+          <div className='play_pause_btns'>
+            {isThisSongBeingplayed ? (
+              <PauseCircleOutlineIcon
+                className='pause'
+                onClick={handlePauseSong}
+              />
             ) : (
-              <ThumbUpAltIcon onClick={handleLikeSsong} className='like' />
+              <PlayCircleOutlineIcon
+                className='play'
+                onClick={handlePlaySong}
+              />
             )}
           </div>
-        )}
-      </div>
-    </Wrapper>
+
+          <div className='song_img'>
+            <img src={song.pic.url} alt={song.name} />
+          </div>
+
+          <p className='name'>{song.name.slice(0, 30)}...</p>
+        </div>
+
+        <div className='right_part flex'>
+          {role === 'ADMIN' && (
+            <>
+              <p className='likes'>Likes: {song.likes}</p>
+
+              <DeleteIcon
+                className='delete_btn'
+                onClick={showConfirmDialogBox}
+              />
+            </>
+          )}
+
+          {role !== 'ADMIN' && (
+            <div className='like_or_deslike'>
+              {didYouLikeTheSong ? (
+                <ThumbDownIcon
+                  onClick={handleDisLikeSsong}
+                  className='unlike'
+                />
+              ) : (
+                <ThumbUpAltIcon onClick={handleLikeSsong} className='like' />
+              )}
+            </div>
+          )}
+        </div>
+      </Wrapper>
+    </>
   );
 };
 
