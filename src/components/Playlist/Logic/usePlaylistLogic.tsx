@@ -40,7 +40,7 @@ const usePlayListLogic = (playlist: IPlaylist) => {
     }
   }, [currentPlaylistId, playlist.id, play, pause]);
 
-  // Confirming or denying song delete request
+  // Confirming or denying delete song request
   const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };

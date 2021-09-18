@@ -1,29 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Song from '../../components/song/Song';
 import { firestore } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
-import {
-  playerSetCurrentSongAndPlaylist,
-  playerSetPlaylistSongs,
-} from '../../features/player';
 import { ISong } from '../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const LikedSongs = () => {
   const dispatch = useAppDispatch();
-  // const [songs, setSongs] = useState<ISong[]>([]);
+  const [songs, setSongs] = useState<ISong[]>([]);
 
   const {
     userInfo: { likedSongs },
   } = useAppSelector((state) => state.user.value);
 
-  const { playlistSongs, play, pause } = useAppSelector(
-    (state) => state.player.value
-  );
-
   useEffect(() => {
-    // shjiahsi
     let hasComponentBeenUnmounted = false;
 
     // Fetch Songs
@@ -43,18 +34,18 @@ const LikedSongs = () => {
             if (!hasComponentBeenUnmounted) {
               songs.push(song.data() as ISong);
 
-              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+              // When Finnaly all songs fetched save first one of them , as well all songs in sonsg[] state
               if (index === likedSongs.length - 1) {
-                dispatch(
-                  playerSetCurrentSongAndPlaylist({
-                    currentSong: songs[0].url,
-                    currentSongPic: songs[0].pic.url,
-                    currentSongName: songs[0].name,
-                    playlistId: 'ALL_SONGS',
-                  })
-                );
-
-                dispatch(playerSetPlaylistSongs(songs));
+                setSongs(songs);
+                //   dispatch(
+                //     playerSetCurrentSongAndPlaylist({
+                //       currentSong: songs[0].url,
+                //       currentSongPic: songs[0].pic.url,
+                //       currentSongName: songs[0].name,
+                //       playlistId: 'ALL_SONGS',
+                //     })
+                //   );
+                //   dispatch(playerSetPlaylistSongs(songs));
               }
 
               index++;
@@ -69,7 +60,7 @@ const LikedSongs = () => {
     return () => {
       hasComponentBeenUnmounted = true;
     };
-  }, [likedSongs, dispatch, play, pause]);
+  }, [likedSongs, dispatch]);
 
   return (
     <Wrapper>
@@ -77,8 +68,8 @@ const LikedSongs = () => {
 
       {likedSongs?.length !== 0 ? (
         <div className='songs'>
-          {playlistSongs &&
-            playlistSongs.map((item: ISong, index: number) => {
+          {songs &&
+            songs.map((item: ISong, index: number) => {
               return (
                 <Song
                   key={item.id}
@@ -101,6 +92,7 @@ const Wrapper = styled.main`
   width: 80%;
   height: 77vh;
   color: var(--little-light-color);
+  overflow-y: scroll;
 
   .heading {
     font-weight: 400;

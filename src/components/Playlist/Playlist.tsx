@@ -39,11 +39,19 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
       )}
 
       <Wrapper className='flex'>
-        <div className='play__pause_btns'>
+        <div className='play__pause_btns flex'>
+          {/* <div className='cover_buttons' /> */}
+
           {isThisPlaylistBeingPlayed ? (
-            <PauseCircleOutlineIcon onClick={handlePausePlaylist} />
+            <PauseCircleOutlineIcon
+              onClick={handlePausePlaylist}
+              className='ic_play'
+            />
           ) : (
-            <PlayCircleOutlineIcon onClick={handlePlayPlaylist} />
+            <PlayCircleOutlineIcon
+              onClick={handlePlayPlaylist}
+              className='ic_pause'
+            />
           )}
         </div>
 
@@ -105,8 +113,26 @@ const Wrapper = styled.main`
     right: 10px;
     top: 10px;
     z-index: 5;
-    font-size: 2em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     transition: transform 0.5s ease;
+
+    .ic_play,
+    .ic_pause {
+      font-size: 2em;
+    }
+
+    .cover_buttons {
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 24px;
+      height: 24px;
+      background: var(--primary-color);
+      opacity: 0.7;
+      border-radius: 50%;
+    }
   }
 
   .play__pause_btns:hover {

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
+  playerLoadingBegins,
+  playerLoadingEnds,
   playerPauses,
   playerPlays,
   playerSetCurrentSongAndPlaylist,
@@ -28,8 +30,6 @@ const useMusicPlayerLogic = () => {
 
   const [songProgress, setSongProgress] = useState('0');
 
-  const [loading, setLoading] = useState(false);
-
   const [songDetails, setSongDetails] = useState<TSongTetails>({
     duration: {
       minutes: '00',
@@ -55,6 +55,7 @@ const useMusicPlayerLogic = () => {
     currentPlaylistId,
     currentSongName,
     currentSongPic,
+    playerLoading,
   } = useAppSelector((state) => state.player.value);
 
   useEffect(() => {
@@ -64,11 +65,6 @@ const useMusicPlayerLogic = () => {
     //These two conditions are for play,pause songs from song screen
     if (play && !pause && player && currentSong && volSeeker) {
       player?.play();
-
-      // This will disable the next,previous, play, pause btns until songs is being played
-      if (songProgress === '0' && !loading) {
-        setLoading(true);
-      }
 
       // when you play any song set volume to 0.3
       if (songProgress === '0') {
@@ -89,8 +85,17 @@ const useMusicPlayerLogic = () => {
       player?.pause();
       // console.log('Pause');
     }
-  }, [dispatch, play, currentSong, pause, songProgress, loading]);
+  }, [dispatch, play, currentSong, pause, songProgress]);
 
+  useEffect(() => {
+    if (play && !pause) {
+      if (songProgress === '0' && !playerLoading) {
+        dispatch(playerLoadingBegins());
+      }
+    }
+  }, [play, pause, songProgress, dispatch, playerLoading]);
+
+  // $%$%$%$%$%$%$%$%$%$%$%$________________%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$
   const handlePlaySong = (): void => {
     dispatch(playerPlays());
   };
@@ -216,8 +221,8 @@ const useMusicPlayerLogic = () => {
       }
 
       //if song playing enable playpause,next,previous btns
-      if (loading) {
-        setLoading(false);
+      if (playerLoading) {
+        dispatch(playerLoadingEnds());
       }
     }, 1000);
   };
@@ -350,7 +355,7 @@ const useMusicPlayerLogic = () => {
   return {
     currentSongName,
     currentSongPic,
-    loading,
+    playerLoading,
     playNextSong,
     playPreviousSong,
     handleSongEnded,

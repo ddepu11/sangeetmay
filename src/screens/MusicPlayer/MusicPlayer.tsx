@@ -33,7 +33,7 @@ const MusicPlayer: FC = (): JSX.Element => {
     songDetails: { duration, currentTime },
     playNextSong,
     playPreviousSong,
-    loading,
+    playerLoading,
     currentSongName,
     currentSongPic,
   } = useMusicPlayerLogic();
@@ -86,7 +86,7 @@ const MusicPlayer: FC = (): JSX.Element => {
 
           <SkipNextIcon className='next' onClick={playNextSong} />
 
-          {loading && (
+          {playerLoading && (
             <div className='cover'>
               <span>Loading Song</span>
             </div>

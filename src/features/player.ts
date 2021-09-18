@@ -37,6 +37,10 @@ const playerSlice = createSlice({
       state.value = { ...state.value, playerLoading: true };
     },
 
+    playerLoadingEnds: (state) => {
+      state.value = { ...state.value, playerLoading: false };
+    },
+
     playerSetCurrentSongAndPlaylist: (state, action) => {
       const { currentSong, playlistId, currentSongPic, currentSongName } =
         action.payload;
@@ -92,6 +96,7 @@ export const {
   playerPauses,
   playerSetPlaylistSongs,
   playerPlayAllSongs,
+  playerLoadingEnds,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;
