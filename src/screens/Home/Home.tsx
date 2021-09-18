@@ -21,7 +21,7 @@ const Home: FC = (): JSX.Element => {
 
   const { playlists } = useAppSelector((state) => state.playlist.value);
   const { hasUserLoggedIn, role } = useAppSelector((state) => state.user.value);
-  const { playlistSongs, play, pause } = useAppSelector(
+  const { playlistSongs, play, pause, currentPlaylistId } = useAppSelector(
     (state) => state.player.value
   );
   const history = useHistory();
@@ -136,7 +136,11 @@ const Home: FC = (): JSX.Element => {
       </section>
 
       <div className='songs'>
-        <h1>Songs:</h1>
+        {currentPlaylistId === 'ALL_SONGS' ? (
+          <h1>All Songs:</h1>
+        ) : (
+          <h1>Songs of currently playing playlist:</h1>
+        )}
 
         {playlistSongs &&
           playlistSongs.length !== 0 &&
