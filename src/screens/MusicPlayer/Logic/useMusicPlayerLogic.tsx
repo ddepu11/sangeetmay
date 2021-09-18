@@ -95,6 +95,14 @@ const useMusicPlayerLogic = () => {
     }
   }, [play, pause, songProgress, dispatch, playerLoading]);
 
+  // Clearing out all set timeouts
+  useEffect(() => {
+    return () => {
+      console.log('Clear Music PLayer');
+      clearAllIntervalsAndTimeOuts(setIntervals.current as number);
+    };
+  }, []);
+
   // $%$%$%$%$%$%$%$%$%$%$%$________________%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$
   const handlePlaySong = (): void => {
     dispatch(playerPlays());

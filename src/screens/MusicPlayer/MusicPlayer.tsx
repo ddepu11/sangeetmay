@@ -220,6 +220,9 @@ const Wrapper = styled.footer`
       letter-spacing: 1px;
       position: absolute;
     }
+    .cover:hover {
+      cursor: default;
+    }
 
     .bottom {
       width: 100%;
