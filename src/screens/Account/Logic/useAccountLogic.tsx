@@ -196,13 +196,24 @@ const useAccountLogic = () => {
           .get()
           .then((doc) => {
             dispatch(userInfoUpdateSuccess(doc.data()));
+
             dispatch(
               sendNotification({
                 message: 'Successfully changed the display picture!',
                 success: true,
               })
             );
+
+            setDisplayPic({
+              file: null,
+              preview: '',
+            });
+
             setLoading(false);
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(userError());
           });
       })
       .catch((err) => {

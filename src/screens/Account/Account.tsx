@@ -27,7 +27,6 @@ const Account: FC = (): JSX.Element => {
     role,
     credentials,
     wannaEdit,
-
     validationMessageTags: vmt,
     loading,
   } = useAccountLogic();
