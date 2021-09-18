@@ -20,7 +20,7 @@ const AdminCreatePlaylist: FC = (): JSX.Element => {
   } = useAdminCreatePlaylist();
 
   if (playlistLoading) {
-    return <Loading size='MEDIUM' />;
+    return <Loading size='FULL' />;
   }
 
   return (

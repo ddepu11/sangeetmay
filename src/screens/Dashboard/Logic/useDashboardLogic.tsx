@@ -111,7 +111,6 @@ const useDashboardLogic = () => {
       .then((snap) => {
         snap.forEach((doc) => {
           doc.ref.delete();
-          console.log();
         });
 
         dispatch(
