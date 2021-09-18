@@ -57,16 +57,25 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
 
   //############### Handle Deleting Song Starts #########################
   const removeSongIdFromPlaylistSongsArray = (songId: string) => {
-    console.log(playlistId);
-
     firestore
       .collection('playlists')
-      .doc(playlistId)
-      .update({ songs: firebase.firestore.FieldValue.arrayRemove(songId) })
-      .then(() => {
-        //3. Song id removed from songs array of playlist
-        console.log('3. Song id removed from songs array of playlist');
-        dispatch(playlistSuccess());
+      .where('id', '==', playlistId)
+      .get()
+      .then((snap) => {
+        const id = snap.docs[0].id;
+        firestore
+          .collection('playlists')
+          .doc(id)
+          .update({ songs: firebase.firestore.FieldValue.arrayRemove(songId) })
+          .then(() => {
+            //3. Song id removed from songs array of playlist
+            console.log('3. Song id removed from songs array of playlist');
+            dispatch(playlistSuccess());
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            dispatch(playlistError());
+          });
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
