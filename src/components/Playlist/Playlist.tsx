@@ -25,6 +25,8 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
     role,
     viewDashBoard,
     isThisPlaylistBeingPlayed,
+    playerLoading,
+    currentPlaylistId,
   } = usePlayListLogic(playlist);
 
   return (
@@ -40,7 +42,9 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
 
       <Wrapper className='flex'>
         <div className='play__pause_btns flex'>
-          {/* <div className='cover_buttons' /> */}
+          {playerLoading && currentPlaylistId === playlist.id && (
+            <div className='cover_buttons' />
+          )}
 
           {isThisPlaylistBeingPlayed ? (
             <PauseCircleOutlineIcon

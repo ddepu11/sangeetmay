@@ -21,7 +21,7 @@ const usePlayListLogic = (playlist: IPlaylist) => {
 
   const { role } = useAppSelector((state) => state.user.value);
 
-  const { currentPlaylistId, play, pause } = useAppSelector(
+  const { currentPlaylistId, play, pause, playerLoading } = useAppSelector(
     (state) => state.player.value
   );
 
@@ -109,6 +109,8 @@ const usePlayListLogic = (playlist: IPlaylist) => {
     role,
     viewDashBoard,
     isThisPlaylistBeingPlayed,
+    playerLoading,
+    currentPlaylistId,
   };
 };
 
