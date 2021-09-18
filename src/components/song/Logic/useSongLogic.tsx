@@ -6,11 +6,7 @@ import {
   playerPlays,
   playerSetCurrentSongAndPlaylist,
 } from '../../../features/player';
-import {
-  userError,
-  userInfoUpdateSuccess,
-  userLoadingBegin,
-} from '../../../features/user';
+import { userError, userInfoUpdateSuccess } from '../../../features/user';
 import { ISong } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
@@ -21,6 +17,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     useState<boolean>(false);
 
   const [viewDashBoard, setViewDashBoard] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { currentSong, play, pause } = useAppSelector(
     (state) => state.player.value
@@ -95,7 +92,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
 
   //Like Or Dislike Song
   const handleLikeSsong = () => {
-    dispatch(userLoadingBegin());
+    setLoading(true);
 
     const songId = song.id;
 
@@ -113,8 +110,9 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
             success: true,
           })
         );
+        setLoading(false);
 
-        //Find which song to like
+        //Find which song you liked
         songsRef
           .where('id', '==', song.id)
           .get()
@@ -160,11 +158,12 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
         dispatch(userError());
+        setLoading(false);
       });
   };
 
   const handleDisLikeSsong = () => {
-    dispatch(userLoadingBegin());
+    setLoading(true);
 
     const songId = song.id;
 
@@ -182,6 +181,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
             success: true,
           })
         );
+        setLoading(false);
 
         //Find which song to dislike
         songsRef
@@ -243,6 +243,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
     handleDisLikeSsong,
     handleLikeSsong,
     didYouLikeTheSong,
+    loading,
   };
 };
 

@@ -36,6 +36,7 @@ const Song: FC<Props> = ({
     didYouLikeTheSong,
     handleDisLikeSsong,
     handleLikeSsong,
+    loading,
   } = useSongLogic(playlistId, song);
 
   return (
@@ -87,7 +88,7 @@ const Song: FC<Props> = ({
             </>
           )}
 
-          {role !== 'ADMIN' && (
+          {role !== 'ADMIN' && !loading && (
             <div className='like_or_deslike'>
               {didYouLikeTheSong ? (
                 <ThumbDownIcon
