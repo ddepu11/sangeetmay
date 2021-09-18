@@ -98,7 +98,6 @@ const useDashboardLogic = () => {
     }
 
     return () => {
-      console.log('Dashboard Clean Up Function runs.');
       hasComponentBeenUnmounted = true;
     };
   }, [dispatch, playlistLoading, hasUserLoggedIn, history, play, pause]);

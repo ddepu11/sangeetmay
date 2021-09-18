@@ -4,6 +4,7 @@ import UpdateFormField from '../../components/UpdateFormField';
 import useAccountLogic from './Logic/useAccountLogic';
 import { FC } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Loading from '../../components/Loading';
 
 const Account: FC = (): JSX.Element => {
   const {
@@ -28,8 +29,12 @@ const Account: FC = (): JSX.Element => {
     wannaEdit,
 
     validationMessageTags: vmt,
+    loading,
   } = useAccountLogic();
 
+  if (loading) {
+    return <Loading size='MEDIUM' />;
+  }
   return (
     <Wrapper className='flex' personRole={role}>
       <div className='display_pic_row flex'>

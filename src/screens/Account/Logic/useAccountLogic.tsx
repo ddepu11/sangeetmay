@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
-import {
-  userError,
-  userInfoUpdateSuccess,
-  userLoadingBegin,
-} from '../../../features/user';
+import { userError, userInfoUpdateSuccess } from '../../../features/user';
 import { IFile } from '../../../interfaces';
 import { useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
@@ -22,6 +18,7 @@ interface ICredentials {
 const useAccountLogic = () => {
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState<ICredentials>({
     firstName: '',
     lastName: '',
@@ -97,6 +94,7 @@ const useAccountLogic = () => {
           .get()
           .then((doc) => {
             dispatch(userInfoUpdateSuccess(doc.data()));
+            setLoading(false);
 
             dispatch(
               sendNotification({
@@ -141,7 +139,7 @@ const useAccountLogic = () => {
           })
         );
       } else {
-        dispatch(userLoadingBegin());
+        setLoading(true);
         updateUserInfo();
       }
     }
@@ -204,6 +202,7 @@ const useAccountLogic = () => {
                 success: true,
               })
             );
+            setLoading(false);
           });
       })
       .catch((err) => {
@@ -247,8 +246,7 @@ const useAccountLogic = () => {
 
   const changeDP = (): void => {
     if (displayPic.file !== null) {
-      dispatch(userLoadingBegin());
-
+      setLoading(true);
       // 1. Delete Old DP
       storage
         .ref(`display_pictures/${dp?.picNameInStorage}`)
@@ -288,6 +286,7 @@ const useAccountLogic = () => {
     gender,
     role,
     setDisplayPic,
+    loading,
   };
 };
 

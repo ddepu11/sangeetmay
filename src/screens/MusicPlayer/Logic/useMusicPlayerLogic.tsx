@@ -98,7 +98,6 @@ const useMusicPlayerLogic = () => {
   // Clearing out all set timeouts
   useEffect(() => {
     return () => {
-      console.log('Clear Music PLayer');
       clearAllIntervalsAndTimeOuts(setIntervals.current as number);
     };
   }, []);
@@ -201,6 +200,8 @@ const useMusicPlayerLogic = () => {
 
     // Showing Song Progress
     // --song-completed-width: 0%;
+    console.log('song playing');
+
     setIntervals.current = setInterval(() => {
       if (player && songProgressBar.current) {
         const howMuchTheSongHasBeenPlayed =
@@ -229,7 +230,7 @@ const useMusicPlayerLogic = () => {
       }
 
       //if song playing enable playpause,next,previous btns
-      if (playerLoading) {
+      if (playerLoadingEnds) {
         dispatch(playerLoadingEnds());
       }
     }, 1000);
