@@ -54,7 +54,7 @@ const Account: FC = (): JSX.Element => {
 
         <div className='right flex'>
           <div className='upload_img_text flex'>
-            <ArrowBackIcon />
+            <ArrowBackIcon className='ic_arrow_back' />
             {displayPic.preview ? (
               <>
                 <Button
@@ -311,6 +311,51 @@ const Wrapper = styled.main<{ personRole: string | null }>`
         display: block;
         width: 50%;
       }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding: 0px 10px;
+
+    .display_pic_row {
+      flex-direction: column;
+      width: 100%;
+      padding: 2px 5px;
+
+      label {
+        width: 100%;
+        height: 400px;
+
+        img {
+          border-radius: 0%;
+        }
+
+        .loader {
+          width: 100%;
+          height: 100%;
+          border: 1px dashed var(--little-dark-color);
+        }
+      }
+
+      .right {
+        padding: 0 00px;
+        margin-top: 20px;
+
+        .upload_img_text {
+          .ic_arrow_back {
+            transform: rotate(90deg);
+            margin-right: 10px;
+          }
+
+          span {
+            margin-left: 00px;
+          }
+        }
+      }
+    }
+
+    .detalis {
+      width: 100%;
     }
   }
 
