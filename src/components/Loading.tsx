@@ -22,7 +22,7 @@ const styleForMediumSize = {
 };
 
 const Wrapper = styled.div<Props>`
-  height: 100vh;
+  height: 76vh;
   flex-direction: column;
   width: 100%;
   color: var(--primary-color);

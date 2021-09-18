@@ -22,7 +22,7 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
   } = useAddSongsToPlaylist();
 
   if (playlistLoading) {
-    return <Loading size='MEDIUM' />;
+    return <Loading size='FULL' />;
   }
 
   return (

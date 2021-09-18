@@ -32,8 +32,9 @@ const Account: FC = (): JSX.Element => {
   } = useAccountLogic();
 
   if (loading) {
-    return <Loading size='MEDIUM' />;
+    return <Loading size='FULL' />;
   }
+
   return (
     <Wrapper className='flex' personRole={role}>
       <div className='display_pic_row flex'>
