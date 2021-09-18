@@ -42,7 +42,6 @@ const AddSongsToPlaylists: FC = (): JSX.Element => {
               <h1>{playlist.name}</h1>
 
               <div className='playlist_details flex'>
-                <p className='likes'>Likes: 0</p>
                 <p className='songs'>Songs: {playlist.songs?.length}</p>
               </div>
             </div>
