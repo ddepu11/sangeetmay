@@ -53,10 +53,12 @@ const Songs: FC<Props> = ({ songsIds, playlistId }): JSX.Element => {
     return () => {
       hasComponentBeenUnmounted = true;
     };
-  }, [songsIds, songs, dispatch]);
+  }, [songsIds, songs, dispatch, playlistId]);
 
   //############### Handle Deleting Song Starts #########################
   const removeSongIdFromPlaylistSongsArray = (songId: string) => {
+    console.log(playlistId);
+
     firestore
       .collection('playlists')
       .doc(playlistId)

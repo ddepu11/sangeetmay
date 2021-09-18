@@ -71,6 +71,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
   const showConfirmDialogBox = (): void => {
     setViewDashBoard(true);
   };
+
   const hideConfirmDialogBox = (): void => {
     setViewDashBoard(false);
   };

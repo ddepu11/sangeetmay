@@ -25,7 +25,7 @@ type TSongTetails = {
 const useMusicPlayerLogic = () => {
   const dispatch = useAppDispatch();
 
-  const [mute, setMute] = useState(false);
+  const [mute, setMute] = useState(true);
   const [volume, setVolume] = useState('0');
 
   const [songProgress, setSongProgress] = useState('0');
@@ -180,8 +180,46 @@ const useMusicPlayerLogic = () => {
     }
   };
 
+  const showSongProgress = () => {
+    const player = audioPlayer.current;
+    if (player && songProgressBar.current) {
+      const howMuchTheSongHasBeenPlayed =
+        (player.currentTime / player.duration) * 100;
+
+      songProgressBar.current.style.setProperty(
+        '--song-completed-width',
+        `${howMuchTheSongHasBeenPlayed}%`
+      );
+
+      setSongProgress(player.currentTime.toString());
+
+      // Updating time
+      const m = Math.floor(player.currentTime / 60);
+      let s: number | string = player.currentTime % 60;
+
+      s = Number(s.toFixed(0));
+
+      s = s < 10 ? `0${s}` : `${s}`;
+
+      setSongDetails({
+        ...songDetails,
+        currentTime: { minutes: m, seconds: s },
+      });
+    }
+  };
+
   // Music progress and all
   const handlePlaying = (): void => {
+    dispatch(playerLoadingEnds());
+
+    setTimeout(() => {
+      dispatch(playerLoadingEnds());
+    }, 2000);
+
+    setTimeout(() => {
+      dispatch(playerLoadingEnds());
+    }, 4000);
+
     const player = audioPlayer.current;
     const progressBar = songProgressBar.current;
 
@@ -200,39 +238,10 @@ const useMusicPlayerLogic = () => {
 
     // Showing Song Progress
     // --song-completed-width: 0%;
-    console.log('song playing');
+    showSongProgress();
 
     setIntervals.current = setInterval(() => {
-      if (player && songProgressBar.current) {
-        const howMuchTheSongHasBeenPlayed =
-          (player.currentTime / player.duration) * 100;
-
-        songProgressBar.current.style.setProperty(
-          '--song-completed-width',
-          `${howMuchTheSongHasBeenPlayed}%`
-        );
-
-        setSongProgress(player.currentTime.toString());
-
-        // Updating time
-        const m = Math.floor(player.currentTime / 60);
-        let s: number | string = player.currentTime % 60;
-
-        s = Number(s.toFixed(0));
-
-        s = s < 10 ? `0${s}` : `${s}`;
-
-        setSongDetails({
-          ...songDetails,
-          currentTime: { minutes: m, seconds: s },
-        });
-        // ############$$$$$$$$$$$###############$$$$$$$$$$$
-      }
-
-      //if song playing enable playpause,next,previous btns
-      if (playerLoadingEnds) {
-        dispatch(playerLoadingEnds());
-      }
+      showSongProgress();
     }, 1000);
   };
 
