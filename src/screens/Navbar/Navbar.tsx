@@ -9,6 +9,7 @@ import { useAppSelector } from '../../redux/hooks';
 
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import MenuIcon from '@material-ui/icons/Menu';
+import Icon from '../../images/sangeetmay_logo.png';
 
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -56,7 +57,9 @@ const Navbar: FC = (): JSX.Element => {
     <Wrapper className='flex'>
       <div className='logo flex'>
         <Link to={role === 'ADMIN' ? '/dashboard' : '/'}>
-          <h1>SangeetMay</h1>
+          <div className='logo_pic'>
+            <img src={Icon} alt='' />
+          </div>
         </Link>
 
         <div className='name_after_logo'>
@@ -213,6 +216,18 @@ const Wrapper = styled.nav`
   position: relative;
 
   .logo {
+    .logo_pic {
+      width: 185px;
+      height: 42px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        object-fit: cover;
+      }
+    }
+
     h1 {
       background-color: var(--primary-color);
       color: var(--dark-color);
