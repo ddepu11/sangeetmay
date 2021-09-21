@@ -32,6 +32,10 @@ const userSlice = createSlice({
     playlistError: (state) => {
       state.value = { ...state.value, playlistLoading: false };
     },
+
+    clearPlaylist: (state) => {
+      state.value = { playlistLoading: false, playlists: [] };
+    },
   },
 });
 
@@ -40,6 +44,7 @@ export const {
   playlistError,
   playlistFetchSuccess,
   playlistLoadingBegin,
+  clearPlaylist,
 } = userSlice.actions;
 
 export default userSlice.reducer;

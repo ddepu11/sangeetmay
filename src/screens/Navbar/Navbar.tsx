@@ -10,6 +10,8 @@ import { useAppSelector } from '../../redux/hooks';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import MenuIcon from '@material-ui/icons/Menu';
 import Icon from '../../images/sangeetmay_logo.png';
+import { clearPlaylist } from '../../features/playlist';
+import { clearPlayer } from '../../features/player';
 
 const Navbar: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -26,6 +28,9 @@ const Navbar: FC = (): JSX.Element => {
           success: true,
         })
       );
+
+      dispatch(clearPlaylist());
+      dispatch(clearPlayer());
 
       history.push('/sign-in');
     });

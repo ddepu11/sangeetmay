@@ -85,6 +85,19 @@ const playerSlice = createSlice({
     playerError: (state) => {
       state.value = { ...state.value, playerLoading: false };
     },
+
+    clearPlayer: (state) => {
+      state.value = {
+        playerLoading: false,
+        currentPlaylistId: '',
+        currentSong: '',
+        currentSongPic: '',
+        currentSongName: '',
+        play: false,
+        pause: false,
+        playlistSongs: null,
+      };
+    },
   },
 });
 
@@ -97,6 +110,7 @@ export const {
   playerSetPlaylistSongs,
   playerPlayAllSongs,
   playerLoadingEnds,
+  clearPlayer,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;
