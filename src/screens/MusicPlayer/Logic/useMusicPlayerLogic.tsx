@@ -67,7 +67,7 @@ const useMusicPlayerLogic = () => {
       player?.play();
 
       // when you play any song set volume to 0.3
-      if (songProgress === '0') {
+      if (songProgress === '0' && volume === '0') {
         player.volume = 0.3;
         setVolume('0.3');
         setMute(false);
@@ -85,7 +85,7 @@ const useMusicPlayerLogic = () => {
       player?.pause();
       // console.log('Pause');
     }
-  }, [dispatch, play, currentSong, pause, songProgress]);
+  }, [dispatch, play, currentSong, pause, songProgress, volume]);
 
   useEffect(() => {
     if (play && !pause) {
