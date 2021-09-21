@@ -187,6 +187,8 @@ const Wrapper = styled.main`
     h1 {
       font-size: 1.2em;
       font-weight: 400;
+      padding: 20px 0;
+      letter-spacing: 2px;
     }
   }
   @media screen and (max-width: 929px) {
