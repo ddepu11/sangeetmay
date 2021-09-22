@@ -118,7 +118,8 @@ const useAddSongsToPlaylist = () => {
 
   const createSongDocAndSaveSongPicUrl = (
     songPicUrl: string,
-    songUrl: string
+    songUrl: string,
+    songPicName: string
   ): void => {
     firestore
       .collection('songs')
@@ -130,7 +131,7 @@ const useAddSongsToPlaylist = () => {
         likes: 0,
 
         pic: {
-          name: songPicture?.file?.name,
+          name: songPicName,
           url: songPicUrl,
         },
       })
@@ -144,7 +145,7 @@ const useAddSongsToPlaylist = () => {
       });
   };
 
-  const uploadSong = (songPicUrl: string): void => {
+  const uploadSong = (songPicUrl: string, songPicName: string): void => {
     const songPicRef = storage.ref(`songs/${song?.name}`);
 
     songPicRef.put(song as Blob).then(
@@ -153,7 +154,7 @@ const useAddSongsToPlaylist = () => {
         songPicRef
           .getDownloadURL()
           .then((songUrl) => {
-            createSongDocAndSaveSongPicUrl(songPicUrl, songUrl);
+            createSongDocAndSaveSongPicUrl(songPicUrl, songUrl, songPicName);
           })
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));
@@ -171,7 +172,11 @@ const useAddSongsToPlaylist = () => {
   const uploadSongPic = () => {
     dispatch(playlistLoadingBegin());
 
-    const songPicRef = storage.ref(`song_pics/${songPicture?.file?.name}`);
+    const randomlyGeneratedName = `sonmg_${
+      songPicture?.file?.name
+    }_${Math.floor(Math.random() * Date.now())}`;
+
+    const songPicRef = storage.ref(`song_pics/${randomlyGeneratedName}`);
 
     songPicRef.put(songPicture?.file as Blob).then(
       () => {
@@ -179,7 +184,7 @@ const useAddSongsToPlaylist = () => {
         songPicRef
           .getDownloadURL()
           .then((url) => {
-            uploadSong(url);
+            uploadSong(url, randomlyGeneratedName);
           })
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));
