@@ -59,14 +59,17 @@ const useAdminCreatePlaylist = () => {
     setPlaylistName(e.target.value);
   };
 
-  const savePlaylistDocToFirestore = (playlistPicUrl: string): void => {
+  const savePlaylistDocToFirestore = (
+    playlistPicUrl: string,
+    picName: string
+  ): void => {
     firestore
       .collection('playlists')
       .doc()
       .set({
         id: uuidv4(),
         name: playlistName,
-        playlistPic: { url: playlistPicUrl, picName: playlistPic.file?.name },
+        playlistPic: { url: playlistPicUrl, picName },
       })
       .then(() => {
         console.log('Doc Saved');
@@ -82,8 +85,12 @@ const useAdminCreatePlaylist = () => {
   const uploadPlaylistPic = () => {
     dispatch(playlistLoadingBegin());
 
+    const randomlyGeneratedName = `playlist_${
+      playlistPic.file?.name
+    }_${Math.floor(Math.random() * Date.now())}`;
+
     const playlistPicsRef = storage.ref(
-      `playlist_pics/${playlistPic.file?.name}`
+      `playlist_pics/${randomlyGeneratedName}`
     );
 
     playlistPicsRef.put(playlistPic.file as Blob).on(
@@ -101,7 +108,7 @@ const useAdminCreatePlaylist = () => {
         playlistPicsRef
           .getDownloadURL()
           .then((url) => {
-            savePlaylistDocToFirestore(url);
+            savePlaylistDocToFirestore(url, randomlyGeneratedName);
           })
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));
