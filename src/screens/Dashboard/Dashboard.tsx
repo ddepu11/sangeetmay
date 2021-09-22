@@ -16,6 +16,7 @@ const Dashboard: FC = (): JSX.Element => {
     playlists,
     playlistSongs,
     playAllSongs,
+    currentPlaylistId,
   } = useDashboardLogic();
 
   if (playlistLoading) {
@@ -70,7 +71,12 @@ const Dashboard: FC = (): JSX.Element => {
         )}
       </div>
 
-      <h3 className='songs_in_system'>Songs in the system:-</h3>
+      {currentPlaylistId === 'ALL_SONGS' ? (
+        <h1>All Songs:</h1>
+      ) : (
+        <h1>Songs of currently playing playlist:</h1>
+      )}
+
       <div className='songs'>
         {playlistSongs &&
           playlistSongs.length !== 0 &&

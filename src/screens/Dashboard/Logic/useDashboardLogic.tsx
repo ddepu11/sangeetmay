@@ -25,7 +25,7 @@ const useDashboardLogic = () => {
   );
 
   const { hasUserLoggedIn } = useAppSelector((state) => state.user.value);
-  const { play, pause, playlistSongs } = useAppSelector(
+  const { play, pause, playlistSongs, currentPlaylistId } = useAppSelector(
     (state) => state.player.value
   );
 
@@ -276,6 +276,7 @@ const useDashboardLogic = () => {
     playlists,
     playlistSongs,
     playAllSongs,
+    currentPlaylistId,
   };
 };
 
