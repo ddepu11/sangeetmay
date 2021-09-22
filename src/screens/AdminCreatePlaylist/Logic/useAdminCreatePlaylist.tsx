@@ -80,6 +80,7 @@ const useAdminCreatePlaylist = () => {
           plylistIndex++;
         });
         dispatch(playlistSuccess());
+        history.push('/dashboard');
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
@@ -99,9 +100,8 @@ const useAdminCreatePlaylist = () => {
         playlistPic: { url: playlistPicUrl, picName },
       })
       .then(() => {
-        console.log('Doc Saved');
-        history.push('/dashboard');
         updatePlaylist();
+        console.log('Doc Saved');
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
