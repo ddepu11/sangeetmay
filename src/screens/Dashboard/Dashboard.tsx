@@ -72,9 +72,9 @@ const Dashboard: FC = (): JSX.Element => {
       </div>
 
       {currentPlaylistId === 'ALL_SONGS' ? (
-        <h1>All Songs:</h1>
+        <h1 className='songs_heading'>All Songs:</h1>
       ) : (
-        <h1>Songs of currently playing playlist:</h1>
+        <h1 className='songs_heading'>Songs of currently playing playlist:</h1>
       )}
 
       <div className='songs'>
@@ -131,7 +131,7 @@ const Wrapper = styled.main`
     font-weight: 400;
   }
 
-  .songs_in_system {
+  .songs_heading {
     font-size: 1.1em;
     letter-spacing: 1px;
     font-weight: 400;
