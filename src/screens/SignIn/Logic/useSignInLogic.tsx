@@ -74,6 +74,7 @@ const useSignInLogic = () => {
     const randomUser = [
       { email: 'ddepu11@gmail.com', password: 'aaaaaa' },
       { email: 'aayush11@gmail.com', password: '111111' },
+      { email: 'anuj44@gmail.com', password: '444444' },
     ];
 
     const randomUserIndex =
