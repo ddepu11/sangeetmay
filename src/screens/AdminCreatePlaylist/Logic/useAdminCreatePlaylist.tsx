@@ -4,10 +4,11 @@ import { firestore, storage } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
   playlistError,
+  playlistFetchSuccess,
   playlistLoadingBegin,
   playlistSuccess,
 } from '../../../features/playlist';
-import { IFile } from '../../../interfaces';
+import { IFile, IPlaylist } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import { v4 as uuidv4 } from 'uuid';
@@ -59,6 +60,32 @@ const useAdminCreatePlaylist = () => {
     setPlaylistName(e.target.value);
   };
 
+  const updatePlaylist = () => {
+    // Fetch PLaylists
+    const playlistsRef = firestore.collection('playlists');
+
+    let plylistIndex = 0;
+    const playlists: IPlaylist[] = [];
+
+    playlistsRef
+      .get()
+      .then((docs) => {
+        docs.forEach((item) => {
+          playlists.push(item.data() as IPlaylist);
+
+          if (plylistIndex === docs.size - 1) {
+            dispatch(playlistFetchSuccess(playlists));
+          }
+
+          plylistIndex++;
+        });
+        dispatch(playlistSuccess());
+      })
+      .catch((err) => {
+        dispatch(sendNotification({ message: err.message, error: true }));
+      });
+  };
+
   const savePlaylistDocToFirestore = (
     playlistPicUrl: string,
     picName: string
@@ -74,7 +101,7 @@ const useAdminCreatePlaylist = () => {
       .then(() => {
         console.log('Doc Saved');
         history.push('/dashboard');
-        dispatch(playlistSuccess());
+        updatePlaylist();
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
