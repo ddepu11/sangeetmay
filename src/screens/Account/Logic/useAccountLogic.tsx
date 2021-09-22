@@ -177,16 +177,17 @@ const useAccountLogic = () => {
     }
   };
 
-  const cancelDpChange = (): void => {
-    setDisplayPic({ preview: '', file: null });
-  };
+  const cancelDpChange = (): void => setDisplayPic({ preview: '', file: null });
 
-  const updateDpFieldOnDoc = (displayPicUrl: string) => {
+  const updateDpFieldOnDoc = (
+    displayPicUrl: string,
+    picNameInStorage: string
+  ) => {
     firestore
       .collection('users')
       .doc(id)
       .update({
-        dp: { picNameInStorage: displayPic.file?.name, url: displayPicUrl },
+        dp: { picNameInStorage, url: displayPicUrl },
       })
       .then(() => {
         // 4. Then Get The updated Doc
@@ -223,7 +224,11 @@ const useAccountLogic = () => {
   };
 
   const uploadNewDisplayPicture = (): void => {
-    const storageRef = storage.ref(`display_pictures/${displayPic.file?.name}`);
+    const randomlyGeneratedName = `dp_${email}_${Math.floor(
+      Math.random() * Date.now()
+    )}`;
+
+    const storageRef = storage.ref(`display_pictures/${randomlyGeneratedName}`);
 
     storageRef.put(displayPic.file as Blob).on(
       'state_changed',
@@ -245,7 +250,7 @@ const useAccountLogic = () => {
           .getDownloadURL()
           .then((displayPicUrl) => {
             // 3. Image Uploaded then save displayPicUrl to firestore
-            updateDpFieldOnDoc(displayPicUrl);
+            updateDpFieldOnDoc(displayPicUrl, randomlyGeneratedName);
           })
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));

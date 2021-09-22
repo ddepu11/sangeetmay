@@ -75,7 +75,10 @@ const useSignUpLogic = () => {
     preview: '',
   });
 
-  const saveUserDataTofirestore = (displayPicUrl: string): void => {
+  const saveUserDataTofirestore = (
+    displayPicUrl: string,
+    picNameInStorage: string
+  ): void => {
     firestore
       .collection('users')
       .doc()
@@ -88,7 +91,7 @@ const useSignUpLogic = () => {
         gender: credentials.gender,
         dp: {
           url: displayPicUrl,
-          picNameInStorage: displayPic.file?.name,
+          picNameInStorage,
         },
         role: 'USER',
       })
@@ -118,8 +121,12 @@ const useSignUpLogic = () => {
 
   const uploadDisplayPicture = async (): Promise<void> => {
     if (displayPic.file !== null) {
+      const randomlyGeneratedName = `dp_${credentials.email}_${Math.floor(
+        Math.random() * Date.now()
+      )}`;
+
       const storageRef = storage.ref(
-        `display_pictures/${displayPic.file?.name}`
+        `display_pictures/${randomlyGeneratedName}`
       );
 
       storageRef.put(displayPic.file as Blob).on(
@@ -141,7 +148,7 @@ const useSignUpLogic = () => {
             .getDownloadURL()
             .then((displayPicUrl) => {
               // 3. Image Uploaded then save user data to firestore
-              saveUserDataTofirestore(displayPicUrl);
+              saveUserDataTofirestore(displayPicUrl, randomlyGeneratedName);
             })
             .catch((err) => {
               dispatch(sendNotification({ message: err.message, error: true }));
