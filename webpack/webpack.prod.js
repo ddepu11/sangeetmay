@@ -1,5 +1,4 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
@@ -18,9 +17,9 @@ module.exports = {
     }),
   ],
 
-  devtool: false,
+  devtool: 'source-map',
 
   optimization: {
-    minimizer: [new CssMinimizerPlugin()],
+    minimize: true,
   },
 };
