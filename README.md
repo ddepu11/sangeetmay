@@ -4,7 +4,7 @@ where admin can create playlist, upload songs in playlist, delete playlist and s
 
 ## Live Demo
 
-## [Click here to play around](https://sangeetmay.netlify.app/)
+### [Click here to play around](https://sangeetmay.netlify.app/)
 
 ## Features
 
