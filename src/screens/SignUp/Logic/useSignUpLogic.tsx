@@ -94,6 +94,7 @@ const useSignUpLogic = () => {
           picNameInStorage,
         },
         role: 'USER',
+        likedSongs: [],
       })
       .then(async () => {
         console.log('Final Step: Document Saved!');

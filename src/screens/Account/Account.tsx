@@ -185,9 +185,10 @@ const Account: FC = (): JSX.Element => {
               type='button'
               buttonStyle={{
                 padding: '8px 16px',
-                fontSize: '1.2em',
+                fontSize: '1em',
                 bgColor: 'var(--tertiary-color)',
                 color: 'var(--dark-color)',
+                borderRadius: '5px',
               }}
               handleClick={handleWannaEdit}
             >
@@ -199,10 +200,11 @@ const Account: FC = (): JSX.Element => {
                 type='button'
                 buttonStyle={{
                   padding: '8px 16px',
-                  fontSize: '1.2em',
+                  fontSize: '1em',
                   margin: '0 30px 0px',
                   bgColor: 'var(--success-color)',
                   color: 'var(--light-color)',
+                  borderRadius: '5px',
                 }}
                 handleClick={handleUserInfoUpdate}
               >
@@ -213,9 +215,10 @@ const Account: FC = (): JSX.Element => {
                 type='button'
                 buttonStyle={{
                   padding: '8px 16px',
-                  fontSize: '1.2em',
+                  fontSize: '1em',
                   bgColor: 'var(--danger-color)',
                   color: 'var(--light-color)',
+                  borderRadius: '5px',
                 }}
                 handleClick={cancelUpdate}
               >

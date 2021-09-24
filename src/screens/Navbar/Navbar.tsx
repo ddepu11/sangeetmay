@@ -95,8 +95,8 @@ const Navbar: FC = (): JSX.Element => {
             <Button
               type='button'
               buttonStyle={{
-                padding: '8px 15px',
-                fontSize: '0.8em',
+                padding: '8px 8px',
+                fontSize: '0.9em',
                 bgColor: 'transparent',
                 color: 'var(--light-color)',
                 fontWeight: '400',
@@ -119,8 +119,8 @@ const Navbar: FC = (): JSX.Element => {
                 <Button
                   type='button'
                   buttonStyle={{
-                    padding: '8px 15px',
-                    fontSize: '0.95em',
+                    padding: '4px 9px',
+                    fontSize: '0.8em',
                     bgColor: 'var(--success-color)',
                     color: 'var(--light-color)',
                     fontWeight: '400',
@@ -129,7 +129,7 @@ const Navbar: FC = (): JSX.Element => {
                     borderRadius: '5px',
                     hoverCursor: 'auto',
                     transition: 'transform 0.5s ease-out',
-                    hoverTransform: 'scale(1.1) translateY(-5px)',
+                    hoverTransform: 'scale(1)',
                   }}
                 >
                   <div className='center flex'>
@@ -144,14 +144,14 @@ const Navbar: FC = (): JSX.Element => {
                   <Button
                     type='button'
                     buttonStyle={{
-                      padding: '8px 15px',
+                      padding: '8px 14px',
                       fontSize: '0.8em',
                       bgColor: 'var(--primary-color)',
                       fontWeight: '400',
                       textTransform: 'uppercase',
                       letterSpacing: '1px',
                       borderRadius: '5px',
-                      hoverTransform: 'scale(1.1)',
+                      hoverTransform: 'scale(1)',
                       transition: 'transform 0.4s ease',
                     }}
                   >
@@ -168,14 +168,14 @@ const Navbar: FC = (): JSX.Element => {
               <Button
                 type='button'
                 buttonStyle={{
-                  padding: '8px 15px',
+                  padding: '8px 14px',
                   fontSize: '0.8em',
                   bgColor: 'var(--primary-color)',
                   fontWeight: '400',
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
                   borderRadius: '5px',
-                  hoverTransform: 'scale(1.1)',
+                  hoverTransform: 'scale(1)',
                   transition: 'transform 0.4s ease',
                 }}
               >
@@ -189,15 +189,14 @@ const Navbar: FC = (): JSX.Element => {
               handleClick={handleLogOut}
               type='button'
               buttonStyle={{
-                padding: '8px 16px',
+                padding: '8px 14px',
                 fontSize: '0.8em',
                 bgColor: 'var(--danger-color)',
                 fontWeight: '600',
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
                 borderRadius: '5px',
-                hoverTransform: 'scale(1.1)',
-                transition: 'transform 0.4s ease',
+                hoverTransform: 'scale(1)',
               }}
             >
               Logout

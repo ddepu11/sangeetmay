@@ -90,7 +90,7 @@ const Wrapper = styled.main`
   color: var(--little-light-color);
 
   .heading {
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-weight: 400;
     letter-spacing: 1px;
   }

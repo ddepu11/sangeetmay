@@ -166,7 +166,7 @@ const Wrapper = styled.main`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   .heading {
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: 400;
   }
 
@@ -185,12 +185,13 @@ const Wrapper = styled.main`
     margin-top: 20px;
 
     h1 {
-      font-size: 1.2em;
+      font-size: 1.1em;
       font-weight: 400;
       padding: 20px 0;
       letter-spacing: 2px;
     }
   }
+
   @media screen and (max-width: 929px) {
     width: 100%;
   }

@@ -503,9 +503,7 @@ const SignUp: FC = (): JSX.Element => {
           handleClick={handleSignUp}
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.2em',
-            hoverTransform: 'scale(1.05) translateY(-2px)',
-            transition: 'transform 0.4s ease',
+            fontSize: '1.05em',
             mt: '20px',
             width: '100%',
             bgColor: 'var(--secondary-color)',
@@ -520,9 +518,7 @@ const SignUp: FC = (): JSX.Element => {
             type='button'
             buttonStyle={{
               padding: '8px 20px',
-              fontSize: '1.1em',
-              hoverTransform: 'translateY(-3px)',
-              transition: 'transform 0.4s ease',
+              fontSize: '1.05em',
               width: '100%',
               bgColor: 'var(--tertiary-color)',
               color: 'var(--dark-color)',

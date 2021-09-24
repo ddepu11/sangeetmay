@@ -20,7 +20,7 @@ const SignIn: FC = (): JSX.Element => {
     <Wrapper className='flex '>
       <form onSubmit={handleSignIn}>
         <h1 className='heading'>
-          Sign In to sangeetMay to listen your fav songs
+          Sign in to sangeetmay to listen your favorite songs
         </h1>
 
         <FormControl
@@ -36,8 +36,8 @@ const SignIn: FC = (): JSX.Element => {
             inputColor: 'var(--little-dark-color)',
             fcMargin: '30px 0 0',
             fcWidth: '100%',
-            labelFs: '1.2em',
-            inputFs: '1.0em',
+            labelFs: '1.1em',
+            inputFs: '0.9em',
             inputPadding: '8px 10px',
             messageFs: '1.1em',
             inputW: '100%',
@@ -56,8 +56,8 @@ const SignIn: FC = (): JSX.Element => {
           formControlStyle={{
             fcMargin: '40px 0 0',
             fcWidth: '100%',
-            labelFs: '1.2em',
-            inputFs: '1.0em',
+            labelFs: '1.1em',
+            inputFs: '0.9em',
             inputPadding: '8px 10px',
             messageFs: '1.2em',
             inputW: '100%',
@@ -68,9 +68,7 @@ const SignIn: FC = (): JSX.Element => {
           type='submit'
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.2em',
-            hoverTransform: 'scale(1.05) translateY(-2px)',
-            transition: 'transform 0.4s ease',
+            fontSize: '1.05em',
             mt: '40px',
             width: '100%',
             bgColor: 'var(--secondary-color)',
@@ -84,9 +82,7 @@ const SignIn: FC = (): JSX.Element => {
           type='submit'
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.2em',
-            hoverTransform: 'scale(1.05) translateY(-2px)',
-            transition: 'transform 0.4s ease',
+            fontSize: '1.05em',
             mt: '15px',
             width: '100%',
             bgColor: 'var(--little-dark-color)',
@@ -100,9 +96,7 @@ const SignIn: FC = (): JSX.Element => {
           type='submit'
           buttonStyle={{
             padding: '8px 20px',
-            fontSize: '1.2em',
-            hoverTransform: 'scale(1.05) translateY(-2px)',
-            transition: 'transform 0.4s ease',
+            fontSize: '1.05em',
             mt: '15px',
             width: '100%',
             bgColor: 'var(--little-light-color)',
@@ -113,14 +107,12 @@ const SignIn: FC = (): JSX.Element => {
           Sign in as random user
         </Button>
 
-        <Link to='/sign-up' className='sign_up_link'>
+        <Link to='/sign-up' className='sign_up_link' style={{ width: '100%' }}>
           <Button
             type='button'
             buttonStyle={{
               padding: '8px 20px',
-              fontSize: '1.1em',
-              hoverTransform: 'translateY(-3px)',
-              transition: 'transform 0.4s ease',
+              fontSize: '1.0em',
               width: '100%',
               bgColor: 'var(--tertiary-color)',
               color: 'var(--dark-color)',

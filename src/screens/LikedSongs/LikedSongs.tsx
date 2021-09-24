@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Loading from '../../components/Loading';
 import Song from '../../components/song/Song';
 import { firestore } from '../../config/firebase';
 import { sendNotification } from '../../features/notification';
@@ -8,6 +9,9 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const LikedSongs = () => {
   const dispatch = useAppDispatch();
+
+  const [loading, setLoading] = useState(false);
+
   const [songs, setSongs] = useState<ISong[]>([]);
 
   const {
@@ -23,48 +27,53 @@ const LikedSongs = () => {
     let index = 0;
     const songs: ISong[] = [];
 
-    likedSongs?.forEach((item) => {
-      songsRef
-        .where('id', '==', item)
-        .get()
-        .then((doc) => {
-          const song = doc.docs[0];
+    if (likedSongs) {
+      setLoading(true);
 
-          if (doc.docs.length > 0) {
-            if (!hasComponentBeenUnmounted) {
-              songs.push(song.data() as ISong);
+      likedSongs.forEach((item) => {
+        songsRef
+          .where('id', '==', item)
+          .get()
+          .then((doc) => {
+            const song = doc.docs[0];
 
-              // When Finnaly all songs fetched save first one of them , as well all songs in sonsg[] state
-              if (index === likedSongs.length - 1) {
-                setSongs(songs);
-                //   dispatch(
-                //     playerSetCurrentSongAndPlaylist({
-                //       currentSong: songs[0].url,
-                //       currentSongPic: songs[0].pic.url,
-                //       currentSongName: songs[0].name,
-                //       playlistId: 'ALL_SONGS',
-                //     })
-                //   );
-                //   dispatch(playerSetPlaylistSongs(songs));
+            if (doc.docs.length > 0) {
+              if (!hasComponentBeenUnmounted) {
+                songs.push(song.data() as ISong);
+
+                // When Finnaly all songs fetched save first one of them , as well all songs in sonsg[] state
+                if (index === likedSongs.length - 1) {
+                  setSongs(songs);
+                  setLoading(false);
+                } else {
+                  setLoading(false);
+                }
+
+                index++;
+              } else {
+                setLoading(false);
               }
-
-              index++;
             }
-          }
-        })
-        .catch((err) => {
-          dispatch(sendNotification({ message: err.message, error: true }));
-        });
-    });
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+            setLoading(false);
+          });
+      });
+    }
 
     return () => {
       hasComponentBeenUnmounted = true;
     };
   }, [likedSongs, dispatch]);
 
+  if (loading) {
+    return <Loading size='MEDIUM' />;
+  }
+
   return (
     <Wrapper>
-      <h2 className='heading'>Songs That have you liked</h2>
+      <h2 className='heading'>Songs that you have liked</h2>
 
       {likedSongs?.length !== 0 ? (
         <div className='songs'>
@@ -96,6 +105,7 @@ const Wrapper = styled.main`
 
   .heading {
     font-weight: 400;
+    font-size: 1.2em;
   }
 
   .no_songs {
