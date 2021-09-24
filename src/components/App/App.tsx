@@ -22,6 +22,7 @@ import PlaylistScreen from '../../screens/Playlist/PlaylistScreen';
 import AdminProtectedRoute from '../AdminProtectedRoute';
 import UserProtectedRoute from '../UserProtectedRoute';
 import LikedSongs from '../../screens/LikedSongs/LikedSongs';
+import Error404 from '../../screens/Error404';
 
 const App: FC = (): JSX.Element => {
   const { userLoading, hasUserLoggedIn, role } = useAppLogic();
@@ -106,6 +107,10 @@ const App: FC = (): JSX.Element => {
 
               <Route path='/account' exact>
                 <Account />
+              </Route>
+
+              <Route>
+                <Error404 />
               </Route>
             </Switch>
           </div>
