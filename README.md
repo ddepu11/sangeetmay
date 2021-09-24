@@ -68,4 +68,6 @@ where admin can create playlist, upload songs in playlist, delete playlist and s
 
   ![Desktop 11](https://github.com/ddepu11/sangeetmay/blob/master/Screenshots/11.png)
 
+  ![Desktop 12](https://github.com/ddepu11/sangeetmay/blob/master/Screenshots/12.png)
+
 <!-- ### A music player app, made it using webpack 5, typescript, firebase, styled-component. -->
