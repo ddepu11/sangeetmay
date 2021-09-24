@@ -45,7 +45,7 @@ const useMusicPlayerLogic = () => {
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
   const songProgressBar = useRef<HTMLInputElement | null>(null);
   const volumeSeeker = useRef<HTMLInputElement | null>(null);
-  const setIntervals = useRef<NodeJS.Timer | number>(0);
+  const lastIntervalId = useRef<NodeJS.Timer | number>(0);
 
   const {
     currentSong,
@@ -98,7 +98,7 @@ const useMusicPlayerLogic = () => {
   // Clearing out all set timeouts
   useEffect(() => {
     return () => {
-      clearAllIntervalsAndTimeOuts(setIntervals.current as number);
+      clearAllIntervalsAndTimeOuts(lastIntervalId.current as number);
     };
   }, []);
 
@@ -112,8 +112,8 @@ const useMusicPlayerLogic = () => {
   };
 
   const resetEveryThingAfterSongEnded = (): void => {
-    if (setIntervals)
-      clearAllIntervalsAndTimeOuts(Number(setIntervals.current));
+    if (lastIntervalId)
+      clearAllIntervalsAndTimeOuts(Number(lastIntervalId.current));
 
     const progressBar = songProgressBar.current;
 
@@ -201,9 +201,8 @@ const useMusicPlayerLogic = () => {
 
       s = s < 10 ? `0${s}` : `${s}`;
 
-      setSongDetails({
-        ...songDetails,
-        currentTime: { minutes: m, seconds: s },
+      setSongDetails((prevState) => {
+        return { ...prevState, currentTime: { minutes: m, seconds: s } };
       });
     }
   };
@@ -240,7 +239,7 @@ const useMusicPlayerLogic = () => {
     // --song-completed-width: 0%;
     showSongProgress();
 
-    setIntervals.current = setInterval(() => {
+    lastIntervalId.current = setInterval(() => {
       showSongProgress();
     }, 1000);
   };
