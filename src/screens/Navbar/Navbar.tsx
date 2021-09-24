@@ -268,6 +268,8 @@ const Wrapper = styled.nav`
 
   @media screen and (max-width: 600px) {
     .logo {
+      width: 90%;
+
       a > h1 {
         padding: 7px 10px;
         font-size: 0.8em;
@@ -323,7 +325,6 @@ const Wrapper = styled.nav`
     }
 
     .logo {
-      width: 60%;
       justify-content: space-between;
 
       .name_after_logo {

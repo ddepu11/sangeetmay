@@ -139,6 +139,21 @@ const Wrapper = styled.main`
   .songs {
     margin-top: 20px;
   }
+
+  @media screen and (max-width: 550px) {
+    nav {
+      .playlist_heading {
+        font-size: 1em;
+        letter-spacing: 0px;
+      }
+
+      button {
+        font-size: 0.85em;
+        padding: 5px 8px;
+        border-radius: 0;
+      }
+    }
+  }
 `;
 
 export default Dashboard;

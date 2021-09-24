@@ -2,7 +2,9 @@
 
 where admin can create playlist, upload songs in playlist, delete playlist and songs, admin can also see how many likes a song have. Admin and user both can play, pause, play next and previous song. user can like the song. It is hosted on netlify.
 
-## [Live Demo](https://sangeetmay.netlify.app/)
+## Live Demo
+
+## [Click here to play around](https://sangeetmay.netlify.app/)
 
 ## Features
 
@@ -20,6 +22,7 @@ where admin can create playlist, upload songs in playlist, delete playlist and s
   1.  Create playlist (with playlist image)
   1.  Upload songs (with song image)
   1.  Delete playlist and song
+- Mobile Responsive
 
 ## Tech stack
 
@@ -37,7 +40,7 @@ where admin can create playlist, upload songs in playlist, delete playlist and s
 - Eslint
 - Prettier
 
-Screenshots
+## Screenshots
 
 ![]()
 
