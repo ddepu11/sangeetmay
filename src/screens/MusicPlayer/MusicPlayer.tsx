@@ -97,6 +97,7 @@ const MusicPlayer: FC = (): JSX.Element => {
           <span className='current_time'>
             {currentTime.minutes}:{currentTime.seconds}
           </span>
+
           <input
             ref={songProgressBar}
             type='range'
@@ -300,6 +301,7 @@ const Wrapper = styled.footer`
 
   .volume {
     width: 20%;
+    height: 81px;
 
     .volume_seeker {
       --volume-seeker-width: 0%;
@@ -394,18 +396,21 @@ const Wrapper = styled.footer`
 
     .volume {
       width: 10%;
-      transform: rotate(90deg);
+      height: 72px;
       flex-direction: column-reverse;
       justify-content: space-between;
+
+      input {
+        transform: rotate(270deg);
+      }
     }
 
     .volume_mute_toggel_btns {
-      transform: rotate(270deg);
-
       .speaker_on,
       .speaker_off {
-        font-size: 1.2em;
-        margin-right: 0px;
+        font-size: 1.1em;
+        margin: 0px;
+        padding: 0px;
       }
     }
   }
