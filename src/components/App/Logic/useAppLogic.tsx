@@ -20,25 +20,36 @@ const useAppLogic = () => {
 
   const dispatch = useAppDispatch();
 
-  const errorNotification = (message: string) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_LEFT,
-      theme: 'colored',
-      onClose: () => dispatch(clearNotification()),
-    });
-  };
-
-  const successNotification = (message: string) => {
-    toast.success(message, {
-      position: toast.POSITION.TOP_LEFT,
-      theme: 'colored',
-      onClose: () => dispatch(clearNotification()),
-    });
-  };
-
-  const { message, success } = useAppSelector(
+  const { message, success, error } = useAppSelector(
     (state) => state.notification.value
   );
+
+  // For notification
+  useEffect(() => {
+    const errorNotification = (message: string) => {
+      toast.error(message, {
+        position: toast.POSITION.TOP_LEFT,
+        theme: 'colored',
+      });
+    };
+
+    const successNotification = (message: string) => {
+      toast.success(message, {
+        position: toast.POSITION.TOP_LEFT,
+        theme: 'colored',
+      });
+    };
+
+    if (message && error) {
+      dispatch(clearNotification());
+      errorNotification(message);
+    }
+
+    if (message && success) {
+      dispatch(clearNotification());
+      successNotification(message);
+    }
+  }, [message, error, success, dispatch]);
 
   useEffect(() => {
     const fetchUserData = async (email: string | null) => {
@@ -83,17 +94,8 @@ const useAppLogic = () => {
     });
   }, [dispatch, hasUserLoggedIn]);
 
-  const notify = () => {
-    success ? successNotification(message) : errorNotification(message);
-    dispatch(clearNotification());
-  };
-
   return {
     userLoading,
-    successNotification,
-    errorNotification,
-    notify,
-    message,
     hasUserLoggedIn,
     role,
   };

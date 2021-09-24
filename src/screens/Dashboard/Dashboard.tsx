@@ -95,8 +95,6 @@ const Dashboard: FC = (): JSX.Element => {
 
 const Wrapper = styled.main`
   padding: 20px 15px;
-  border: 1px dashed #555;
-
   width: 100%;
   height: 80vh;
   overflow-y: scroll;

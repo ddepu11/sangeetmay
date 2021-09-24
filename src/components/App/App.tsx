@@ -24,7 +24,7 @@ import UserProtectedRoute from '../UserProtectedRoute';
 import LikedSongs from '../../screens/LikedSongs/LikedSongs';
 
 const App: FC = (): JSX.Element => {
-  const { userLoading, notify, message, hasUserLoggedIn, role } = useAppLogic();
+  const { userLoading, hasUserLoggedIn, role } = useAppLogic();
 
   if (userLoading) {
     return <Loading size='FULL' />;
@@ -33,8 +33,6 @@ const App: FC = (): JSX.Element => {
   return (
     <>
       <Wrapper className='w-960 flex'>
-        {message !== '' && notify()}
-
         <ToastContainer />
 
         <Router>
