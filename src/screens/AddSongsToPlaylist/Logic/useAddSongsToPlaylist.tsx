@@ -4,13 +4,15 @@ import { firestore, storage, firebase } from '../../../config/firebase';
 import { sendNotification } from '../../../features/notification';
 import {
   playlistError,
+  playlistFetchSuccess,
   playlistLoadingBegin,
   playlistSuccess,
 } from '../../../features/playlist';
-import { IFile, IPlaylist } from '../../../interfaces';
+import { IFile, IPlaylist, ISong } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import { v4 as uuidv4 } from 'uuid';
+import { playerSetPlaylistSongs } from '../../../features/player';
 
 const useAddSongsToPlaylist = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -101,13 +103,62 @@ const useAddSongsToPlaylist = () => {
 
         console.log('4.Song id saved in Playlist');
 
-        dispatch(playlistSuccess());
         dispatch(
           sendNotification({
             message: 'Successfully uploaded song and its image',
             success: true,
           })
         );
+
+        // Fetch Songs
+        const songsRef = firestore.collection('songs');
+
+        let index = 0;
+        const songs: ISong[] = [];
+
+        songsRef
+          .get()
+          .then((docs) => {
+            docs.forEach((item) => {
+              songs.push(item.data() as ISong);
+
+              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
+              if (index === docs.size - 1) {
+                dispatch(playerSetPlaylistSongs(songs));
+              }
+
+              index++;
+            });
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+          });
+
+        // Fetch PLaylists
+        const playlistsRef = firestore.collection('playlists');
+
+        let plylistIndex = 0;
+        const playlists: IPlaylist[] = [];
+
+        playlistsRef
+          .get()
+          .then((docs) => {
+            docs.forEach((item) => {
+              playlists.push(item.data() as IPlaylist);
+
+              if (plylistIndex === docs.size - 1) {
+                dispatch(playlistFetchSuccess(playlists));
+              }
+
+              plylistIndex++;
+            });
+          })
+          .catch((err) => {
+            dispatch(sendNotification({ message: err.message, error: true }));
+          });
+
+        dispatch(playlistSuccess());
+
         setPlaylist(undefined);
       })
       .catch((err) => {
