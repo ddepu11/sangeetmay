@@ -84,7 +84,7 @@ const useAddSongsToPlaylist = () => {
 
   const handleCancel = (): void => {
     setSong(undefined);
-    setSongPicture({ file: undefined, preview: undefined });
+    setSongPicture(undefined);
   };
 
   const songPicValidationMessageTag = useRef<HTMLParagraphElement | null>(null);
