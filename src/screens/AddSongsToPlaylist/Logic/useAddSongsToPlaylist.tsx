@@ -12,7 +12,6 @@ import { IFile, IPlaylist, ISong } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import { v4 as uuidv4 } from 'uuid';
-import { playerSetPlaylistSongs } from '../../../features/player';
 
 const useAddSongsToPlaylist = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -124,6 +123,7 @@ const useAddSongsToPlaylist = () => {
 
               if (plylistIndex === docs.size - 1) {
                 dispatch(playlistFetchSuccess(playlists));
+                setPlaylist(undefined);
               }
 
               plylistIndex++;
@@ -134,8 +134,6 @@ const useAddSongsToPlaylist = () => {
           });
 
         dispatch(playlistSuccess());
-
-        setPlaylist(undefined);
       })
       .catch((err) => {
         dispatch(sendNotification({ message: err.message, error: true }));
