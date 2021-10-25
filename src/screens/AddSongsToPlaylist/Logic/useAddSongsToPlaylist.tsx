@@ -110,30 +110,6 @@ const useAddSongsToPlaylist = () => {
           })
         );
 
-        // Fetch Songs
-        const songsRef = firestore.collection('songs');
-
-        let index = 0;
-        const songs: ISong[] = [];
-
-        songsRef
-          .get()
-          .then((docs) => {
-            docs.forEach((item) => {
-              songs.push(item.data() as ISong);
-
-              //When Finnaly all songs fetched save first one of them , as well all songs in player redux store
-              if (index === docs.size - 1) {
-                dispatch(playerSetPlaylistSongs(songs));
-              }
-
-              index++;
-            });
-          })
-          .catch((err) => {
-            dispatch(sendNotification({ message: err.message, error: true }));
-          });
-
         // Fetch PLaylists
         const playlistsRef = firestore.collection('playlists');
 
