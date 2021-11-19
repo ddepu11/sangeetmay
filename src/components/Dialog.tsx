@@ -29,9 +29,7 @@ const Dialog: FC<Props> = ({
 
   return (
     <Wrapper className='flex'>
-      <h1 className='heading'>
-        Do you really want to delete this {whatAreYouDeleting}?
-      </h1>
+      <h1 className='heading'>{whatAreYouDeleting}</h1>
 
       <div className='btns flex'>
         <button className='delete flex' onClick={handleDelete} data-id={dataId}>
@@ -64,6 +62,8 @@ const Wrapper = styled.main`
     color: var(--primary-color);
     letter-spacing: 2px;
     font-size: 1.8em;
+    line-height: 1.6;
+    text-align: center;
   }
 
   .btns {
