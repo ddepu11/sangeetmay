@@ -33,7 +33,7 @@ const Playlist: FC<Props> = ({ playlist, handleDelete }) => {
     <>
       {viewDashBoard && (
         <Dialog
-          whatAreYouDeleting='playlist'
+          whatAreYouDeleting='Do you really want to delete this playlist?  Deleting the playlist will also delete all the songs that you have added in it.'
           confirm={handleDelete}
           deny={hideConfirmDialogBox}
           dataId={playlist.id}

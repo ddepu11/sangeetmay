@@ -43,7 +43,7 @@ const Song: FC<Props> = ({
     <>
       {viewDashBoard && (
         <Dialog
-          whatAreYouDeleting='song'
+          whatAreYouDeleting='Do you really want to delete this song?'
           confirm={handleDeleteSong}
           deny={hideConfirmDialogBox}
           dataId={song.id}
