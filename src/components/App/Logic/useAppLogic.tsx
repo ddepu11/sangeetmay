@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { Flip, toast } from 'react-toastify';
 import { auth, firestore } from '../../../config/firebase';
+
 import {
   clearNotification,
   sendNotification,
@@ -28,24 +29,40 @@ const useAppLogic = () => {
   useEffect(() => {
     const errorNotification = (message: string) => {
       toast.error(message, {
-        position: toast.POSITION.TOP_LEFT,
+        position: 'top-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
         theme: 'colored',
+        transition: Flip,
+        onClose: () => dispatch(clearNotification()),
       });
     };
 
     const successNotification = (message: string) => {
       toast.success(message, {
-        position: toast.POSITION.TOP_LEFT,
+        position: 'top-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
         theme: 'colored',
+        transition: Flip,
+        onClose: () => dispatch(clearNotification()),
       });
     };
 
-    if (message && error) {
+    if (error) {
       dispatch(clearNotification());
       errorNotification(message);
     }
 
-    if (message && success) {
+    if (success) {
       dispatch(clearNotification());
       successNotification(message);
     }
@@ -57,27 +74,26 @@ const useAppLogic = () => {
 
       firestore
         .collection('users')
+        .where('email', '==', email)
         .get()
-        .then((users) => {
-          const user = users.docs.filter((user) => user.data().email === email);
-
-          if (user.length !== 0) {
+        .then((usersSnap) => {
+          usersSnap.forEach((doc) => {
             dispatch(
               sendNotification({
-                message: `Welcome back ${user[0].get(
-                  'firstName'
-                )} ${user[0].get('lastName')}`,
+                message: `Welcome back ${doc.get('firstName')} ${doc.get(
+                  'lastName'
+                )}`,
                 success: true,
               })
             );
 
             dispatch(
               customSignInSuccess({
-                ...user[0].data(),
-                id: user[0].id.trim(),
+                ...doc.data(),
+                id: doc.id.trim(),
               })
             );
-          }
+          });
         })
         .catch((err) => {
           dispatch(sendNotification({ message: err.message, error: true }));
@@ -86,12 +102,16 @@ const useAppLogic = () => {
     };
 
     // Waiting for user to log in
-    auth.onAuthStateChanged((user) => {
+    const unsub = auth.onAuthStateChanged((user) => {
       if (user) !hasUserLoggedIn && fetchUserData(user.email);
       else {
         dispatch(signOut());
       }
     });
+
+    return () => {
+      unsub();
+    };
   }, [dispatch, hasUserLoggedIn]);
 
   return {
