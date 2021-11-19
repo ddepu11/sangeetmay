@@ -85,13 +85,14 @@ const SignIn: FC = (): JSX.Element => {
             fontSize: '1.05em',
             mt: '15px',
             width: '100%',
-            bgColor: 'var(--little-dark-color)',
-            color: 'var(--light-color)',
+            bgColor: 'var(--little-light-color)',
+            color: 'var(--dark-color)',
           }}
-          handleClick={loginAsAdmin}
+          handleClick={loginAsRandomUser}
         >
-          Sign in as Admin
+          Sign in as random user
         </Button>
+
         <Button
           type='submit'
           buttonStyle={{
@@ -99,12 +100,12 @@ const SignIn: FC = (): JSX.Element => {
             fontSize: '1.05em',
             mt: '15px',
             width: '100%',
-            bgColor: 'var(--little-light-color)',
-            color: 'var(--dark-color)',
+            bgColor: 'var(--little-dark-color)',
+            color: 'var(--light-color)',
           }}
-          handleClick={loginAsRandomUser}
+          handleClick={loginAsAdmin}
         >
-          Sign in as random user
+          Sign in as Admin
         </Button>
 
         <Link to='/sign-up' className='sign_up_link' style={{ width: '100%' }}>
