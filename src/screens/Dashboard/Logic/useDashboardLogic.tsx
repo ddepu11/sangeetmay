@@ -250,11 +250,7 @@ const useDashboardLogic = () => {
   const handleDelete = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
-    const wannaDelete: boolean = confirm(
-      ' ############### !DANGER! ################ \nDo you really want to delete this playlist?\nNote: Deleting the playlist will also delete the songs you have added in it.'
-    );
-
-    if (e !== undefined && wannaDelete) {
+    if (e !== undefined) {
       dispatch(playlistLoadingBegin());
 
       const idOfPlaylistToDelete = e.currentTarget.getAttribute('data-id');
