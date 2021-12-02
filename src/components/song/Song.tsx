@@ -9,6 +9,7 @@ import useSongLogic from './Logic/useSongLogic';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import CircleLoader from '../CircleLoader';
 
 type Props = {
   playlistId: string | undefined;
@@ -36,7 +37,7 @@ const Song: FC<Props> = ({
     didYouLikeTheSong,
     handleDisLikeSsong,
     handleLikeSsong,
-    loading,
+    likeLoading,
   } = useSongLogic(playlistId, song);
 
   return (
@@ -88,17 +89,31 @@ const Song: FC<Props> = ({
             </>
           )}
 
-          {role !== 'ADMIN' && !loading && (
-            <div className='like_or_deslike'>
-              {didYouLikeTheSong ? (
-                <ThumbDownIcon
-                  onClick={handleDisLikeSsong}
-                  className='unlike'
+          {role !== 'ADMIN' && (
+            <>
+              {likeLoading ? (
+                <CircleLoader
+                  wrapperMargin='0 20px 15px 0'
+                  wrapperH='100%'
+                  cirH='20px'
+                  cirW='20px'
                 />
               ) : (
-                <ThumbUpAltIcon onClick={handleLikeSsong} className='like' />
+                <div className='like_or_deslike'>
+                  {didYouLikeTheSong ? (
+                    <ThumbDownIcon
+                      onClick={handleDisLikeSsong}
+                      className='unlike'
+                    />
+                  ) : (
+                    <ThumbUpAltIcon
+                      onClick={handleLikeSsong}
+                      className='like'
+                    />
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </Wrapper>
