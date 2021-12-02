@@ -8,7 +8,7 @@ import {
   playlistLoadingBegin,
   playlistSuccess,
 } from '../../../features/playlist';
-import { IFile, IPlaylist, ISong } from '../../../interfaces';
+import { IFile, IPlaylist } from '../../../interfaces';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import setValidationMessage from '../../../utils/setValidationMessage';
 import { v4 as uuidv4 } from 'uuid';
