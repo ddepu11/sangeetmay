@@ -24,32 +24,32 @@ const LikedSongs = () => {
     // Fetch Songs
     const songsRef = firestore.collection('songs');
 
-    let index = 0;
+    // let index = 0;
     const songs: ISong[] = [];
 
     if (likedSongs) {
       setLoading(true);
 
-      likedSongs.forEach((item) => {
+      for (let i = likedSongs.length - 1; i >= 0; i--) {
         songsRef
-          .where('id', '==', item)
+          .where('id', '==', likedSongs[i])
           .get()
           .then((doc) => {
             const song = doc.docs[0];
-
             if (doc.docs.length > 0) {
               if (!hasComponentBeenUnmounted) {
                 songs.push(song.data() as ISong);
 
                 // When Finnaly all songs fetched save first one of them , as well all songs in sonsg[] state
-                if (index === likedSongs.length - 1) {
+
+                if (i === 0) {
                   setSongs(songs);
                   setLoading(false);
                 } else {
                   setLoading(false);
                 }
 
-                index++;
+                // index++;
               } else {
                 setLoading(false);
               }
@@ -59,7 +59,7 @@ const LikedSongs = () => {
             dispatch(sendNotification({ message: err.message, error: true }));
             setLoading(false);
           });
-      });
+      }
     }
 
     return () => {
