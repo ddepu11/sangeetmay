@@ -18,7 +18,10 @@ interface ICredentials {
 const useAccountLogic = () => {
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
+  const [infoLoading, setInfoLoading] = useState(false);
+
+  const [dpLoading, setDpLoading] = useState(false);
+
   const [credentials, setCredentials] = useState<ICredentials>({
     firstName: '',
     lastName: '',
@@ -94,7 +97,7 @@ const useAccountLogic = () => {
           .get()
           .then((doc) => {
             dispatch(userInfoUpdateSuccess(doc.data()));
-            setLoading(false);
+            setInfoLoading(false);
 
             dispatch(
               sendNotification({
@@ -139,7 +142,7 @@ const useAccountLogic = () => {
           })
         );
       } else {
-        setLoading(true);
+        setInfoLoading(true);
         updateUserInfo();
       }
     }
@@ -210,7 +213,7 @@ const useAccountLogic = () => {
               preview: '',
             });
 
-            setLoading(false);
+            setDpLoading(false);
           })
           .catch((err) => {
             dispatch(sendNotification({ message: err.message, error: true }));
@@ -262,7 +265,7 @@ const useAccountLogic = () => {
 
   const changeDP = (): void => {
     if (displayPic.file !== null) {
-      setLoading(true);
+      setDpLoading(true);
       // 1. Delete Old DP
       storage
         .ref(`display_pictures/${dp?.picNameInStorage}`)
@@ -302,7 +305,8 @@ const useAccountLogic = () => {
     gender,
     role,
     setDisplayPic,
-    loading,
+    infoLoading,
+    dpLoading,
   };
 };
 

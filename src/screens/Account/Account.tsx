@@ -4,7 +4,8 @@ import UpdateFormField from '../../components/UpdateFormField';
 import useAccountLogic from './Logic/useAccountLogic';
 import { FC } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
+import CircleLoader from '../../components/CircleLoader';
 
 const Account: FC = (): JSX.Element => {
   const {
@@ -28,29 +29,39 @@ const Account: FC = (): JSX.Element => {
     credentials,
     wannaEdit,
     validationMessageTags: vmt,
-    loading,
+    infoLoading,
+    dpLoading,
   } = useAccountLogic();
 
-  if (loading) {
-    return <Loading size='FULL' />;
-  }
+  // if (loading) {
+  //   return <Loading size='FULL' />;
+  // }
 
   return (
     <Wrapper className='flex' personRole={role}>
       <div className='display_pic_row flex'>
-        <label htmlFor='dp'>
-          {displayPic.preview || dp?.url ? (
-            <img
-              src={displayPic.preview ? displayPic.preview : dp?.url}
-              alt='DP'
-              onLoad={() =>
-                displayPic.preview && URL.revokeObjectURL(displayPic.preview)
-              }
-            />
-          ) : (
-            <div className='loader flex'>{/* ADDDD Loader */}Loading</div>
-          )}
-        </label>
+        {dpLoading ? (
+          <CircleLoader
+            wrapperMargin='50px 50px 100px 0'
+            wrapperH='100%'
+            cirH='40px'
+            cirW='40px'
+          />
+        ) : (
+          <label htmlFor='dp'>
+            {displayPic.preview || dp?.url ? (
+              <img
+                src={displayPic.preview ? displayPic.preview : dp?.url}
+                alt='DP'
+                onLoad={() =>
+                  displayPic.preview && URL.revokeObjectURL(displayPic.preview)
+                }
+              />
+            ) : (
+              <div className='loader flex'>Loading...</div>
+            )}
+          </label>
+        )}
 
         <div className='right flex'>
           <div className='upload_img_text flex'>
@@ -179,54 +190,63 @@ const Account: FC = (): JSX.Element => {
           refObj={vmt.countryValidationMessageTag}
         />
 
-        <div className='update_buttons flex'>
-          {!wannaEdit ? (
-            <Button
-              type='button'
-              buttonStyle={{
-                padding: '8px 16px',
-                fontSize: '1em',
-                bgColor: 'var(--tertiary-color)',
-                color: 'var(--dark-color)',
-                borderRadius: '5px',
-              }}
-              handleClick={handleWannaEdit}
-            >
-              Wanna Update?
-            </Button>
-          ) : (
-            <>
+        {infoLoading ? (
+          <CircleLoader
+            wrapperMargin='00px 50px 40px 0'
+            wrapperH='20%'
+            cirH='30px'
+            cirW='30px'
+          />
+        ) : (
+          <div className='update_buttons flex'>
+            {!wannaEdit ? (
               <Button
                 type='button'
                 buttonStyle={{
                   padding: '8px 16px',
                   fontSize: '1em',
-                  margin: '0 30px 0px',
-                  bgColor: 'var(--success-color)',
-                  color: 'var(--light-color)',
+                  bgColor: 'var(--tertiary-color)',
+                  color: 'var(--dark-color)',
                   borderRadius: '5px',
                 }}
-                handleClick={handleUserInfoUpdate}
+                handleClick={handleWannaEdit}
               >
-                Update
+                Wanna Update?
               </Button>
+            ) : (
+              <>
+                <Button
+                  type='button'
+                  buttonStyle={{
+                    padding: '8px 16px',
+                    fontSize: '1em',
+                    margin: '0 30px 0px',
+                    bgColor: 'var(--success-color)',
+                    color: 'var(--light-color)',
+                    borderRadius: '5px',
+                  }}
+                  handleClick={handleUserInfoUpdate}
+                >
+                  Update
+                </Button>
 
-              <Button
-                type='button'
-                buttonStyle={{
-                  padding: '8px 16px',
-                  fontSize: '1em',
-                  bgColor: 'var(--danger-color)',
-                  color: 'var(--light-color)',
-                  borderRadius: '5px',
-                }}
-                handleClick={cancelUpdate}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
-        </div>
+                <Button
+                  type='button'
+                  buttonStyle={{
+                    padding: '8px 16px',
+                    fontSize: '1em',
+                    bgColor: 'var(--danger-color)',
+                    color: 'var(--light-color)',
+                    borderRadius: '5px',
+                  }}
+                  handleClick={cancelUpdate}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </Wrapper>
   );
