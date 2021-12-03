@@ -105,14 +105,6 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
       .doc(userDocId)
       .update({ likedSongs: firebase.firestore.FieldValue.arrayUnion(songId) })
       .then(() => {
-        dispatch(
-          sendNotification({
-            message: 'Successfully liked the song!',
-            success: true,
-          })
-        );
-        setLikeLoading(false);
-
         //Find which song you liked
         songsRef
           .where('id', '==', song.id)
@@ -132,6 +124,15 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
                       .get()
                       .then((doc) => {
                         dispatch(userInfoUpdateSuccess(doc.data()));
+
+                        dispatch(
+                          sendNotification({
+                            message: 'Successfully liked the song!',
+                            success: true,
+                          })
+                        );
+
+                        setLikeLoading(false);
                       })
                       .catch((err) => {
                         dispatch(
@@ -176,33 +177,37 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
       .doc(userDocId)
       .update({ likedSongs: firebase.firestore.FieldValue.arrayRemove(songId) })
       .then(() => {
-        dispatch(
-          sendNotification({
-            message: 'Successfully disliked the song!',
-            success: true,
-          })
-        );
-        setLikeLoading(false);
-
         //Find which song to dislike
+
         songsRef
           .where('id', '==', song.id)
           .get()
           .then((doc) => {
             doc.forEach((item) => {
               //decrese likes of songs
+
               if (item.get('id') === songId) {
                 songsRef
                   .doc(item.id)
                   .update({ likes: song.likes - 1 })
                   .then(() => {
                     //Get Updated user info
+
                     firestore
                       .collection('users')
                       .doc(userDocId)
                       .get()
                       .then((doc) => {
                         dispatch(userInfoUpdateSuccess(doc.data()));
+
+                        dispatch(
+                          sendNotification({
+                            message: 'Successfully disliked the song!',
+                            success: true,
+                          })
+                        );
+
+                        setLikeLoading(false);
                       })
                       .catch((err) => {
                         dispatch(
@@ -211,6 +216,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
                             error: true,
                           })
                         );
+
                         dispatch(userError());
                       });
                   })
@@ -218,6 +224,7 @@ const useSongLogic = (playlistId: string | undefined, song: ISong) => {
                     dispatch(
                       sendNotification({ message: err.message, error: true })
                     );
+
                     dispatch(userError());
                   });
               } else {
